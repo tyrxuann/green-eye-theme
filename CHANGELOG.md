@@ -15,6 +15,8 @@
 - GitHub Actions 三平台矩阵（macOS / Ubuntu / Windows），构建、测试并上传发布包。
 - 安装器边界加固：UTF-8 BOM、IDEA 占用时的友好错误、版本号排序、写入后回读校验。
 - 色彩数学单元测试：已知 WCAG/CIEDE2000 值 + shared/intellij 全量一致性。
+- 色觉缺陷（CVD）报告：`green_eye.py cvd` 生成 `build/ref/cvd-report.md`，
+  逐对列出正常色觉可分、红/绿色盲下塌陷的 token。
 
 ### Changed
 

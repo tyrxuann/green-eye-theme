@@ -286,6 +286,7 @@ idea-green-theme/
 │   ├── check_style.py               ★ 格式守门（不需 black/ruff）
 │   ├── gen_readme_table.py          从调色板自动重写本文配色表
 │   ├── gen_status_metrics.py         生成状态色口径（README 自动段）
+│   ├── gen_cvd_report.py             生成色觉缺陷报告 build/ref/cvd-report.md
 │   ├── gen_verification_report.py   从产物自动生成 build/ref/verification.md
 │   ├── analyze_official.py          分析官方内置方案（提炼规律）
 │   ├── official_palette.py          还原官方配色 + 备选方案 V3/V4
@@ -314,7 +315,7 @@ idea-green-theme/
 | **反向覆盖（第 8 维度）** | 产物里的每个颜色都必须来自**它自己的**调色板 —— 正向检查发现不了"产物混进了另一款主题的颜色"（`grey_underline`/`followed_link` 就踩过）。两款均 0 越界 |
 | **渲染样式一致（第 9 维度）** | 预览图里的斜体必须与产物 `FONT_TYPE` 一致 —— 这一维度曾被整段忽略（渲染器只吃颜色），导致 17 个键的粗斜体写错也没人发现。现已接上，且 `DEFAULT_STATIC_METHOD` 这类"mock 无法解析"的记为已知限制 |
 | **主题身份（`check_identity.py`）** | 把"一眼看出是两款"变成判据：{字符串/数字/函数} 的最小 ΔE ≥ 15、**实测 token 频率加权**（剔除等于正文色的结构性别名）≥ 16、8 个主力 token 里 ≥5 个 ΔE ≥ 12。当前 **25.5 / 17.5 / 6** —— 达标 |
-| **色觉缺陷模拟（第 10 维度）** | Machado 2009 模拟红/绿色盲：**已知缺口** —— 正常色觉可分、色盲下塌陷的松林 18 对、矿彩 20 对（官方靠发布 71 个 deuteranopia/protanopia 变体解决，我们暂未提供）。已把 `constant` 压到 4.20:1 让最严重的一对（常量↔错误）从 2.2 改善到 7.5 |
+| **色觉缺陷模拟（第 10 维度）** | Machado 2009 模拟红/绿色盲：**已知缺口** —— 正常色觉可分、色盲下塌陷的松林 18 对、矿彩 20 对（官方靠发布 71 个 deuteranopia/protanopia 变体解决，我们暂未提供）。已把 `constant` 压到 4.20:1 让最严重的一对（常量↔错误）从 2.2 改善到 7.5。逐对明细见 [`build/ref/cvd-report.md`](build/ref/cvd-report.md)（自动生成） |
 | **预览覆盖面** | 除代码视图外，还渲染 **diff 视图**与**调试器视图**（`render_diff_debug.py`）—— 状态色检查里最可疑的几条例外（diff 新增/删除/修改行、断点行、调用栈非栈顶帧、当前执行行）全部只在这两个视图出现，之前结构上无法证伪 |
 | **状态色撞色** | CIE ΔE2000 + WCAG 对比度，以官方为标尺；具体对数、官方基线与例外见 [`build/ref/verification.md`](build/ref/verification.md)（自动生成） |
 | **重复键守卫** | 所有字典字面量出现重复键直接抛错 —— "同名静默覆盖"在 `EXPLICIT` 咬过三次、在 `ACCEPTED` 又咬了一次（一条理由被悄悄丢掉） |

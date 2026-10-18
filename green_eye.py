@@ -24,6 +24,7 @@ Green Eye 跨平台入口。
     install   跨平台安装 / 卸载（plugin 或 icls-only 模式）
     package   打发布包：jar + 2 个 .icls + INSTALL.txt
     vscode    生成 VS Code 主题并打包 .vsix
+    cvd       生成色觉缺陷（CVD）报告
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
 """
@@ -62,6 +63,7 @@ def make_parser():
     sub.add_parser("test", help="运行 tests/ 下的测试")
     sub.add_parser("preview", help="只重新渲染预览图")
     sub.add_parser("clean", help="清理 __pycache__ / *.pyc / 临时文件")
+    sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
     p_install.add_argument("--uninstall", action="store_true",
@@ -105,6 +107,12 @@ def main(argv=None):
         return build_pipeline.preview()
     if args.command == "clean":
         return build_pipeline.clean()
+    if args.command == "cvd":
+        if not (ROOT / "shared" / "palette.json").is_file():
+            rc = build_pipeline.palette()
+            if rc:
+                return rc
+        return build_pipeline.cvd()
     if args.command == "install":
         try:
             return installer.run(

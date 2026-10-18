@@ -2,7 +2,7 @@
 
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 
-.PHONY: setup build build-no-preview test check install install-dry-run uninstall package vscode clean
+.PHONY: setup build build-no-preview test check install install-dry-run uninstall package vscode cvd clean
 
 setup:
 	python3 -m venv .venv
@@ -35,6 +35,9 @@ package:
 
 vscode:
 	"$(PYTHON)" green_eye.py vscode
+
+cvd:
+	"$(PYTHON)" green_eye.py cvd
 
 clean:
 	"$(PYTHON)" green_eye.py clean

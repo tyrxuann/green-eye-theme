@@ -94,6 +94,9 @@ def build(no_preview=False, skip_tests=False):
     run(ROOT / "shared" / "export_palette.py", "--check")
     run(ROOT / "shared" / "tools" / "check_palette.py")
 
+    print("== cvd report ==")
+    run(HERE / "gen_cvd_report.py")
+
     if not no_preview:
         print("== previews ==")
         run(HERE / "render_java.py")
@@ -129,6 +132,13 @@ def palette():
     run(ROOT / "shared" / "export_palette.py")
     run(ROOT / "shared" / "export_palette.py", "--check")
     run(ROOT / "shared" / "tools" / "check_palette.py")
+    return 0
+
+
+def cvd():
+    """只生成色觉缺陷报告，不重新构建主题。"""
+    print("== cvd report ==")
+    run(HERE / "gen_cvd_report.py")
     return 0
 
 
