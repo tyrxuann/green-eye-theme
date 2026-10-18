@@ -7,6 +7,7 @@
 - `doctor` 在已安装旧版插件时明确报告版本，并提示退出 IDEA 后运行 install。
 - `doctor` 读取 `idea.log`，确认最近一次 IDE 启动实际加载的 Green Eye 版本。
 - `manual --quick`：8 项高信号检查；新增 `u`（不确定）状态，不再强迫对细微差异下结论。
+- `samples/manual-check/`：可直接用 IntelliJ 打开的真机检查样例项目。
 
 ## [1.2.0] - 2026-10-18
 

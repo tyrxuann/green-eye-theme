@@ -28,6 +28,7 @@ green-eye-theme/
 ├── CHANGELOG.md          变更记录
 ├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
 ├── docs/                 人工核对与维护文档
+├── samples/manual-check/ 真机检查样例（可直接用 IntelliJ 打开）
 ├── shared/               平台无关层：色值契约 + 通用检查
 │   ├── palette.json       生成物：两款主题的全部色值 + 语义角色表 + 例外清单
 │   ├── export_palette.py  从 intellij 侧导出（单向：intellij → shared）
