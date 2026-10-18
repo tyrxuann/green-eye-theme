@@ -27,6 +27,7 @@ Green Eye 跨平台入口。
     doctor    预检构建产物、字体与安装状态
     bump      统一更新版本号（project_config + VS Code package.json）
     manual    逐项运行真机走查清单并生成报告
+    report    生成发布前汇总 build/ref/report.md
     cvd       生成色觉缺陷（CVD）报告
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
@@ -47,6 +48,7 @@ import package_release  # noqa: E402
 import doctor  # noqa: E402
 import versioning  # noqa: E402
 import manual_verify  # noqa: E402
+import gen_summary_report  # noqa: E402
 import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -81,6 +83,8 @@ def make_parser():
     p_manual.add_argument("--list", action="store_true")
     p_manual.add_argument("--answers", help="逗号分隔的 y/n/s 序列")
     p_manual.add_argument("--report", help="报告输出路径")
+    p_report = sub.add_parser("report", help="生成发布前汇总")
+    p_report.add_argument("--out", help="输出路径")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
     p_install.add_argument("--uninstall", action="store_true",
@@ -128,6 +132,8 @@ def main(argv=None):
         return build_pipeline.clean()
     if args.command == "doctor":
         return doctor.main(["--json"] if args.json else [])
+    if args.command == "report":
+        return gen_summary_report.main(["--out", args.out] if args.out else [])
     if args.command == "manual":
         answers = args.answers.split(",") if args.answers else None
         return manual_verify.run(list_only=args.list, answers=answers,

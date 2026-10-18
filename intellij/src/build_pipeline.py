@@ -111,6 +111,7 @@ def build(no_preview=False, skip_tests=False):
     else:
         run(HERE / "check_freshness.py")
     run(HERE / "gen_verification_report.py")
+    run(HERE / "gen_summary_report.py")
 
     print("Build complete.")
     return 0
