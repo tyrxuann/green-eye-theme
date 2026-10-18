@@ -102,7 +102,11 @@ code --install-extension vscode/dist/green-eye-theme-<version>.vsix
 python3 shared/tools/check_palette.py    # 色值层：四类判据
 python3 green_eye.py vscode              # 生成 + 打包
 python3 green_eye.py test                # 含 tests/test_vscode.py
+npx --yes @vscode/vsce ls                # 可选：用官方工具检查打包内容
 ```
+
+`npx @vscode/vsce ls` 只应列出 `README.md`、`package.json` 和两个主题 JSON；
+`src/`、`scripts/`、`__pycache__` 由 `.vscodeignore` 排除。
 
 `tests/test_vscode.py` 会检查：
 

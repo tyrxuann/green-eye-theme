@@ -1,0 +1,9 @@
+# 只把主题和 manifest 打进扩展；生成器/测试/构建脚本不随 VSIX 分发
+src/**
+scripts/**
+dist/**
+__pycache__/**
+**/__pycache__/**
+*.py
+*.pyc
+.gitignore
