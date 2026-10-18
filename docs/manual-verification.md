@@ -16,6 +16,15 @@ python3 green_eye.py doctor
 它不会启动 IDE，但会检查 palette、jar、`.icls`、VSIX、字体、IntelliJ 配置目录、
 插件版本与 `disabled_plugins.txt`。通过后再做下面的目视项。
 
+也可以直接用 runner 逐项记录：
+
+```bash
+python3 green_eye.py manual           # 交互式 y/n/s
+python3 green_eye.py manual --list    # 只看清单
+```
+
+结果写入 `intellij/build/ref/manual-verification-report.md`。
+
 ## 0.1 先确认装上了
 
 - [ ] `Settings → Appearance & Behavior → Appearance → Theme` 里有**两款**：

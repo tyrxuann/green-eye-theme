@@ -18,7 +18,7 @@
 
 ```
 green-eye-theme/
-├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / doctor / bump / test / install / package
+├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / doctor / bump / manual / test / install / package
 ├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
 ├── CHANGELOG.md          变更记录
 ├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
@@ -106,6 +106,7 @@ python3 green_eye.py palette              # 只导出/验收 shared/palette.json
 python3 green_eye.py vscode               # 生成 VS Code 主题 + .vsix
 python3 green_eye.py cvd --preview        # CVD 报告 + 对比色板（需 Pillow）
 python3 green_eye.py doctor               # 预检产物/字体/安装状态
+python3 green_eye.py manual               # 真机走查 runner（交互式）
 python3 green_eye.py check                # 平台无关色值验收（需先 build）
 python3 green_eye.py test                 # CLI + 安装器 + 字体 + 色彩 + VS Code + 发布包测试
 ```

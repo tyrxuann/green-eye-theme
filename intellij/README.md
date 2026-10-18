@@ -274,6 +274,7 @@ idea-green-theme/
 │   ├── install.py                   跨平台安装器（取代 install.sh 的逻辑）
 │   ├── doctor.py                    预检产物、字体与安装状态
 │   ├── versioning.py                统一更新版本号
+│   ├── manual_verify.py             真机走查 runner
 │   ├── package_release.py           发布包：jar + icls + INSTALL.txt
 │   ├── render_spec.py               无 Pillow 的 Java 样例 / 样式映射
 │   ├── gen_icls.py                  生成 .icls

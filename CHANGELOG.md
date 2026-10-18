@@ -23,6 +23,7 @@
 - `green_eye.py cvd --preview`：生成 normal / protanopia / deuteranopia 对比色板。
 - `green_eye.py doctor`：预检 palette / jar / .icls / VSIX / 字体 / IntelliJ 安装状态。
 - `green_eye.py bump X.Y.Z`：统一更新 project_config.py 与 VS Code package.json。
+- `green_eye.py manual`：逐项运行真机走查清单并生成报告。
 - `docs/cvd-variants.md`：记录 CVD 自动求解原型的局限与三种变体设计方案。
 
 ### Changed
