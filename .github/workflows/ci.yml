@@ -43,6 +43,9 @@ jobs:
       - name: Test
         run: uv run green_eye.py test
 
+      - name: Doctor
+        run: uv run green_eye.py doctor --json > doctor-${{ runner.os }}.json
+
       - name: Package
         run: uv run green_eye.py package --all
 
@@ -53,4 +56,5 @@ jobs:
           path: |
             release/*.zip
             vscode/dist/*.vsix
+            doctor-*.json
           if-no-files-found: error

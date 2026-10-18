@@ -143,7 +143,7 @@ uv run green_eye.py test
 uv run green_eye.py package --all
 ```
 
-并上传 `release/*.zip` 与 `vscode/dist/*.vsix` 作为构建产物；
+并上传 `release/*.zip`、`vscode/dist/*.vsix` 与 `doctor-*.json` 作为构建产物；
 Linux 会预装 `fonts-noto-cjk` 以生成完整预览。
 
 推 `v*` tag 时，[`.github/workflows/release.yml`](.github/workflows/release.yml)
