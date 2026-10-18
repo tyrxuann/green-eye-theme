@@ -4,6 +4,7 @@
   "description": "松林 / 矿彩：同一块墨绿底 #1F3027，两套设计语言。",
   "version": "1.1.0",
   "publisher": "green-eye",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
   },

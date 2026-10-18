@@ -14,6 +14,9 @@
 | IntelliJ IDEA | ✅ 已实现 | `green_eye.py build` / `green_eye.py install` |
 | VS Code | ✅ 已实现 | `green_eye.py vscode` |
 
+本项目自身代码以 **MIT** 发布，见 [LICENSE](LICENSE)；第三方材料见
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
 ## 目录结构
 
 ```

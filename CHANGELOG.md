@@ -4,6 +4,8 @@
 
 ### Added
 
+- 项目以 MIT 许可证发布（`LICENSE`）。
+
 - 跨平台入口 `green_eye.py`：`build` / `check` / `palette` / `vscode` / `test` /
   `preview` / `install` / `package` / `clean`，支持 `uv run` 自动准备 Python + Pillow。
 - VS Code 实现：`green_eye.py vscode` 生成两套主题并打 `.vsix`，
