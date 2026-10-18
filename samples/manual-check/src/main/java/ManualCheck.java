@@ -31,7 +31,6 @@ public class ManualCheck {
      * @param args 忽略
      */
     public static void main(String[] args) {
-        int broken = "not an int";   // 红色波浪线
         int unused = 42;             // 黄色警告
         List<Integer> values = Arrays.asList(1, 2, 3);
         int result = sum(values);    // 断点设这里；参数名 inlay hint
