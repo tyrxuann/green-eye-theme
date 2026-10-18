@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2] - 2026-10-19
+
+### Fixed
+
+- XML / `pom.xml` 语法几乎全白：标签名改用 keyword、属性名改用 annotation、
+  属性值用 string、namespace 前缀用 constant，恢复层次。
+
 ## [1.2.1] - 2026-10-19
 
 ### Fixed

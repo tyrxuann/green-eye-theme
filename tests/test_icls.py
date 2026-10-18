@@ -73,6 +73,31 @@ class IclsTests(unittest.TestCase):
                     contrast("#" + bg.group(1), fg_by_id[theme_id]), 4.5,
                     "%s/%s" % (name, key))
 
+    def test_xml_syntax_roles(self):
+        import json
+        data = json.loads((ROOT / "shared" / "palette.json").read_text(
+            encoding="utf-8"))
+        for theme in data["themes"]:
+            name = {"dark": "Green-Eye-Dark.icls",
+                    "mineral": "Green-Eye-Mineral.icls"}[theme["id"]]
+            path = THEMES / name
+            if not path.is_file():
+                self.skipTest("先运行 build")
+            text = path.read_text(encoding="utf-8")
+            expected = {
+                "XML_TAG_NAME": theme["colors"]["keyword"],
+                "XML_ATTRIBUTE_NAME": theme["colors"]["annotation"],
+                "XML_ATTRIBUTE_VALUE": theme["colors"]["string"],
+                "XML_NS_PREFIX": theme["colors"]["constant"],
+            }
+            for key, color in expected.items():
+                block = re.search(
+                    r'<option name="%s">.*?</option>' % key, text, re.S)
+                self.assertIsNotNone(block, key)
+                match = re.search(r'name="FOREGROUND" value="([0-9A-Fa-f]{6})"',
+                                  block.group(0))
+                self.assertEqual(match.group(1).upper(), color.lstrip("#").upper())
+
     def test_doc_tag_has_effect_color(self):
         for name in ("Green-Eye-Dark.icls", "Green-Eye-Mineral.icls"):
             path = THEMES / name
