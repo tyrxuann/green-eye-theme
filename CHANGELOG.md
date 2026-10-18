@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `doctor` 在已安装旧版插件时明确报告版本，并提示退出 IDEA 后运行 install。
+
 ## [1.2.0] - 2026-10-18
 
 ### Added

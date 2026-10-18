@@ -58,6 +58,17 @@ class DoctorTests(unittest.TestCase):
             self.assertEqual(status, doctor.WARN)
             self.assertIn("失败 1", detail)
 
+    def test_old_installed_jar_is_reported(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp)
+            plugins = config / "plugins"
+            plugins.mkdir()
+            (plugins / ("GreenEye-Theme-1.1.0.jar")).write_bytes(b"old")
+            rows = doctor.check_installed([config])
+            details = " ".join(detail for _, _, detail in rows)
+            self.assertIn("1.1.0", details)
+            self.assertIn("旧版本", details)
+
     def test_icls_detection(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "Green-Eye-Dark.icls"

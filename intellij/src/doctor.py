@@ -100,11 +100,13 @@ def check_fonts():
     ]
 
 
-def check_installed():
-    try:
-        configs = install.discover_targets(install.jetbrains_root(), None, False)
-    except install.InstallError as exc:
-        return [(WARN, "IntelliJ 安装", str(exc))]
+def check_installed(configs=None):
+    if configs is None:
+        try:
+            configs = install.discover_targets(install.jetbrains_root(), None,
+                                               False)
+        except install.InstallError as exc:
+            return [(WARN, "IntelliJ 安装", str(exc))]
     if not configs:
         return [(WARN, "IntelliJ 安装", "未找到 IntelliJIdea* 配置目录")]
     rows = []
@@ -113,7 +115,13 @@ def check_installed():
         if jar.is_file() and install.is_our_jar(jar):
             rows.append((OK, "IntelliJ 插件", str(jar)))
         else:
-            rows.append((WARN, "IntelliJ 插件", "未安装 %s" % jar.name))
+            old = sorted((config / "plugins").glob("%s*.jar" % JAR_PREFIX))
+            if old:
+                rows.append((WARN, "IntelliJ 插件",
+                             "已安装旧版本 %s；退出 IDEA 后运行 install"
+                             % ", ".join(path.name for path in old)))
+            else:
+                rows.append((WARN, "IntelliJ 插件", "未安装 %s" % jar.name))
         disabled = config / "disabled_plugins.txt"
         if install.disabled_has_plugin(disabled):
             rows.append((WARN, "禁用记录", "disabled_plugins.txt 仍含本插件"))
