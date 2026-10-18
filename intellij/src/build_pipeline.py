@@ -102,6 +102,7 @@ def build(no_preview=False, skip_tests=False):
         run(HERE / "render_java.py")
         run(HERE / "render_ui.py")
         run(HERE / "render_diff_debug.py")
+        run(HERE / "gen_cvd_preview.py")
 
     print("== artifact checks ==")
     run(HERE / "check_palette_usage.py")
@@ -122,6 +123,7 @@ def preview():
     run(HERE / "render_java.py")
     run(HERE / "render_ui.py")
     run(HERE / "render_diff_debug.py")
+    run(HERE / "gen_cvd_preview.py")
     print("Previews complete.")
     return 0
 
@@ -135,10 +137,14 @@ def palette():
     return 0
 
 
-def cvd():
-    """只生成色觉缺陷报告，不重新构建主题。"""
+def cvd(preview=False):
+    """只生成色觉缺陷报告；preview=True 时额外生成对比色板。"""
     print("== cvd report ==")
     run(HERE / "gen_cvd_report.py")
+    if preview:
+        if not require_pillow():
+            return 1
+        run(HERE / "gen_cvd_preview.py")
     return 0
 
 

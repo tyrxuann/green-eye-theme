@@ -65,7 +65,9 @@ def make_parser():
     sub.add_parser("test", help="运行 tests/ 下的测试")
     sub.add_parser("preview", help="只重新渲染预览图")
     sub.add_parser("clean", help="清理 __pycache__ / *.pyc / 临时文件")
-    sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
+    p_cvd = sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
+    p_cvd.add_argument("--preview", action="store_true",
+                       help="同时生成 normal/protanopia/deuteranopia 色板图")
     sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
@@ -119,7 +121,7 @@ def main(argv=None):
             rc = build_pipeline.palette()
             if rc:
                 return rc
-        return build_pipeline.cvd()
+        return build_pipeline.cvd(preview=args.preview)
     if args.command == "install":
         try:
             return installer.run(

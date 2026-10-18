@@ -104,7 +104,7 @@ uv run green_eye.py vscode       # 生成 VS Code 主题 + .vsix
 python3 green_eye.py build --no-preview   # 不渲染预览图，不需要 Pillow
 python3 green_eye.py palette              # 只导出/验收 shared/palette.json
 python3 green_eye.py vscode               # 生成 VS Code 主题 + .vsix
-python3 green_eye.py cvd                  # 生成色觉缺陷（CVD）报告
+python3 green_eye.py cvd --preview        # CVD 报告 + 对比色板（需 Pillow）
 python3 green_eye.py doctor               # 预检产物/字体/安装状态
 python3 green_eye.py check                # 平台无关色值验收（需先 build）
 python3 green_eye.py test                 # CLI + 安装器 + 字体 + 色彩 + VS Code + 发布包测试

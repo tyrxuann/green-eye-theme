@@ -8,6 +8,15 @@
 - 松林 Green Eye Dark：**18 对**
 - 矿彩 Green Eye Mineral：**20 对**
 
+## 预览图
+
+```bash
+python3 green_eye.py cvd --preview
+```
+
+生成 `intellij/preview/cvd-compare.png`：每款主题逐 token 并排显示
+正常 / protanopia / deuteranopia 三种色值，用于直观判断"只改几对"还是"整屏重做"。
+
 最严重的是：
 
 | 主题 | 配对 | 正常 ΔE | 最差 CVD ΔE |

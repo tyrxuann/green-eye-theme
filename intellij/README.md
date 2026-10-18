@@ -266,6 +266,7 @@ idea-green-theme/
 │   ├── current-vs-official.png      官方 vs 正式版（同一段 Java）
 │   ├── java-current.png / java-official.png
 │   ├── current-swatches.png (+@2x)  色板矩阵（2× 便于逐值对账）
+│   ├── cvd-compare.png              normal / protanopia / deuteranopia 对比
 │   └── crop-*.png                   1:1 与 2× 局部裁剪
 ├── src/
 │   ├── palette.py                   正式调色板（改这里就能改主题）
@@ -288,6 +289,7 @@ idea-green-theme/
 │   ├── gen_readme_table.py          从调色板自动重写本文配色表
 │   ├── gen_status_metrics.py         生成状态色口径（README 自动段）
 │   ├── gen_cvd_report.py             生成色觉缺陷报告 build/ref/cvd-report.md
+│   ├── gen_cvd_preview.py            生成 normal/CVD 对比色板
 │   ├── gen_verification_report.py   从产物自动生成 build/ref/verification.md
 │   ├── analyze_official.py          分析官方内置方案（提炼规律）
 │   ├── official_palette.py          还原官方配色 + 备选方案 V3/V4
