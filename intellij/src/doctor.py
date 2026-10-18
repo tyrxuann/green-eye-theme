@@ -7,7 +7,9 @@ Green Eye 预检（doctor）：在不启动 IDE 的前提下检查构建产物�
 "装没装、版本对不对、字体有没有、VSIX 在不在"这类问题先排除。
 """
 import importlib.util
+import glob
 import json
+import os
 import re
 import shutil
 import sys
@@ -88,6 +90,42 @@ def check_cvd_variants(path=None):
     return WARN, "CVD 变体", "未生成（运行 green_eye.py cvd-variants）"
 
 
+def _idea_logs():
+    home = Path.home()
+    patterns = [
+        str(home / "Library" / "Logs" / "JetBrains"
+            / "IntelliJIdea*" / "idea.log"),
+        str(home / ".cache" / "JetBrains" / "IntelliJIdea*" / "log"
+            / "idea.log"),
+    ]
+    local = os.environ.get("LOCALAPPDATA")
+    if local:
+        patterns.append(str(Path(local) / "JetBrains" / "IntelliJIdea*"
+                            / "log" / "idea.log"))
+    return [Path(p) for pattern in patterns for p in glob.glob(pattern)]
+
+
+def check_ide_log(path=None):
+    if path is None:
+        logs = _idea_logs()
+        if not logs:
+            return WARN, "IDE 日志", "未找到 idea.log"
+        path = max(logs, key=lambda p: p.stat().st_mtime)
+    path = Path(path)
+    if not path.is_file():
+        return WARN, "IDE 日志", "未找到 %s" % path
+    text = path.read_text(encoding="utf-8", errors="replace")
+    versions = re.findall(
+        r"Loaded custom plugins:.*?Green Eye[^()]*\(([^()]+)\)", text)
+    if not versions:
+        return WARN, "IDE 日志", "未找到 Green Eye 启动记录"
+    loaded = versions[-1]
+    if loaded == VERSION:
+        return OK, "IDE 日志", "最近启动已加载 %s" % loaded
+    return WARN, "IDE 日志", "最近启动加载 %s；重启后加载 %s" % (
+        loaded, VERSION)
+
+
 def check_fonts():
     if importlib.util.find_spec("PIL") is None:
         return [(WARN, "Pillow", "未安装；只能 build --no-preview")]
@@ -154,6 +192,7 @@ def checks():
     rows.append((OK if code else WARN, "VS Code CLI", code or "未安装 code"))
     rows += check_fonts()
     rows += check_installed()
+    rows.append(check_ide_log())
     return rows
 
 

@@ -5,6 +5,7 @@
 ### Changed
 
 - `doctor` 在已安装旧版插件时明确报告版本，并提示退出 IDEA 后运行 install。
+- `doctor` 读取 `idea.log`，确认最近一次 IDE 启动实际加载的 Green Eye 版本。
 
 ## [1.2.0] - 2026-10-18
 

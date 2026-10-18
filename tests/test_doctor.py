@@ -69,6 +69,20 @@ class DoctorTests(unittest.TestCase):
             self.assertIn("1.1.0", details)
             self.assertIn("旧版本", details)
 
+    def test_ide_log_version(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "idea.log"
+            path.write_text(
+                "Loaded custom plugins: Green Eye 护眼绿色主题 (1.1.0)\n",
+                encoding="utf-8")
+            status, _, detail = doctor.check_ide_log(path)
+            self.assertEqual(status, doctor.WARN)
+            self.assertIn("1.1.0", detail)
+            path.write_text(
+                "Loaded custom plugins: Green Eye 护眼绿色主题 (%s)\n" % VERSION,
+                encoding="utf-8")
+            self.assertEqual(doctor.check_ide_log(path)[0], doctor.OK)
+
     def test_icls_detection(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "Green-Eye-Dark.icls"
