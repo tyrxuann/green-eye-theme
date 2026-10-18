@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install CJK font
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+
+      - name: Build IntelliJ
+        run: uv run green_eye.py build
+
+      - name: Build VS Code
+        run: uv run green_eye.py vscode
+
+      - name: Test
+        run: uv run green_eye.py test
+
+      - name: Package (IntelliJ + VS Code)
+        run: uv run green_eye.py package --all
+
+      - name: Upload GitHub Release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.zip
+            vscode/dist/*.vsix
+          generate_release_notes: true

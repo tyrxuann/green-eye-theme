@@ -137,11 +137,16 @@ bash intellij/scripts/install.sh --config-dir "/path/to/IntelliJIdea2026.2"
 
 ```bash
 uv run green_eye.py build
+uv run green_eye.py vscode
 uv run green_eye.py test
-uv run green_eye.py package
+uv run green_eye.py package --all
 ```
 
-并上传 `release/*.zip` 作为构建产物；Linux 会预装 `fonts-noto-cjk` 以生成完整预览。
+并上传 `release/*.zip` 与 `vscode/dist/*.vsix` 作为构建产物；
+Linux 会预装 `fonts-noto-cjk` 以生成完整预览。
+
+推 `v*` tag 时，[`.github/workflows/release.yml`](.github/workflows/release.yml)
+会重新构建并创建 GitHub Release，附上 IntelliJ 包、合并包与 VS Code `.vsix`。
 
 ## 加一个新平台（例如 VS Code）
 

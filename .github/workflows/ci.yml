@@ -44,7 +44,7 @@ jobs:
         run: uv run green_eye.py test
 
       - name: Package
-        run: uv run green_eye.py package
+        run: uv run green_eye.py package --all
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
