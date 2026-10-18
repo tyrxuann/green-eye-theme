@@ -25,6 +25,8 @@ python3 green_eye.py manual --list    # 只看清单
 
 结果写入 `intellij/build/ref/manual-verification-report.md`。
 
+之后 `doctor` 会读取这份报告，显示最近一次的通过/失败/跳过数量。
+
 ## 0.1 先确认装上了
 
 - [ ] `Settings → Appearance & Behavior → Appearance → Theme` 里有**两款**：

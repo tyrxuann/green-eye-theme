@@ -8,6 +8,7 @@ Green Eye 预检（doctor）：在不启动 IDE 的前提下检查构建产物�
 """
 import importlib.util
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -57,6 +58,28 @@ def check_icls(path):
     return OK, "配色方案", path.name
 
 
+def check_license(path=None):
+    path = Path(path) if path else ROOT / "LICENSE"
+    if path.is_file():
+        return OK, "LICENSE", path.name
+    return WARN, "LICENSE", "未添加（发布前需选择 MIT/Apache/私有）"
+
+
+def check_manual_report(path=None):
+    path = Path(path) if path else (
+        INTELLIJ / "build" / "ref" / "manual-verification-report.md")
+    if not path.is_file():
+        return WARN, "真机走查", "未生成（运行 green_eye.py manual）"
+    text = path.read_text(encoding="utf-8", errors="replace")
+    match = re.search(r"通过 \*\*(\d+)\*\* · 失败 \*\*(\d+)\*\* · 跳过 \*\*(\d+)\*\*",
+                      text)
+    if not match:
+        return WARN, "真机走查", "报告格式无法识别"
+    passed, failed, skipped = (int(x) for x in match.groups())
+    detail = "通过 %d / 失败 %d / 跳过 %d" % (passed, failed, skipped)
+    return (WARN if failed else OK), "真机走查", detail
+
+
 def check_fonts():
     if importlib.util.find_spec("PIL") is None:
         return [(WARN, "Pillow", "未安装；只能 build --no-preview")]
@@ -99,6 +122,8 @@ def checks():
         (OK if shutil.which("uv") else WARN, "uv",
          shutil.which("uv") or "未安装（可选）"),
         check_palette(ROOT / "shared" / "palette.json"),
+        check_license(),
+        check_manual_report(),
         check_jar(INTELLIJ / "dist" / ("%s%s.jar" % (JAR_PREFIX, VERSION))),
     ]
     for name in ("Green-Eye-Dark.icls", "Green-Eye-Mineral.icls"):
@@ -115,8 +140,23 @@ def checks():
     return rows
 
 
-def main():
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description="Green Eye 预检")
+    ap.add_argument("--json", action="store_true", help="输出 JSON")
+    args = ap.parse_args(argv)
     rows = checks()
+    if args.json:
+        payload = {
+            "checks": [{"status": s, "label": l, "detail": d} for s, l, d in rows],
+            "summary": {
+                "ok": sum(1 for s, _, _ in rows if s == OK),
+                "warn": sum(1 for s, _, _ in rows if s == WARN),
+                "fail": sum(1 for s, _, _ in rows if s == FAIL),
+            },
+        }
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1 if payload["summary"]["fail"] else 0
     print("Green Eye Doctor")
     for status, label, detail in rows:
         print("  %s %-16s %s" % (MARKS[status], label, detail))

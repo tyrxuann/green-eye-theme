@@ -72,7 +72,8 @@ def make_parser():
     p_cvd = sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
     p_cvd.add_argument("--preview", action="store_true",
                        help="同时生成 normal/protanopia/deuteranopia 色板图")
-    sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
+    p_doctor = sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
+    p_doctor.add_argument("--json", action="store_true", help="输出 JSON")
     p_bump = sub.add_parser("bump", help="统一更新版本号")
     p_bump.add_argument("version", help="新版本号，例如 1.2.0")
     p_bump.add_argument("--dry-run", action="store_true")
@@ -126,7 +127,7 @@ def main(argv=None):
     if args.command == "clean":
         return build_pipeline.clean()
     if args.command == "doctor":
-        return doctor.main()
+        return doctor.main(["--json"] if args.json else [])
     if args.command == "manual":
         answers = args.answers.split(",") if args.answers else None
         return manual_verify.run(list_only=args.list, answers=answers,
