@@ -444,6 +444,10 @@ uv run green_eye.py build              # 跨平台：自动提供 Python + Pillo
 python3 green_eye.py build --no-preview  # 不生成预览图，不需要 Pillow
 ```
 
+> 预览字体会按 macOS / Linux / Windows 的常见路径自动查找；也可以用
+> `GREEN_EYE_MONO_FONT` / `GREEN_EYE_CJK_FONT` 指定。缺失时回退并警告，
+> 不会中断构建；`--no-preview` 完全不需要字体。
+
 它依次执行下面的阶段，**任何一步失败即中止**，避免生成半成品：
 
 | 阶段 | 脚本 | 作用 |

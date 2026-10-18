@@ -94,6 +94,14 @@ python3 green_eye.py test                 # CLI + 安装器集成测试
 Windows 原生用 `py` 代替 `python3` 即可。`make` 仍保留为兼容入口，
 `make build` / `make build-no-preview` / `make install` 等价于上面的命令。
 
+预览字体会自动在 macOS / Linux / Windows 的常见字体路径里查找；找不到时不会崩溃，
+而是回退到 Pillow 默认字体并打印一次警告。想固定字体可以显式指定：
+
+```bash
+GREEN_EYE_CJK_FONT=/path/to/font.ttc uv run green_eye.py build
+# Linux 一般装 fonts-noto-cjk 即可；Windows 自带微软雅黑
+```
+
 安装器是幂等的，所有改动先生成计划，文件替换用临时文件 + 原子重命名，
 旧版本只在新文件准备好后清理。装完完全退出并重启 IDEA 即可选主题。
 

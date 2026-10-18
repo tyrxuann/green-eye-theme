@@ -3,6 +3,12 @@
 """
 渲染配色预览图（模拟 IntelliJ IDEA 编辑器窗口），用于在安装前直观检查护眼效果。
 
+字体跨平台解析：
+  · 优先 GREEN_EYE_MONO_FONT / GREEN_EYE_CJK_FONT 环境变量；
+  · 其次 macOS / Linux / Windows 的常见字体路径；
+  · 找不到时回退到 Pillow 默认字体并打印一次警告，不再直接崩溃。
+  完整预览建议自备 CJK 字体；只生成主题时用 `green_eye.py build --no-preview` 即可。
+
 用法:
     python3 render_preview.py --outdir ../preview
 """
@@ -20,9 +26,38 @@ FONT_SIZE = 14
 LINE_H = 25
 GUTTER_W = 58
 PAD_TOP = 10
-MONO = "/System/Library/Fonts/Menlo.ttc"
-CJK = "/System/Library/Fonts/Hiragino Sans GB.ttc"
 CODE_W = 980
+
+# 字体：优先环境变量，其次各平台常见路径；找不到时回退，不让预览构建直接崩。
+FONT_ENV = {"mono": "GREEN_EYE_MONO_FONT", "cjk": "GREEN_EYE_CJK_FONT"}
+MONO_CANDIDATES = [
+    "/System/Library/Fonts/Menlo.ttc",                  # macOS
+    "/System/Library/Fonts/SFNSMono.ttf",
+    "/Library/Fonts/Menlo.ttc",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",  # Linux
+    "/usr/share/fonts/dejavu/DejaVuSansMono.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
+    "/usr/share/fonts/truetype/noto/NotoSansMono-Regular.ttf",
+    "%WINDIR%/Fonts/consola.ttf",                      # Windows
+    "%WINDIR%/Fonts/lucon.ttf",
+    "%WINDIR%/Fonts/cour.ttf",
+]
+CJK_CANDIDATES = [
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",       # macOS
+    "/System/Library/Fonts/PingFang.ttc",
+    "/System/Library/Fonts/STHeiti Light.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",  # Linux
+    "/usr/share/fonts/opentype/noto/NotoSansCJKsc-Regular.otf",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+    "/usr/share/fonts/truetype/arphic/uming.ttc",
+    "%WINDIR%/Fonts/msyh.ttc",                         # Windows
+    "%WINDIR%/Fonts/msyh.ttf",
+    "%WINDIR%/Fonts/simhei.ttf",
+    "%WINDIR%/Fonts/simsun.ttc",
+]
+
 
 CODE = '''# 项目：森林碳汇估算 forest_carbon.py
 """护眼绿色主题预览 —— 低饱和、低对比度，不用刺眼的荧光绿。"""
@@ -104,9 +139,68 @@ def split_cjk(text):
 FACE_INDEX = {"": 0, "b": 1, "i": 2, "bi": 3}
 
 
+def _expand_font_path(path):
+    return os.path.expanduser(os.path.expandvars(path))
+
+
+def _font_ok(path):
+    """路径存在、或同名系统字体能被 Pillow 找到，才算可用。"""
+    expanded = _expand_font_path(path)
+    for candidate in (expanded, os.path.basename(expanded)):
+        if not candidate:
+            continue
+        try:
+            ImageFont.truetype(candidate, 12)
+            return True
+        except OSError:
+            continue
+    return False
+
+
+def resolve_font(kind, candidates):
+    env_name = FONT_ENV[kind]
+    env_path = os.environ.get(env_name, "").strip()
+    if env_path:
+        if _font_ok(env_path):
+            return _expand_font_path(env_path)
+        print("警告: %s 指向的字体无法打开: %s" % (env_name, env_path),
+              file=sys.stderr)
+    for candidate in candidates:
+        if _font_ok(candidate):
+            return _expand_font_path(candidate)
+    return None
+
+
 class Fonts:
     def __init__(self):
         self.cache = {}
+        self.warned = set()
+        self.mono = resolve_font("mono", MONO_CANDIDATES)
+        self.cjk = resolve_font("cjk", CJK_CANDIDATES)
+        if not self.mono:
+            self._warn("mono")
+        if not self.cjk:
+            self._warn("cjk")
+
+    def _warn(self, kind):
+        if kind in self.warned:
+            return
+        self.warned.add(kind)
+        if kind == "cjk":
+            print("警告: 未找到 CJK 字体，中文预览会回退到默认字体（可能显示方框）。",
+                  file=sys.stderr)
+            print("     设置 GREEN_EYE_CJK_FONT=/path/to/font.ttc 可指定；"
+                  "或使用 build --no-preview。", file=sys.stderr)
+        else:
+            print("警告: 未找到等宽字体，预览会回退到 Pillow 默认字体。",
+                  file=sys.stderr)
+
+    @staticmethod
+    def _default(size):
+        try:
+            return ImageFont.load_default(size=size)
+        except TypeError:          # Pillow < 10.1 没有 size 参数
+            return ImageFont.load_default()
 
     def get(self, size, cjk=False, style=""):
         """style: ""=常规 b=粗体 i=斜体 bi=粗斜体（对应 .icls 的 FONT_TYPE 0/1/2/3）。
@@ -115,19 +209,33 @@ class Fonts:
         keyword 该不该加粗、TODO 该不该斜体，两轮逐像素核对都没照到。现在接上。
         """
         key = (size, cjk, style if not cjk else "")
-        if key not in self.cache:
-            if cjk:
-                f = ImageFont.truetype(CJK, size)
-            else:
+        if key in self.cache:
+            return self.cache[key]
+        if cjk:
+            f = None
+            if self.cjk:
                 try:
-                    f = ImageFont.truetype(MONO, size, index=FACE_INDEX.get(style, 0))
-                except Exception:
+                    f = ImageFont.truetype(self.cjk, size)
+                except OSError:
+                    f = None
+            if f is None:
+                f = self._default(size)
+        else:
+            f = None
+            if self.mono:
+                indexes = [FACE_INDEX.get(style, 0)]
+                if indexes[0] != 0:
+                    indexes.append(0)
+                for index in indexes:
                     try:
-                        f = ImageFont.truetype(MONO, size)
-                    except Exception:
-                        f = ImageFont.load_default()
-            self.cache[key] = f
-        return self.cache[key]
+                        f = ImageFont.truetype(self.mono, size, index=index)
+                        break
+                    except OSError:
+                        continue
+            if f is None:
+                f = self._default(size)
+        self.cache[key] = f
+        return f
 
 
 F = Fonts()
