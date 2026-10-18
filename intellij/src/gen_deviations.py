@@ -91,7 +91,7 @@ def main():
     lines.append("")
     lines.append("对话之外的判断依据：撞色检查（以官方为标尺，0 对劣于官方）、"
                  "逐键对比（`EFFECT_TYPE`/`EFFECT_COLOR`/`BACKGROUND`/键缺失 五项全 0 差异）、"
-                 "调色板消费、产物新鲜度 —— 四条断言全部挂在 `make build` 里。")
+                 "调色板消费、产物新鲜度 —— 四条断言全部挂在 `green_eye.py build` 里。")
     block = B + "\n" + "\n".join(lines) + "\n" + E
     s = open(path, encoding="utf-8").read()
     if B not in s:

@@ -77,15 +77,18 @@ def check_length(path, src):
 
 def main():
     problems = []
-    files = sorted(f for f in os.listdir(HERE) if f.endswith(".py"))
-    for f in files:
-        path = os.path.join(HERE, f)
+    paths = [os.path.join(HERE, f)
+             for f in sorted(os.listdir(HERE)) if f.endswith(".py")]
+    root_cli = os.path.abspath(os.path.join(HERE, "..", "..", "green_eye.py"))
+    if os.path.isfile(root_cli):
+        paths.append(root_cli)
+    for path in paths:
         src = open(path, encoding="utf-8").read()
         problems += check_compile(path, src)
         problems += check_dict_indent(path, src)
         problems += check_stacked_comments(path, src)
         problems += check_length(path, src)
-    print("格式守门：%d 个源文件" % len(files))
+    print("格式守门：%d 个源文件" % len(paths))
     if problems:
         print("  ❌ 发现 %d 处：" % len(problems))
         for p in problems:

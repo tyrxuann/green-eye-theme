@@ -188,20 +188,46 @@
 
 ## 3. 安装
 
+### 推荐：IDE 原生安装（不需要 Python）
+
+先构建再打包（开发者执行一次）：
+
 ```bash
-make install
-make install-dry-run
-make uninstall
-bash intellij/scripts/install.sh --icls-only
-bash intellij/scripts/install.sh --all
+uv run green_eye.py build
+uv run green_eye.py package
 ```
+
+`release/green-eye-<version>.zip` 里就是可安装的 jar：
+
+```
+Settings / Preferences → Plugins → ⚙ → Install Plugin from Disk… → 选 jar
+→ 完全退出并重启 IDEA
+→ Settings → Appearance & Behavior → Appearance → Theme
+```
+
+jar 里已通过 `bundledColorScheme` + `themeProvider` 注册了两款主题，
+所以装完在 Theme 和 Color Scheme 两个下拉框里都能看到。
+
+### 脚本安装（跨平台）
+
+```bash
+uv run green_eye.py install          # 自动获得 Python + Pillow
+python3 green_eye.py install         # 系统 Python 也可以
+python3 green_eye.py install --dry-run
+python3 green_eye.py install --uninstall
+python3 green_eye.py install --icls-only
+python3 green_eye.py install --all
+```
+
+安装器是纯 Python，macOS / Linux / Windows 原生都能跑，不依赖 bash、unzip、
+grep、cmp、awk、shasum。`intellij/scripts/install.sh` 现在只是兼容壳。
 
 装完**完全退出并重启 IDEA**，然后在
 `Settings → Appearance & Behavior → Appearance → Theme` 里选「Green Eye Dark 松林」或「Green Eye Mineral 矿彩」。
 
 ### 幂等保证
 
-脚本按"**先算计划 → 确认 → 再执行**"三段式工作，重复运行不会累积垃圾：
+安装器按"**先算计划 → 确认 → 再执行**"三段式工作，重复运行不会累积垃圾：
 
 | 之前的形态 | 重装时的处理 |
 |---|---|
@@ -210,9 +236,9 @@ bash intellij/scripts/install.sh --all
 | 手工导入/复制过同名 `.icls` | 删除 —— 否则 Color Scheme 下拉框里会出现两个同名项 |
 | 用 `--icls-only` 装过，现在要装插件（或反过来） | 移除另一种形态 —— 两种模式互斥 |
 | `disabled_plugins.txt` 里有本插件 | 移除该行 —— 否则重装也不会生效（其余插件的记录不动） |
-| 已经装的是同一版本 | **跳过复制，连 mtime 都不改**，并输出"已经是最新状态，无需改动（幂等）" |
+| 已经装的是同一版本 | **跳过复制，连 mtime 都不改**，并输出"无需改动（幂等）" |
 
-`--dry-run` 会打印同样的计划但不执行，可用于先确认要动哪些文件。
+`python3 green_eye.py install --dry-run` 会打印同样的计划但不执行，可用于先确认要动哪些文件。
 
 
 ## 4. 文件清单
@@ -221,12 +247,12 @@ bash intellij/scripts/install.sh --all
 idea-green-theme/
 ├── README.md
 ├── scripts/
-│   ├── build.sh                   完整生成与验收管线
-│   ├── install.sh                 安装 / 卸载
-│   └── test_install.sh            安装器集成测试
+│   ├── build.sh                   兼容壳 → green_eye.py build
+│   ├── install.sh                 兼容壳 → green_eye.py install
+│   └── test_install.sh            兼容壳 → tests/test_install.py
 ├── themes/
-│   ├── Green-Eye-Dark.icls          编辑器方案（475 属性 + 158 界面色）
-│   ├── GreenEyeDark.theme.json      整站 UI 主题（339 color token + 43 个控件组覆盖）
+│   ├── Green-Eye-Dark.icls          编辑器方案（475 属性 + 157 界面色）
+│   ├── GreenEyeDark.theme.json      整站 UI 主题（330 color token + 68 个控件组覆盖）
 │   └── GreenEyeDarkScheme.xml       打包进插件用的方案副本
 ├── dist/
 │   └── GreenEye-Theme-1.1.0.jar     可安装插件
@@ -241,6 +267,10 @@ idea-green-theme/
 │   └── crop-*.png                   1:1 与 2× 局部裁剪
 ├── src/
 │   ├── palette.py                   正式调色板（改这里就能改主题）
+│   ├── build_pipeline.py            构建编排（取代 build.sh 的逻辑）
+│   ├── install.py                   跨平台安装器（取代 install.sh 的逻辑）
+│   ├── package_release.py           发布包：jar + icls + INSTALL.txt
+│   ├── render_spec.py               无 Pillow 的 Java 样例 / 样式映射
 │   ├── gen_icls.py                  生成 .icls
 │   ├── gen_theme_json.py            生成 .theme.json 并打包插件 jar
 │   ├── render_preview.py            仿 IDE 窗口渲染器（支持任意语言）
@@ -270,13 +300,13 @@ idea-green-theme/
 
 ## 5. 已做的校验 / 未做的事
 
-**自动校验（`make build` 每次都会跑，任何一项失败即中止）**
-完整结果见 [`build/ref/verification.md`](build/ref/verification.md)（从产物自动生成，**16 项全过**）：
+**自动校验（`green_eye.py build` 每次都会跑，任何一项失败即中止）**
+完整结果见 [`build/ref/verification.md`](build/ref/verification.md)（从产物自动生成，**29 项全过**）：
 
 | 类别 | 内容 |
 |---|---|
-| 键名来源 | 语法属性键 **475** 个，全部有真实来源（真实主题导出 349 + IDE 插件片段 56 + **官方内置方案 224**，并集去重后 475）；官方方案的属性键 **224/224 全覆盖**；界面色键 158 个，官方方案 **105/105 全覆盖**，13 个无效键已删 |
-| 结构 | `.icls`/`.theme.json`/`plugin.xml` 均为合法 XML/JSON；`parent_scheme="Darcula"`；主题用**方案名**引用 `editorScheme`；`bundledColorScheme` 注册与方案 `name` 一致；`ui` 覆盖 47 个控件组（键名都在官方主题里出现过） |
+| 键名来源 | 语法属性键 **475** 个，全部有真实来源（真实主题导出 349 + IDE 插件片段 56 + **官方内置方案 224**，并集去重后 475）；官方方案的属性键 **224/224 全覆盖**；界面色键 157 个，官方方案 **105/105 全覆盖**，13 个无效键已删 |
+| 结构 | `.icls`/`.theme.json`/`plugin.xml` 均为合法 XML/JSON；`parent_scheme="Darcula"`；主题用**方案名**引用 `editorScheme`；`bundledColorScheme` 注册与方案 `name` 一致；`ui` 覆盖 68 个控件组（键名都在官方主题里出现过） |
 | **与官方逐键对比（10 条规则，标尺 = `effective(官方 Islands Dark ∪ Darcula)`）** | `EFFECT_TYPE` 缺失 0 · 取值不同 0 · `EFFECT_COLOR` 缺失 0 · 键完全缺失 0 · `BACKGROUND` 缺失 0 · 背景强度低于 0.85× 的 0 个 · **`FONT_TYPE` 全一致** · **`ERROR_STRIPE_COLOR` 全有** · 自建键底色全 ≥1.10:1 · **风格家族一致性**（同族键的 `FONT_TYPE` 必须与规范键相同 —— 真机渲染查的是 `JAVA_KEYWORD` 这类语言键，只改规范键等于没改；这一条抓出 69 个语言键的排版偏差） |
 | **反向覆盖（第 8 维度）** | 产物里的每个颜色都必须来自**它自己的**调色板 —— 正向检查发现不了"产物混进了另一款主题的颜色"（`grey_underline`/`followed_link` 就踩过）。两款均 0 越界 |
 | **渲染样式一致（第 9 维度）** | 预览图里的斜体必须与产物 `FONT_TYPE` 一致 —— 这一维度曾被整段忽略（渲染器只吃颜色），导致 17 个键的粗斜体写错也没人发现。现已接上，且 `DEFAULT_STATIC_METHOD` 这类"mock 无法解析"的记为已知限制 |
@@ -352,7 +382,7 @@ idea-green-theme/
 
 上表 9 条中，**2 条其实是「回归官方」而非偏离**（代价栏标为「无」）：早先版本偏离了官方，评审发现后改回。
 
-对话之外的判断依据：撞色检查（以官方为标尺，0 对劣于官方）、逐键对比（`EFFECT_TYPE`/`EFFECT_COLOR`/`BACKGROUND`/键缺失 五项全 0 差异）、调色板消费、产物新鲜度 —— 四条断言全部挂在 `make build` 里。
+对话之外的判断依据：撞色检查（以官方为标尺，0 对劣于官方）、逐键对比（`EFFECT_TYPE`/`EFFECT_COLOR`/`BACKGROUND`/键缺失 五项全 0 差异）、调色板消费、产物新鲜度 —— 四条断言全部挂在 `green_eye.py build` 里。
 <!-- DEVIATIONS:END -->
 
 ## 6. 1.0.0 启动报错的根因（留档）
@@ -408,22 +438,24 @@ Caused by: InvalidDataException: Light
 颜色集中在 [`src/palette.py`](src/palette.py)，改完重新生成：
 
 ```bash
-make build                 # 一条命令跑完整条管线
+uv run green_eye.py build              # 跨平台：自动提供 Python + Pillow
+python3 green_eye.py build --no-preview  # 不生成预览图，不需要 Pillow
 ```
 
-它依次做六件事，**任何一步失败即中止**，避免生成半成品：
+它依次执行下面的阶段，**任何一步失败即中止**，避免生成半成品：
 
-| 步骤 | 脚本 | 作用 |
+| 阶段 | 脚本 | 作用 |
 |---|---|---|
 | 0 | `check_style.py` | **格式守门**：语法可编译 · 字典键缩进一致 · 无堆叠注释 · 无超长行 |
 | 1 | `gen_icls.py` | 生成 `.icls` 并打印对比度报告 |
-| 2 | `check_collisions.py` | **状态色两两撞色检查**（CIEDE2000 + 对比度，以官方为标尺） |
-| 2.5 | `check_attribute_parity.py` | **与官方逐键对比**（ET/EC 完备性 + 键缺失） |
+| 2 | `check_collisions.py` / `check_token_separation.py` / `check_identity.py` / `check_reverse_palette.py` / `check_render_styles.py` / `check_attribute_parity.py` | 撞色、token 可分、主题身份、反向调色板、渲染样式、官方逐键对账 |
 | 3 | `gen_theme_json.py` | 生成 `.theme.json` 并打包插件 jar |
-| 4 | `gen_readme_table.py` | 从调色板**自动重写本文的配色表** |
-| 5 | `render_java.py` / `render_ui.py` / `render_diff_debug.py` | 渲染代码 / 整站 UI / diff / 调试器四类视图，以及 1:1 与 2× 局部裁剪 |
-| 5.5 | `check_palette_usage.py` / `check_freshness.py` | 断言调色板被消费、产物不早于源码 |
-| 6 | `gen_verification_report.py` | 生成 [`build/ref/verification.md`](build/ref/verification.md)（16 项） |
+| 3.5 | `tests/test_install.py` | 安装器集成测试（jar 打好之后跑） |
+| 4 | `gen_readme_table.py` / `gen_deviations.py` / `gen_mineral_doc.py` | 从调色板**自动重写本文的生成段** |
+| 5 | `export_palette.py` + `check_palette.py` | 重导 `shared/palette.json` 并做平台无关验收 |
+| 6 | `render_java.py` / `render_ui.py` / `render_diff_debug.py` | 渲染代码 / 整站 UI / diff / 调试器四类视图（`--no-preview` 跳过） |
+| 7 | `check_palette_usage.py` / `check_freshness.py` | 断言调色板被消费、产物不早于源码 |
+| 8 | `gen_verification_report.py` | 生成 [`build/ref/verification.md`](build/ref/verification.md)（29 项） |
 
 调色板的键名是语义化的（`keyword` / `string` / `comment` / `bg_editor` …），
 生成器会自动映射到 IntelliJ 的 475 个属性键上。

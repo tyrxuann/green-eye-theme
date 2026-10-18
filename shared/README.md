@@ -15,7 +15,7 @@ shared/palette.json            ← 跨平台契约
         └── vscode/    （待实现）
 ```
 
-`shared/palette.json` **是生成物**，由 `make build` 自动重导，并带一致性断言
+`shared/palette.json` **是生成物**，由 `green_eye.py build` 自动重导，并带一致性断言
 （`export_palette.py --check`），不要手改。
 
 ## 契约 schema
@@ -24,7 +24,7 @@ shared/palette.json            ← 跨平台契约
 {
   "schema": "green-eye-palette/1",
   "anchor": "两款主题共用同一块底色 #1F3027；换平台时底色与对比度标准不变。",
-  "roles":  { "keyword": "关键字", "bg_selection": "选中", ... },   // 29 条语义说明
+  "roles":  { "keyword": "关键字", "bg_selection": "选中", ... },   // 34 条语义说明
   "exceptions": {                       // ★ 已记录的例外，新平台的检查器必须读它
     "same_by_design":   [["bg_editor","bg_gutter"], ...],           // 语义相同 → 同值合理
     "accepted_pairs":   [{ "pair": [...], "reason": "..." }, ...],  // 已评估接受的撞色，附理由
@@ -54,7 +54,7 @@ shared/palette.json            ← 跨平台契约
 ## 验收
 
 ```bash
-make check
+python3 green_eye.py check        # 或 uv run green_eye.py check
 ```
 四类判据（只读 `palette.json`，与平台无关）：
 

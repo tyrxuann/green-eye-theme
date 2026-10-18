@@ -8,22 +8,25 @@
 
 ```
 green-eye-theme/
-├── Makefile              统一入口：build / test / install / uninstall
+├── green_eye.py          ★ 跨平台入口：build / check / test / install / package
+├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
 ├── docs/                 人工核对与维护文档
 ├── shared/               平台无关层：色值契约 + 通用检查
-│   ├── palette.json       两款主题的全部色值（224 个）+ 语义角色表 + 例外清单
+│   ├── palette.json       生成物：两款主题的全部色值 + 语义角色表 + 例外清单
 │   ├── export_palette.py  从 intellij 侧导出（单向：intellij → shared）
 │   ├── README.md          设计法则、契约 schema、四类判据
 │   └── tools/             无依赖的色彩数学 + 平台无关验收
 │
 ├── intellij/              IntelliJ IDEA 实现
-│   ├── scripts/            构建、安装、测试的唯一入口实现
-│   ├── src/                生成器与检查器（Python）
+│   ├── scripts/            兼容入口（薄封装，逻辑都在 src/）
+│   ├── src/                生成器、检查器、跨平台安装器（Python）
 │   ├── themes/             生成的 .icls + .theme.json
 │   ├── dist/               生成的插件 jar
 │   ├── preview/            生成的预览图
-│   └── build/              官方参考资料与验收报告
+│   └── build/              官方参考资料（构建输入）与验收报告
 │
+├── release/              生成的发布包（jar + icls + INSTALL.txt）
+├── tests/                CLI 与安装器集成测试（跨平台）
 └── vscode/            ⬜ 待实现 —— VS Code 实现（见其 README）
 ```
 
@@ -42,21 +45,59 @@ green-eye-theme/
 
 ## 快速开始
 
+### 给用户：安装主题（不需要 Python）
+
+先生成发布包（开发者执行一次）：
+
 ```bash
-make setup                   # 首次使用：创建 .venv 并安装 Pillow
-make build                   # 生成、校验、预览和打包
-make test                    # 安装器集成测试
-make install                 # 交互式安装插件
-make install-dry-run         # 只显示安装计划
-make uninstall               # 卸载插件、配色副本和禁用记录
+uv run green_eye.py build        # 先生成 jar 与 .icls
+uv run green_eye.py package      # 再打发布包
+# 或：python3 green_eye.py build --no-preview && python3 green_eye.py package
 ```
 
-安装器是幂等的，支持 macOS、Linux 和 Windows Git Bash；所有改动先生成计划，
-文件替换采用临时文件加原子重命名，旧版本只在新文件准备好后清理。
-装完完全退出并重启 IDEA，在 `Settings → Appearance & Behavior → Appearance → Theme` 里选
-「Green Eye Dark 松林」或「Green Eye Mineral 矿彩」。
+得到 `release/green-eye-<version>.zip`，里面是 jar + 两个 `.icls` + `INSTALL.txt`。
+把这个 zip 拷到目标电脑，解压后：
 
-底层入口：
+1. IDEA → `Settings / Preferences → Plugins`
+2. 右上角齿轮 → **Install Plugin from Disk…**
+3. 选 `GreenEye-Theme-<version>.jar`
+4. **完全退出并重启 IDEA**
+5. `Settings → Appearance & Behavior → Appearance → Theme`
+   选「Green Eye Dark 松林」或「Green Eye Mineral 矿彩」
+
+**目标电脑不需要 Python、bash、make、unzip 或任何运行时。**
+只想导入配色方案时，用 `Settings → Editor → Color Scheme → ⚙ → Import Scheme…`
+选 `.icls` 即可。
+
+### 给开发者：构建
+
+推荐 `uv`——一个跨平台单文件二进制，会自动提供 Python 和 Pillow：
+
+```bash
+# 首次安装 uv（三选一）
+brew install uv
+winget install astral-sh.uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+uv run green_eye.py build        # 生成 + 校验 + 预览 + 打包 + 安装器测试
+uv run green_eye.py install      # 安装到本机 IDEA
+```
+
+没有 uv、或不想装 Pillow 时，系统 Python 也能构建核心产物：
+
+```bash
+python3 green_eye.py build --no-preview   # 不渲染预览图，不需要 Pillow
+python3 green_eye.py check                # 平台无关色值验收（需先 build）
+python3 green_eye.py test                 # CLI + 安装器集成测试
+```
+
+Windows 原生用 `py` 代替 `python3` 即可。`make` 仍保留为兼容入口，
+`make build` / `make build-no-preview` / `make install` 等价于上面的命令。
+
+安装器是幂等的，所有改动先生成计划，文件替换用临时文件 + 原子重命名，
+旧版本只在新文件准备好后清理。装完完全退出并重启 IDEA 即可选主题。
+
+底层等价入口（macOS / Linux 的兼容壳）：
 
 ```bash
 bash intellij/scripts/build.sh
@@ -68,4 +109,4 @@ bash intellij/scripts/install.sh --config-dir "/path/to/IntelliJIdea2026.2"
 1. 读 `shared/palette.json`（不要读 IntelliJ 的 `.icls`——那是实现细节）；
 2. 新建 `<platform>/`，把语义槽位映射到该平台的键（VS Code 的映射表已在 `vscode/README.md` 给出）；
 3. 用 `shared/tools/check_palette.py` 做验收 —— 它只按色值判定，与平台无关；
-4. `shared/palette.json` **由 `make build` 自动重导**，不要手改；只改 `intellij/src/palette.py`。
+4. `shared/palette.json` **由 `green_eye.py build` 自动重导**，不要手改；只改 `intellij/src/palette.py`。

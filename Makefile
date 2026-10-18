@@ -2,7 +2,7 @@
 
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 
-.PHONY: setup build test check install install-dry-run uninstall clean
+.PHONY: setup build build-no-preview test check install install-dry-run uninstall package clean
 
 setup:
 	python3 -m venv .venv
@@ -10,25 +10,28 @@ setup:
 	.venv/bin/python -m pip install -r requirements.txt
 
 build:
-	PYTHON="$(PYTHON)" bash intellij/scripts/build.sh
+	"$(PYTHON)" green_eye.py build
+
+build-no-preview:
+	"$(PYTHON)" green_eye.py build --no-preview
 
 test:
-	"$(PYTHON)" -m unittest discover -s tests -v
-	bash intellij/scripts/test_install.sh
+	"$(PYTHON)" green_eye.py test
 
 check:
-	"$(PYTHON)" shared/tools/check_palette.py
+	"$(PYTHON)" green_eye.py check
 
 install:
-	bash intellij/scripts/install.sh
+	"$(PYTHON)" green_eye.py install
 
 install-dry-run:
-	bash intellij/scripts/install.sh --dry-run
+	"$(PYTHON)" green_eye.py install --dry-run
 
 uninstall:
-	bash intellij/scripts/install.sh --uninstall
+	"$(PYTHON)" green_eye.py install --uninstall
+
+package:
+	"$(PYTHON)" green_eye.py package
 
 clean:
-	find intellij/src shared/tools -type d -name __pycache__ -prune -exec rm -rf {} +
-	find . -type f -name '*.tmp.*' -delete
-	find . -type f -name '*.pyc' -delete
+	"$(PYTHON)" green_eye.py clean

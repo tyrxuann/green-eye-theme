@@ -23,60 +23,7 @@ from palette import contrast  # noqa: E402
 from official_palette import OFFICIAL, GREEN  # noqa: E402
 from candidates import CANDIDATES  # noqa: E402
 from render_preview import render, swatch, S, F, draw_run, run_width  # noqa: E402
-
-JAVA = '''package com.greeneye.forest;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-/**
- * 碳汇估算器。
- *
- * @author greeneye
- */
-public class CarbonCalculator implements Calculator<Plot> {
-
-    /** 默认含碳系数。 */
-    public static final double DEFAULT_COEFFICIENT = 0.48;
-
-    private final double coefficient;
-    private int calls;
-
-    public CarbonCalculator(double coefficient) {
-        this.coefficient = coefficient;
-    }
-
-    /**
-     * 估算生物量。
-     *
-     * @param plots 样地列表
-     * @param verbose 是否输出明细
-     * @return 每公顷生物量 (t/ha)
-     * @throws IllegalArgumentException 列表为空时
-     */
-    @Override
-    public Map<String, Double> summarize(List<Plot> plots, boolean verbose) {
-        if (Objects.isNull(plots) || plots.isEmpty()) {
-            throw new IllegalArgumentException("样地列表不能为空: " + plots);
-        }
-        this.calls++;
-        Map<String, Double> r = plots.stream().collect(
-                Collectors.toMap(Plot::id, p -> p.biomass(coefficient)));
-        double mean = r.values().stream().mapToDouble(Double::doubleValue)
-                .average().orElse(0.0);   // TODO 空集合应返回 Optional
-        if (verbose) {
-            System.out.printf("样地 %d 块，均值 %.3f t/ha%n", r.size(), mean);
-        }
-        return r;
-    }
-
-    @Override
-    public String toString() {
-        return "CarbonCalculator[coef=" + coefficient + ", calls=" + calls + "]";
-    }
-}'''
+from render_spec import JAVA, STYLE_BY_KEY  # noqa: E402
 
 KEYWORDS = """package import public private protected static final abstract class
 interface enum record sealed permits extends implements new return if else for while
@@ -224,17 +171,6 @@ def compose(items, path, gap=16, lab=34):
     img.save(path)
     print("写入", os.path.basename(path))
 
-
-# 渲染样式映射：与 themes/*.icls 里对应键的 FONT_TYPE 必须一致（由
-# check_render_styles.py 强制校验，避免"渲染器和产物各说各话"）
-STYLE_BY_KEY = {
-    "doc_comment": "i",    # DEFAULT_DOC_COMMENT 官方斜体
-    "todo": "i",           # 官方 TODO 斜体
-    "constant": "i",       # 官方常量/静态成员斜体
-}
-# 说明：DEFAULT_STATIC_METHOD 官方是斜体，但 mock 的 tokenizer 分不清
-# "静态方法调用"与"实例方法调用"，把全部方法名画成斜体是错的，所以这里不画；
-# 这一条由 check_render_styles.py 记为"已知 mock 限制"。
 
 JAVA_TOKENS = tokenize_java(JAVA)
 

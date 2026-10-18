@@ -9,12 +9,13 @@ __pycache__/
 .idea/
 .vscode/
 
-# 生成产物：由 `make build` 从源码与 build/ref/ 重建
+# 生成产物：由 `green_eye.py build` 从源码与 build/ref/ 重建
 intellij/dist/
 intellij/preview/
 intellij/themes/
 intellij/build/ref/verification.md
 shared/palette.json
+release/
 
 # 临时文件
 *.tmp.*

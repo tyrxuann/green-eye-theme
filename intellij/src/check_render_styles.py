@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from palette import PALETTES, icls_path  # noqa: E402
-from render_java import STYLE_BY_KEY  # noqa: E402
+from render_spec import STYLE_BY_KEY  # noqa: E402
 
 # 渲染器的 token 键 -> .icls 属性键
 TOKEN_TO_ATTR = {

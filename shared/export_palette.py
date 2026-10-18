@@ -9,7 +9,7 @@
 
 来源（单一真相）：`intellij/src/palette.py`。导入方向是
     intellij/src/palette.py  →  shared/palette.json  →  各平台生成器
-所以 shared 不反向依赖任何平台目录。改色调色板后由 `make build` 自动重导，
+所以 shared 不反向依赖任何平台目录。改色调色板后由 `green_eye.py build` 自动重导，
 并有 `--check` 用于断言"JSON 与 palette.py 一致"。
 """
 import argparse
@@ -115,7 +115,7 @@ def main():
     text = json.dumps(doc, ensure_ascii=False, indent=2, sort_keys=False) + "\n"
     if a.check:
         if not os.path.exists(a.out):
-            print("❌ 缺少 %s（先跑 make build 或本脚本不带 --check）" % a.out)
+            print("❌ 缺少 %s（先跑 green_eye.py build 或本脚本不带 --check）" % a.out)
             return 1
         old = open(a.out, encoding="utf-8").read()
         if old != text:

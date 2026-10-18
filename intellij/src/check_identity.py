@@ -7,7 +7,7 @@
   · novelty：{字符串, 数字, 函数} 三个最高频内容 token 的**最小** ΔE ≥ 15
   · 频率加权（剔除正文）：≥ 16
   · 8 个主力 token 里 ΔE ≥ 12 的个数 ≥ 5
-权重不拍脑袋 —— 直接用 `render_java.JAVA` 这段真实样例里各 token 的**实测出现次数**。
+权重不拍脑袋 —— 直接用 `render_spec.JAVA` 这段真实样例里各 token 的**实测出现次数**。
 """
 import os
 import sys
@@ -26,7 +26,7 @@ THRESHOLDS = {"novelty_min": 15.0, "weighted": 16.0, "main_count": 5}
 
 
 # 冻结的频率权重：判据不能因为"谁改了样例代码"而翻转（评审 S2'）。
-# 数值来自 render_java.JAVA 在冻结时刻的实测计数，样例内容由下面的 hash 断言锁住。
+# 数值来自 render_spec.JAVA 在冻结时刻的实测计数，样例内容由下面的 hash 断言锁住。
 FROZEN_WEIGHTS = {
     "punctuation": 49, "brace": 40, "keyword": 31, "fg": 24, "class_name": 23,
     "operator": 22, "doc_comment": 19, "function_call": 15, "field": 13,
@@ -40,7 +40,7 @@ SAMPLE_SHA256 = None   # 首次运行时打印，之后可写死
 def weights_from_sample():
     """回到冻结表；同时打印样例 hash，便于日后把 hash 也写死。"""
     import hashlib
-    from render_java import JAVA
+    from render_spec import JAVA
     h = hashlib.sha256(JAVA.encode("utf-8")).hexdigest()[:16]
     print("  样例 hash=%s（冻结权重表 FROZEN_WEIGHTS）" % h)
     return Counter(FROZEN_WEIGHTS)
@@ -69,7 +69,7 @@ def main():
         return 0
     weights = weights_from_sample()
     print("主题身份检查（判据来自第 2 轮评审）")
-    print("  频率权重取自真实样例 `render_java.JAVA` 的实测 token 计数；"
+    print("  频率权重取自真实样例 `render_spec.JAVA` 的实测 token 计数；"
           "加权时剔除结构性别名（凡等于正文色的 token）")
     bad = 0
     for i in range(len(keys)):

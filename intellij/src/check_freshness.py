@@ -9,6 +9,7 @@
 规则：`preview/*.png`、`themes/*`、`dist/*.jar` 的 mtime 必须 >= 其输入
 （src/*.py、build/ref/*_names.txt）的 mtime，否则 fail。
 """
+import argparse
 import os
 import sys
 
@@ -22,7 +23,12 @@ OUTPUT_DIRS = [os.path.join(ROOT, "preview"), os.path.join(ROOT, "themes"),
                os.path.join(ROOT, "dist")]
 
 
-def main():
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--no-preview", action="store_true",
+                    help="本次构建不生成预览图，跳过 preview/ 的新鲜度检查")
+    args = ap.parse_args(argv)
+    output_dirs = OUTPUT_DIRS[1:] if args.no_preview else OUTPUT_DIRS
     newest_in, newest_name = 0.0, ""
     for p in INPUTS:
         if os.path.isfile(p):
@@ -30,7 +36,7 @@ def main():
             if m > newest_in:
                 newest_in, newest_name = m, os.path.relpath(p, ROOT)
     stale = []
-    for d in OUTPUT_DIRS:
+    for d in output_dirs:
         if not os.path.isdir(d):
             continue
         for f in sorted(os.listdir(d)):

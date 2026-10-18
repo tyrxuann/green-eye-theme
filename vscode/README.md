@@ -5,7 +5,7 @@ VS Code 实现目前**还没有做**。这个目录是落点，下面是开工�
 ## 为什么现在就能开工
 
 色值已经在 [`../shared/palette.json`](../shared/palette.json) 里，是平台无关的：
-两款主题、107 个语义槽位、每个槽位的语义说明与对底色的对比度，外加一份
+两款主题、112 个语义槽位、每个槽位的语义说明与对底色的对比度，外加一份
 **已记录的例外清单**（新平台的检查器要读它，否则会拿不知道例外的标准去判、必然误报）。
 
 所以 VS Code 侧**不需要**理解 IntelliJ 的 475 个属性键，只需要做一次"语义槽位 → VS Code 键"的映射。
@@ -15,7 +15,7 @@ VS Code 实现目前**还没有做**。这个目录是落点，下面是开工�
 1. `vscode/src/` 写一个生成器，读 `../shared/palette.json`，产出
    `themes/green-eye-dark.json` 与 `themes/green-eye-mineral.json`
    （VS Code 主题文件是 `{ "name", "type": "dark", "colors": {...}, "tokenColors": [...] }`）。
-2. `vscode/scripts/build.sh`：生成 → `make check` → 打包 `.vsix`。
+2. `vscode/scripts/build.sh`：生成 → `green_eye.py check` → 打包 `.vsix`。
 3. 把结果并入顶层 README 的平台表。
 
 ## 映射表（语义槽位 → VS Code）
