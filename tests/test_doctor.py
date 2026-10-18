@@ -46,6 +46,8 @@ class DoctorTests(unittest.TestCase):
                          doctor.WARN)
         self.assertEqual(doctor.check_manual_report(Path("/no/such/report.md"))[0],
                          doctor.WARN)
+        self.assertEqual(doctor.check_cvd_variants(Path("/no/such/cvd.zip"))[0],
+                         doctor.WARN)
 
     def test_manual_report_parsed(self):
         with tempfile.TemporaryDirectory() as tmp:

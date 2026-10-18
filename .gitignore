@@ -15,6 +15,7 @@ intellij/preview/
 intellij/themes/
 intellij/build/ref/verification.md
 intellij/build/ref/cvd-report.md
+intellij/build/ref/cvd-variants-report.md
 intellij/build/ref/manual-verification-report.md
 intellij/build/ref/report.md
 shared/palette.json

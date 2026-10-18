@@ -29,6 +29,7 @@ Green Eye 跨平台入口。
     manual    逐项运行真机走查清单并生成报告
     report    生成发布前汇总 build/ref/report.md
     cvd       生成色觉缺陷（CVD）报告
+    cvd-variants 生成 A+ CVD Improved 改善版
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
 """
@@ -49,6 +50,7 @@ import doctor  # noqa: E402
 import versioning  # noqa: E402
 import manual_verify  # noqa: E402
 import gen_summary_report  # noqa: E402
+import cvd_variants  # noqa: E402
 import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -74,6 +76,10 @@ def make_parser():
     p_cvd = sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
     p_cvd.add_argument("--preview", action="store_true",
                        help="同时生成 normal/protanopia/deuteranopia 色板图")
+    p_cvdv = sub.add_parser("cvd-variants",
+                            help="生成 A+ CVD Improved 改善版")
+    p_cvdv.add_argument("--no-package", action="store_true")
+    p_cvdv.add_argument("--outdir", help="发布包输出目录")
     p_doctor = sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
     p_doctor.add_argument("--json", action="store_true", help="输出 JSON")
     p_bump = sub.add_parser("bump", help="统一更新版本号")
@@ -144,6 +150,13 @@ def main(argv=None):
         except ValueError as exc:
             print("错误: %s" % exc, file=sys.stderr)
             return 1
+    if args.command == "cvd-variants":
+        if not (ROOT / "shared" / "palette.json").is_file():
+            rc = build_pipeline.palette()
+            if rc:
+                return rc
+        return cvd_variants.build(package=not args.no_package,
+                                  outdir=args.outdir)
     if args.command == "cvd":
         if not (ROOT / "shared" / "palette.json").is_file():
             rc = build_pipeline.palette()

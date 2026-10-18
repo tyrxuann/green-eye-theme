@@ -110,8 +110,13 @@ def package(outdir=None):
     if license_path.is_file():
         extras.append(("extension/LICENSE", license_path.read_bytes()))
 
+    content_types = CONTENT_TYPES
+    if extras:
+        content_types = CONTENT_TYPES.replace(
+            "</Types>",
+            '  <Override PartName="/extension/LICENSE" ContentType="text/plain"/>\n</Types>')
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as zf:
-        zf.writestr("[Content_Types].xml", CONTENT_TYPES)
+        zf.writestr("[Content_Types].xml", content_types)
         zf.writestr("extension.vsixmanifest", manifest(pkg))
         zf.writestr("extension/package.json", pkg_path.read_bytes())
         zf.writestr("extension/README.md", README_TEXT)

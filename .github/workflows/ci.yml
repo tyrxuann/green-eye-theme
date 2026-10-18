@@ -37,6 +37,9 @@ jobs:
       - name: Build VS Code
         run: uv run green_eye.py vscode
 
+      - name: CVD variants
+        run: uv run green_eye.py cvd-variants
+
       - name: Assert tracked files unchanged by build
         run: git diff --exit-code
 

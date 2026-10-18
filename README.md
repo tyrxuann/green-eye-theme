@@ -21,7 +21,7 @@
 
 ```
 green-eye-theme/
-├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / doctor / bump / manual / report / test / install / package
+├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / cvd-variants / doctor / bump / manual / report / test / install / package
 ├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
 ├── CHANGELOG.md          变更记录
 ├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
@@ -73,6 +73,7 @@ uv run green_eye.py package --all  # IntelliJ + VS Code 合并包
 
 得到 `release/green-eye-<version>.zip`；`--all` 会同时产出单平台包与 `-all.zip`，
 里面是 jar + 两个 `.icls` + `INSTALL.txt`；合并包还包含 VS Code `.vsix`。
+CVD 改善版另出 `release/green-eye-<version>-cvd.zip`（不是 CVD 安全版）。
 把这个 zip 拷到目标电脑，解压后：
 
 1. IDEA → `Settings / Preferences → Plugins`
@@ -108,6 +109,7 @@ python3 green_eye.py build --no-preview   # 不渲染预览图，不需要 Pillo
 python3 green_eye.py palette              # 只导出/验收 shared/palette.json
 python3 green_eye.py vscode               # 生成 VS Code 主题 + .vsix
 python3 green_eye.py cvd --preview        # CVD 报告 + 对比色板（需 Pillow）
+python3 green_eye.py cvd-variants         # A+ CVD Improved 改善版 + 变体包
 python3 green_eye.py doctor               # 预检产物/字体/安装状态
 python3 green_eye.py manual               # 真机走查 runner（交互式）
 python3 green_eye.py report               # 发布前汇总 build/ref/report.md

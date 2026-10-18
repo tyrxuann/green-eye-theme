@@ -44,6 +44,13 @@ def _manual():
     return "通过 %s / 失败 %s / 跳过 %s" % match.groups() if match else "无法解析"
 
 
+def _cvd_variant():
+    path = ROOT / "release" / ("green-eye-%s-cvd.zip" % VERSION)
+    if path.is_file():
+        return "已生成 `%s`（A+ 改善版，非 CVD 安全）" % path.name
+    return "未生成（运行 `green_eye.py cvd-variants`）"
+
+
 def _artifacts():
     rows = []
     jar = INTELLIJ / "dist" / ("%s%s.jar" % (JAR_PREFIX, VERSION))
@@ -92,7 +99,8 @@ def build_report():
         "- 检查 %d 对；官方标尺未达阈值 %d 对；两款合计未达阈值 %d 对；未豁免 %d 对。"
         % (cvd["total_pairs"], cvd["official_fail"], cvd["current_fail"],
            cvd["extra"]),
-        "- 变体尚未提供；取舍见 `docs/cvd-variants.md`。",
+        "- CVD Improved：%s；残余见 `build/ref/cvd-variants-report.md`。"
+        % _cvd_variant(),
         "",
         "## 真机走查",
         "",
@@ -115,7 +123,8 @@ def build_report():
         pending.append("添加 LICENSE（MIT / Apache-2.0 / 私有）")
     if not (REF / "manual-verification-report.md").is_file():
         pending.append("运行 `green_eye.py manual` 完成真机走查")
-    pending.append("决定 CVD 变体方案（A+ / B / C）")
+    if not (ROOT / "release" / ("green-eye-%s-cvd.zip" % VERSION)).is_file():
+        pending.append("运行 `green_eye.py cvd-variants` 生成 A+ 改善版")
     lines += ["- %s" % item for item in pending]
     return "\n".join(lines) + "\n"
 

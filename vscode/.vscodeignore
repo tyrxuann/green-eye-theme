@@ -7,3 +7,5 @@ __pycache__/**
 *.py
 *.pyc
 .gitignore
+
+themes/variants/**

@@ -30,6 +30,9 @@ jobs:
       - name: Build VS Code
         run: uv run green_eye.py vscode
 
+      - name: CVD variants
+        run: uv run green_eye.py cvd-variants
+
       - name: Test
         run: uv run green_eye.py test
 

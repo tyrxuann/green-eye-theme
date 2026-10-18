@@ -21,7 +21,7 @@ def check_freshness(package=True, outdir=None):
     outputs = sorted((VSCODE / "themes").glob("*.json"))
     if package:
         vsix_dir = Path(outdir).expanduser() if outdir else VSCODE / "dist"
-        outputs += sorted(vsix_dir.glob("*.vsix"))
+        outputs += sorted(vsix_dir.glob("green-eye-theme-*.vsix"))
     if not outputs:
         print("缺少 VS Code 产物；先运行 green_eye.py vscode。", file=sys.stderr)
         return 1

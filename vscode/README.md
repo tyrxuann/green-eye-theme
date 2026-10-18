@@ -96,6 +96,21 @@ code --install-extension vscode/dist/green-eye-theme-<version>.vsix
 > `punctuation` / `operator` / `bracket` 单独上色 —— 那会破坏"彩色只留给语义"这条法则。
 > 当前生成器也只给 `punctuation.definition.comment` 跟随注释色，不给字符串标点单独上色。
 
+## CVD Improved 变体
+
+```bash
+uv run green_eye.py cvd-variants
+```
+
+生成 `vscode/dist/green-eye-cvd-variants-<version>.vsix`，包含：
+
+- `Green Eye Dark (CVD Improved)`
+- `Green Eye Mineral (CVD Improved)`
+
+这是 A+ 改善版，不是 CVD 安全版：松林 18→13 对、矿彩 20→14 对塌陷。
+残余配对见 `intellij/build/ref/cvd-variants-report.md`，设计取舍见
+`docs/cvd-variants.md`。
+
 ## 验收
 
 ```bash

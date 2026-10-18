@@ -80,6 +80,14 @@ def check_manual_report(path=None):
     return (WARN if failed else OK), "真机走查", detail
 
 
+def check_cvd_variants(path=None):
+    path = Path(path) if path else (
+        ROOT / "release" / ("green-eye-%s-cvd.zip" % VERSION))
+    if path.is_file():
+        return OK, "CVD 变体", path.name
+    return WARN, "CVD 变体", "未生成（运行 green_eye.py cvd-variants）"
+
+
 def check_fonts():
     if importlib.util.find_spec("PIL") is None:
         return [(WARN, "Pillow", "未安装；只能 build --no-preview")]
@@ -124,6 +132,7 @@ def checks():
         check_palette(ROOT / "shared" / "palette.json"),
         check_license(),
         check_manual_report(),
+        check_cvd_variants(),
         check_jar(INTELLIJ / "dist" / ("%s%s.jar" % (JAR_PREFIX, VERSION))),
     ]
     for name in ("Green-Eye-Dark.icls", "Green-Eye-Mineral.icls"):
