@@ -28,6 +28,7 @@
 - `green_eye.py manual`：逐项运行真机走查清单并生成报告。
 - `doctor` 增加 LICENSE、最近一次 manual 报告检查，并支持 `--json`。
 - `green_eye.py report`：汇总 doctor、验收、CVD、真机走查与产物到 `build/ref/report.md`。
+- `manual` 有失败项时返回非零退出码，便于脚本/CI 捕获。
 - `docs/cvd-variants.md`：记录 CVD 自动求解原型的局限与三种变体设计方案。
 
 ### Changed

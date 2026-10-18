@@ -131,6 +131,10 @@ def run(list_only=False, answers=None, report=None):
         return 1
     results = collect(items, answers=answers)
     write_report(results, report)
+    failed = sum(1 for row in results if row["status"] == "失败")
+    if failed:
+        print("有 %d 项失败；详见报告。" % failed, file=sys.stderr)
+        return 1
     return 0
 
 

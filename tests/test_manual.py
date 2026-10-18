@@ -36,7 +36,8 @@ class ManualVerifyTests(unittest.TestCase):
             path = Path(tmp) / "report.md"
             answers = ["n"] + ["y"] * (len(items) - 1)
             self.assertEqual(manual_verify.run(answers=answers,
-                                               report=str(path)), 0)
+                                               report=str(path)), 1)
+            self.assertTrue(path.is_file())
             text = path.read_text(encoding="utf-8")
             self.assertIn("失败 **1**", text)
             self.assertIn("## 失败项", text)
