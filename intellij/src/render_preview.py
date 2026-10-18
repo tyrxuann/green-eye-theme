@@ -307,22 +307,6 @@ def main():
         comp.save(os.path.join(out, "preview-%s.png" % key))
         print("写入 preview-%s.png" % key)
 
-    gap, lab = 20, 34
-    W = CODE_W * 2 + gap * 3
-    H = lab + shots["light"].height + sws["light"].height + 20
-    comp = Image.new("RGB", (W, H), "#0E120F")
-    d = ImageDraw.Draw(comp)
-    for i, (txt, col) in enumerate((("Green Eye Light (竹露) · 浅色豆沙绿", "#D5E3C7"),
-                                    ("Green Eye Dark (松林墨) · 深色松林绿", "#C6D2C1"))):
-        cx = gap + i * (CODE_W + gap) + CODE_W // 2
-        draw_run(d, cx - run_width(d, txt, 26) / 2, 8, txt, 26, col)
-    for i, key in enumerate(("light", "dark")):
-        x = gap + i * (CODE_W + gap)
-        comp.paste(shots[key], (x, lab))
-        comp.paste(sws[key], (x, lab + shots[key].height))
-    comp.save(os.path.join(out, "preview-compare.png"))
-    print("写入 preview-compare.png")
-
 
 if __name__ == "__main__":
     main()

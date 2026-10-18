@@ -1,5 +1,8 @@
 # 主题校验报告
 
+> **历史记录**：本文件对应 1.0.1（含已删除的浅色版本），仅作留档。
+> 当前版本的验收结果见 [verification.md](verification.md)（自动生成）。
+
 对 `themes/Green-Eye-Light.icls`、`themes/Green-Eye-Dark.icls` 以及
 `dist/GreenEye-Theme-1.0.1.jar` 的静态校验记录。
 

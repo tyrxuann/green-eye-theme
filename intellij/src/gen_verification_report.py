@@ -100,7 +100,7 @@ def main():
     base, mine = fails(OFFICIAL), fails(p)
     extra = mine - base
     chk(len(extra) <= len(base),
-        "状态色撞色不劣于官方（官方基线 %d 对，本主题 %d 对，多出 %d 对）"
+        "松林状态色撞色不劣于官方（官方基线 %d 对，本主题 %d 对，多出 %d 对）"
         % (len(base), len(mine), len(extra)))
 
     # 与官方逐键对比（装饰类型/效果色完备性）—— 这一类 bug 预览图照不到
@@ -179,7 +179,8 @@ def main():
             lines.append("- %s ↔ %s：对比 %.3f:1，ΔE2000 %.1f"
                          % (a1, a2, contrast(p[a1], p[a2]), de2000(p[a1], p[a2])))
     else:
-        lines.append("\n状态色撞色**不劣于官方**（官方基线 2 对，本主题 0 对）。")
+        lines.append("\n状态色撞色**不劣于官方**（松林：官方基线 %d 对，本主题 %d 对，多出 %d 对）。"
+                     % (len(base), len(mine), len(extra)))
     acc = _accepted_pairs()
     if acc:
         lines.append("\n**已评估并接受的例外**（写明理由，不算失败）：\n")

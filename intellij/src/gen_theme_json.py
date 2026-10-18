@@ -450,10 +450,10 @@ def main():
               encoding="utf-8") as fh:
         fh.write('<svg width="40" height="40" viewBox="0 0 40 40" '
                  'xmlns="http://www.w3.org/2000/svg">\n'
-                 '  <rect width="40" height="40" rx="8" fill="#1F302B"/>\n'
+                 '  <rect width="40" height="40" rx="8" fill="#1F3027"/>\n'
                  '  <path d="M20 6c6 4 10 9 10 15a10 10 0 0 1-20 0c0-6 4-11 10-15z" '
-                 'fill="#89BC90"/>\n'
-                 '  <path d="M20 12v20" stroke="#1F302B" stroke-width="2" '
+                 'fill="#8BBD84"/>\n'
+                 '  <path d="M20 12v20" stroke="#1F3027" stroke-width="2" '
                  'stroke-linecap="round"/>\n</svg>\n')
 
     jar = os.path.join(dist, "%s%s.jar" % (JAR_PREFIX, VERSION))
