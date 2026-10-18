@@ -4,8 +4,10 @@
 
 ### Added
 
-- 跨平台入口 `green_eye.py`：`build` / `check` / `palette` / `test` / `preview` /
-  `install` / `package` / `clean`，支持 `uv run` 自动准备 Python + Pillow。
+- 跨平台入口 `green_eye.py`：`build` / `check` / `palette` / `vscode` / `test` /
+  `preview` / `install` / `package` / `clean`，支持 `uv run` 自动准备 Python + Pillow。
+- VS Code 实现：`green_eye.py vscode` 生成两套主题并打 `.vsix`，
+  纯 Python 标准库实现，不需要 Node / vsce。
 - 纯 Python 安装器（`intellij/src/install.py`），macOS / Linux / Windows 原生可用，
   不再依赖 bash / unzip / grep / cmp / awk / shasum。
 - `release/green-eye-<version>.zip` 发布包，目标电脑无需任何运行时。

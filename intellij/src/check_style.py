@@ -82,7 +82,7 @@ def main():
     root_cli = os.path.abspath(os.path.join(HERE, "..", "..", "green_eye.py"))
     if os.path.isfile(root_cli):
         paths.append(root_cli)
-    for sub in ("shared", "tests"):
+    for sub in ("shared", "tests", "vscode/src"):
         base = os.path.abspath(os.path.join(HERE, "..", "..", sub))
         for dirpath, _, names in os.walk(base):
             for name in sorted(names):

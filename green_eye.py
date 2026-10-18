@@ -23,6 +23,7 @@ Green Eye 跨平台入口。
     preview   只重新渲染预览图（需要 Pillow）
     install   跨平台安装 / 卸载（plugin 或 icls-only 模式）
     package   打发布包：jar + 2 个 .icls + INSTALL.txt
+    vscode    生成 VS Code 主题并打包 .vsix
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
 """
@@ -32,11 +33,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "intellij" / "src"
+VSCODE_SRC = ROOT / "vscode" / "src"
 sys.path.insert(0, str(SRC))
+sys.path.insert(0, str(VSCODE_SRC))
 
 import build_pipeline  # noqa: E402
 import install as installer  # noqa: E402
 import package_release  # noqa: E402
+import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
 
@@ -73,6 +77,11 @@ def make_parser():
 
     p_package = sub.add_parser("package", help="打发布包")
     p_package.add_argument("--outdir", help="发布包输出目录（默认 release/）")
+
+    p_vscode = sub.add_parser("vscode", help="生成 VS Code 主题并打包 .vsix")
+    p_vscode.add_argument("--no-package", action="store_true",
+                          help="只生成 themes/*.json，不打包 .vsix")
+    p_vscode.add_argument("--outdir", help="VSIX 输出目录（默认 vscode/dist/）")
 
     sub.add_parser("version", help="打印版本")
     return ap
@@ -111,6 +120,13 @@ def main(argv=None):
             return 1
     if args.command == "package":
         return package_release.package(outdir=args.outdir)
+    if args.command == "vscode":
+        if not (ROOT / "shared" / "palette.json").is_file():
+            rc = build_pipeline.palette()
+            if rc:
+                return rc
+        return vscode_build.build(package=not args.no_package,
+                                  outdir=args.outdir)
     if args.command == "version":
         print(VERSION)
         return 0

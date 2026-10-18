@@ -7,11 +7,18 @@
 变更记录见 [CHANGELOG.md](CHANGELOG.md)；第三方材料与许可证说明见
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
+## 平台
+
+| 平台 | 状态 | 入口 |
+|---|---|---|
+| IntelliJ IDEA | ✅ 已实现 | `green_eye.py build` / `green_eye.py install` |
+| VS Code | ✅ 已实现 | `green_eye.py vscode` |
+
 ## 目录结构
 
 ```
 green-eye-theme/
-├── green_eye.py          ★ 跨平台入口：build / check / palette / test / install / package
+├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / test / install / package
 ├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
 ├── CHANGELOG.md          变更记录
 ├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
@@ -31,8 +38,8 @@ green-eye-theme/
 │   └── build/              官方参考资料（构建输入）与验收报告
 │
 ├── release/              生成的发布包（jar + icls + INSTALL + 第三方说明）
-├── tests/                CLI / 安装器 / 字体 / 色彩 / 发布包测试
-└── vscode/            ⬜ 待实现 —— VS Code 实现（见其 README）
+├── tests/                CLI / 安装器 / 字体 / 色彩 / VS Code / 发布包测试
+└── vscode/               ✅ VS Code 实现：themes/ + dist/*.vsix
 ```
 
 ## 两款主题（同一块底，两套设计语言）
@@ -86,6 +93,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 uv run green_eye.py build        # 生成 + 校验 + 预览 + 打包 + 安装器测试
 uv run green_eye.py install      # 安装到本机 IDEA
+uv run green_eye.py vscode       # 生成 VS Code 主题 + .vsix
 ```
 
 没有 uv、或不想装 Pillow 时，系统 Python 也能构建核心产物：
@@ -93,8 +101,9 @@ uv run green_eye.py install      # 安装到本机 IDEA
 ```bash
 python3 green_eye.py build --no-preview   # 不渲染预览图，不需要 Pillow
 python3 green_eye.py palette              # 只导出/验收 shared/palette.json
+python3 green_eye.py vscode               # 生成 VS Code 主题 + .vsix
 python3 green_eye.py check                # 平台无关色值验收（需先 build）
-python3 green_eye.py test                 # CLI + 安装器 + 字体 + 色彩 + 发布包测试
+python3 green_eye.py test                 # CLI + 安装器 + 字体 + 色彩 + VS Code + 发布包测试
 ```
 
 Windows 原生用 `py` 代替 `python3` 即可。`make` 仍保留为兼容入口，

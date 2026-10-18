@@ -16,6 +16,8 @@ intellij/themes/
 intellij/build/ref/verification.md
 shared/palette.json
 release/
+vscode/themes/
+vscode/dist/
 
 # 临时文件
 *.tmp.*

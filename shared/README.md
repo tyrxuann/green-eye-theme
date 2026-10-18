@@ -12,7 +12,7 @@ intellij/src/palette.py        ← 唯一真相（改色只改这里）
 shared/palette.json            ← 跨平台契约
         │
         ├── intellij/  （.icls + .theme.json，475 个属性键的映射）
-        └── vscode/    （待实现）
+        └── vscode/    （已实现：green_eye.py vscode）
 ```
 
 `shared/palette.json` **是生成物**，由 `green_eye.py build` 自动重导，并带一致性断言

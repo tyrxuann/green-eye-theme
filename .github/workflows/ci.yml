@@ -34,6 +34,9 @@ jobs:
       - name: Build
         run: uv run green_eye.py build
 
+      - name: Build VS Code
+        run: uv run green_eye.py vscode
+
       - name: Assert tracked files unchanged by build
         run: git diff --exit-code
 
@@ -43,9 +46,11 @@ jobs:
       - name: Package
         run: uv run green_eye.py package
 
-      - name: Upload release zip
+      - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
           name: green-eye-${{ runner.os }}
-          path: release/*.zip
+          path: |
+            release/*.zip
+            vscode/dist/*.vsix
           if-no-files-found: error

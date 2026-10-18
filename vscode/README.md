@@ -1,22 +1,51 @@
-# vscode —— 待实现
+# vscode —— VS Code 实现
 
-VS Code 实现目前**还没有做**。这个目录是落点，下面是开工前已经确定好的部分。
+VS Code 侧已经实现：从 [`../shared/palette.json`](../shared/palette.json) 读取平台无关色值，
+生成两套 VS Code 主题，并打成可直接安装的 `.vsix`。
 
-## 为什么现在就能开工
+## 用法
 
-色值已经在 [`../shared/palette.json`](../shared/palette.json) 里，是平台无关的：
-两款主题、112 个语义槽位、每个槽位的语义说明与对底色的对比度，外加一份
-**已记录的例外清单**（新平台的检查器要读它，否则会拿不知道例外的标准去判、必然误报）。
+```bash
+# 生成 themes/*.json + dist/*.vsix
+uv run green_eye.py vscode
 
-所以 VS Code 侧**不需要**理解 IntelliJ 的 475 个属性键，只需要做一次"语义槽位 → VS Code 键"的映射。
+# 只生成 themes/*.json
+uv run green_eye.py vscode --no-package
 
-## 要做的事
+# 指定 VSIX 输出目录
+uv run green_eye.py vscode --outdir /tmp/green-eye
+```
 
-1. `vscode/src/` 写一个生成器，读 `../shared/palette.json`，产出
-   `themes/green-eye-dark.json` 与 `themes/green-eye-mineral.json`
-   （VS Code 主题文件是 `{ "name", "type": "dark", "colors": {...}, "tokenColors": [...] }`）。
-2. `vscode/scripts/build.sh`：生成 → `green_eye.py check` → 打包 `.vsix`。
-3. 把结果并入顶层 README 的平台表。
+没有 uv 时：
+
+```bash
+python3 green_eye.py vscode
+bash vscode/scripts/build.sh
+```
+
+输出：
+
+```
+vscode/themes/green-eye-dark.json
+vscode/themes/green-eye-mineral.json
+vscode/dist/green-eye-theme-<version>.vsix
+```
+
+`vscode/themes/` 与 `vscode/dist/` 都是生成物，已加入 `.gitignore`。
+
+## 安装
+
+```bash
+code --install-extension vscode/dist/green-eye-theme-<version>.vsix
+```
+
+或在 VS Code 里：
+
+1. `Extensions`
+2. 右上角 `...` → **Install from VSIX…**
+3. 选择 `.vsix`
+4. `Command Palette` → `Preferences: Color Theme`
+5. 选择「Green Eye Dark 松林」或「Green Eye Mineral 矿彩」
 
 ## 映射表（语义槽位 → VS Code）
 
@@ -39,7 +68,7 @@ VS Code 实现目前**还没有做**。这个目录是落点，下面是开工�
 | `bg_search_current` | `editor.findMatchHighlightBackground` |
 | `bg_caret_row` | `editor.lineHighlightBackground` |
 | `bg_matched_brace` | `editorBracketMatch.background` + `editorBracketMatch.border` |
-| `bg_diff_add` / `bg_diff_del` / `bg_diff_mod` | `diffEditor.insertedTextBackground` / `removedTextBackground` / `…ModifiedTextBackground` |
+| `bg_diff_add` / `bg_diff_del` / `bg_diff_mod` | `diffEditor.insertedTextBackground` / `removedTextBackground` / `diagonalFill` |
 | `error` / `warning` | `editorError.foreground` / `editorWarning.foreground` |
 | `vcs_conflict` | `gitDecoration.conflictingResourceForeground` |
 | `vcs_deleted` | `gitDecoration.deletedResourceForeground` |
@@ -47,30 +76,46 @@ VS Code 实现目前**还没有做**。这个目录是落点，下面是开工�
 
 ### `tokenColors`（语法）
 
-| 本项目槽位 | TextMate scope（建议） |
+| 本项目槽位 | TextMate scope |
 |---|---|
 | `comment` | `comment` |
-| `doc_comment` | `comment.block.documentation` |
+| `doc_comment` | `comment.block.documentation`（斜体） |
 | `doc_tag` | `comment.block.documentation keyword` / `storage.type.class.jsdoc` |
-| `keyword` | `keyword` `storage.type` `storage.modifier` |
+| `keyword` | `keyword` / `storage.type` / `storage.modifier` |
 | `string` | `string` |
-| `attr_value` | `string.quoted` / `string.template` |
+| `attr_value` | `meta.tag.attributes string` / `string.quoted.double.html` 等 |
 | `number` | `constant.numeric` |
-| `constant` | `variable.other.constant` `variable.other.enummember` |
-| `function` | `entity.name.function` `support.function` |
-| `annotation` | `entity.name.type.annotation` `storage.type.annotation` |
+| `constant` | `variable.other.constant` / `variable.other.enummember`（斜体） |
+| `function` | `entity.name.function` / `support.function` |
+| `annotation` | `entity.name.type.annotation` / `storage.type.annotation` |
 | `escape` | `constant.character.escape` |
 | `error` / `warning` | `invalid` / `invalid.deprecated` |
-| `fg` | （不写 scope，作为 `editor.foreground` 兜底） |
+| `todo` | `keyword.other.todo` / `comment.line.todo`（斜体） |
 
-> 注意 VS Code 的 TextMate 语义比 IntelliJ 粗，`tokenColors` 里**不要**给
-> `punctuation`/`operator`/`bracket` 单独上色 —— 那会破坏"彩色只留给语义"这条法则
-> （IntelliJ 侧这些槽位也都等于 `fg`）。
+> VS Code 的 TextMate 语义比 IntelliJ 粗，`tokenColors` 里**不要**给
+> `punctuation` / `operator` / `bracket` 单独上色 —— 那会破坏"彩色只留给语义"这条法则。
+> 当前生成器也只给 `punctuation.definition.comment` 跟随注释色，不给字符串标点单独上色。
 
 ## 验收
 
 ```bash
-python3 ../shared/tools/check_palette.py     # 色值层：四类判据
+python3 shared/tools/check_palette.py    # 色值层：四类判据
+python3 green_eye.py vscode              # 生成 + 打包
+python3 green_eye.py test                # 含 tests/test_vscode.py
 ```
-色值层过了之后，再人工核对一次 VS Code 实际渲染（`Developer: Inspect Editor Tokens and Scopes`），
-因为 TextMate scope 的落点无法静态穷举 —— 这与 IntelliJ 侧"实机逐屏走查"是同一类边界。
+
+`tests/test_vscode.py` 会检查：
+
+- 两套主题的 `colors` / `tokenColors` 只引用调色板里真实存在的颜色；
+- 没有给 punctuation / operator / bracket 单独上色；
+- 两款主题的关键 token 明显不同；
+- VSIX 的 manifest、`package.json`、主题文件和 README 齐全。
+
+## 已知限制
+
+- **没有在真实 VS Code 里安装过**（本机没有 `code` CLI）。VSIX 结构按标准生成，
+  但 TextMate scope 的实际落点需要
+  `Developer: Inspect Editor Tokens and Scopes` 人工核对，这与 IntelliJ 侧的
+  "实机逐屏走查"是同一类边界。
+- `attr_value` 的 scope 只能靠 `meta.tag.attributes string` 等较具体的路径命中；
+  不同语言插件的 scope 粒度不同，可能需要按实际渲染再调。
