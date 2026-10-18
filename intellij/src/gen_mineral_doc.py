@@ -180,7 +180,8 @@ def main():
         print("README 缺少 %s 标记" % B)
         return 1
     s = re.sub(re.escape(B) + r".*?" + re.escape(E), block, s, count=1, flags=re.S)
-    open(path, "w", encoding="utf-8").write(s)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(s)
     print("README「矿彩设计意图」已生成（%d 个槽位）" % len(ROWS))
     return 0
 

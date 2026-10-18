@@ -112,6 +112,18 @@ bash intellij/scripts/build.sh
 bash intellij/scripts/install.sh --config-dir "/path/to/IntelliJIdea2026.2"
 ```
 
+## 持续集成
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) 在 macOS / Ubuntu / Windows 上运行：
+
+```bash
+uv run green_eye.py build
+uv run green_eye.py test
+uv run green_eye.py package
+```
+
+并上传 `release/*.zip` 作为构建产物；Linux 会预装 `fonts-noto-cjk` 以生成完整预览。
+
 ## 加一个新平台（例如 VS Code）
 
 1. 读 `shared/palette.json`（不要读 IntelliJ 的 `.icls`——那是实现细节）；

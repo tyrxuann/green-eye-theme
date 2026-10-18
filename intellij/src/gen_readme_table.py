@@ -120,7 +120,8 @@ def main():
         block = build_table(pal, b, e, key)
         s = re.sub(re.escape(b) + r".*?" + re.escape(e), block, s, count=1, flags=re.S)
         n += 1
-    open(path, "w", encoding="utf-8").write(s)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(s)
     print("README 配色表已重新生成（%d 款主题）" % n)
     return 0
 

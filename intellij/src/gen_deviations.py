@@ -99,7 +99,8 @@ def main():
         return 1
     import re
     s = re.sub(re.escape(B) + r".*?" + re.escape(E), block, s, count=1, flags=re.S)
-    open(path, "w", encoding="utf-8").write(s)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(s)
     print("README「有意偏离官方」一节已生成（%d 条）" % len(DEVIATIONS))
     return 0
 
