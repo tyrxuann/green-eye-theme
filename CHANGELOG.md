@@ -11,6 +11,7 @@
 - 纯 Python 安装器（`intellij/src/install.py`），macOS / Linux / Windows 原生可用，
   不再依赖 bash / unzip / grep / cmp / awk / shasum。
 - `release/green-eye-<version>.zip` 发布包，目标电脑无需任何运行时。
+- `green_eye.py package --all`：把 IntelliJ jar/icls 与 VS Code .vsix 合成一个发布包。
 - 预览字体的跨平台解析：环境变量 + 各平台候选路径 + 安全回退。
 - GitHub Actions 三平台矩阵（macOS / Ubuntu / Windows），构建、测试并上传发布包。
 - 安装器边界加固：UTF-8 BOM、IDEA 占用时的友好错误、版本号排序、写入后回读校验。

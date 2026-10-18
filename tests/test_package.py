@@ -58,6 +58,30 @@ class PackageTests(unittest.TestCase):
                     actual = hashlib.sha256(zf.read(name)).hexdigest()
                     self.assertEqual(expected.get(filename), actual, name)
 
+    def test_combined_package_contains_vscode(self):
+        with tempfile.TemporaryDirectory(prefix="green eye package all ") as tmp:
+            result = subprocess.run(
+                [sys.executable, str(CLI), "package", "--all",
+                 "--outdir", tmp],
+                cwd=str(ROOT), text=True, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            zips = list(Path(tmp).glob("*-all.zip"))
+            self.assertEqual(len(zips), 1)
+            prefix = "green-eye-%s/" % VERSION
+            with zipfile.ZipFile(zips[0]) as zf:
+                names = zf.namelist()
+                self.assertTrue(any(n.startswith(prefix + "intellij/")
+                                    and n.endswith(".jar") for n in names))
+                self.assertEqual(
+                    len([n for n in names if n.startswith(prefix + "intellij/")
+                         and n.endswith(".icls")]), 2)
+                self.assertIn(prefix + "vscode/green-eye-theme-%s.vsix"
+                              % VERSION, names)
+                self.assertIn(prefix + "INSTALL.txt", names)
+                self.assertIn(prefix + "THIRD_PARTY_NOTICES.md", names)
+                self.assertIn(prefix + "SHA256SUMS", names)
+
 
 if __name__ == "__main__":
     unittest.main()

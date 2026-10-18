@@ -82,6 +82,8 @@ def make_parser():
 
     p_package = sub.add_parser("package", help="打发布包")
     p_package.add_argument("--outdir", help="发布包输出目录（默认 release/）")
+    p_package.add_argument("--all", action="store_true",
+                           help="同时包含 VS Code .vsix")
 
     p_vscode = sub.add_parser("vscode", help="生成 VS Code 主题并打包 .vsix")
     p_vscode.add_argument("--no-package", action="store_true",
@@ -132,6 +134,10 @@ def main(argv=None):
             print("错误: %s" % exc, file=sys.stderr)
             return 1
     if args.command == "package":
+        if args.all:
+            if vscode_build.build() != 0:
+                return 1
+            return package_release.package_all(outdir=args.outdir)
         return package_release.package(outdir=args.outdir)
     if args.command == "vscode":
         if not (ROOT / "shared" / "palette.json").is_file():
