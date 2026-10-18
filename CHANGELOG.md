@@ -18,6 +18,7 @@
 - 色觉缺陷（CVD）报告：`green_eye.py cvd` 生成 `build/ref/cvd-report.md`，
   逐对列出正常色觉可分、红/绿色盲下塌陷的 token。
 - `green_eye.py doctor`：预检 palette / jar / .icls / VSIX / 字体 / IntelliJ 安装状态。
+- `docs/cvd-variants.md`：记录 CVD 自动求解原型的局限与三种变体设计方案。
 
 ### Changed
 
