@@ -37,6 +37,10 @@ import argparse
 import sys
 from pathlib import Path
 
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "intellij" / "src"
 VSCODE_SRC = ROOT / "vscode" / "src"

@@ -17,6 +17,10 @@ import io
 import os
 import py_compile
 import sys
+
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
 import tokenize
 
 HERE = os.path.dirname(os.path.abspath(__file__))

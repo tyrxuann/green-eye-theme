@@ -13,6 +13,7 @@
 """
 import argparse
 import importlib.util
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -36,15 +37,19 @@ CHROME = [
 ]
 
 
+def _env():
+    return dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUTF8="1")
+
+
 def run(script, *args):
     cmd = [sys.executable, str(script), *[str(a) for a in args]]
-    subprocess.run(cmd, cwd=str(HERE), check=True)
+    subprocess.run(cmd, cwd=str(HERE), check=True, env=_env())
 
 
 def run_unittest(pattern):
     cmd = [sys.executable, "-m", "unittest", "discover",
            "-s", str(TESTS), "-p", pattern, "-v"]
-    subprocess.run(cmd, cwd=str(ROOT), check=True)
+    subprocess.run(cmd, cwd=str(ROOT), check=True, env=_env())
 
 
 def require_pillow():
