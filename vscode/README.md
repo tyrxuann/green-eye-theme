@@ -108,6 +108,9 @@ npx --yes @vscode/vsce ls                # 可选：用官方工具检查打包�
 `npx @vscode/vsce ls` 只应列出 `README.md`、`package.json` 和两个主题 JSON；
 `src/`、`scripts/`、`__pycache__` 由 `.vscodeignore` 排除。
 
+`green_eye.py vscode` 结束时会检查 `themes/*.json` 与 `.vsix` 的 mtime
+不早于 `palette.json` / 生成器 / `package.json`，避免把旧主题打进 VSIX。
+
 也可以用官方工具实际打包校验：
 
 ```bash

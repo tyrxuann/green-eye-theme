@@ -9,6 +9,7 @@
 - VS Code 实现：`green_eye.py vscode` 生成两套主题并打 `.vsix`，
   纯 Python 标准库实现，不需要 Node / vsce。
 - `vscode/.vscodeignore`：官方 `vsce` 打包时只保留主题与 manifest。
+- VS Code 构建增加产物新鲜度断言；存在 `LICENSE` 时自动收进 VSIX。
 - 纯 Python 安装器（`intellij/src/install.py`），macOS / Linux / Windows 原生可用，
   不再依赖 bash / unzip / grep / cmp / awk / shasum。
 - `release/green-eye-<version>.zip` 发布包，目标电脑无需任何运行时。

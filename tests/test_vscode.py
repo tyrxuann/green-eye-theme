@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "vscode" / "src"))
 
 import generate  # noqa: E402
 import package_vsix  # noqa: E402
+import vscode_build  # noqa: E402
 from palette import PALETTES  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -87,6 +88,10 @@ class VSCodeThemeTests(unittest.TestCase):
                 themes["dark"]["colors"]["editor.selectionBackground"],
                 themes["mineral"]["colors"]["editor.selectionBackground"])
 
+    def test_build_and_freshness(self):
+        with tempfile.TemporaryDirectory(prefix="green eye vsix ") as tmp:
+            self.assertEqual(vscode_build.build(package=True, outdir=tmp), 0)
+
     def test_vsix_manifest(self):
         with tempfile.TemporaryDirectory(prefix="green eye vsix ") as tmp:
             self.assertEqual(package_vsix.package(outdir=tmp), 0)
@@ -100,6 +105,8 @@ class VSCodeThemeTests(unittest.TestCase):
                 self.assertIn("extension/README.md", names)
                 for name in THEME_FILES.values():
                     self.assertIn("extension/themes/%s" % name, names)
+                if (ROOT / "LICENSE").is_file():
+                    self.assertIn("extension/LICENSE", names)
                 pkg = json.loads(zf.read("extension/package.json"))
                 self.assertEqual(pkg["version"], VERSION)
                 root = ET.fromstring(zf.read("extension.vsixmanifest"))

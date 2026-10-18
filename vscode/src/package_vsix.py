@@ -105,6 +105,11 @@ def package(outdir=None):
         print("缺少 vscode/themes/green-eye-*.json", file=sys.stderr)
         return 1
 
+    extras = []
+    license_path = ROOT / "LICENSE"
+    if license_path.is_file():
+        extras.append(("extension/LICENSE", license_path.read_bytes()))
+
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("[Content_Types].xml", CONTENT_TYPES)
         zf.writestr("extension.vsixmanifest", manifest(pkg))
@@ -113,9 +118,11 @@ def package(outdir=None):
         for theme in themes:
             zf.writestr("extension/themes/%s" % theme.name,
                         theme.read_bytes())
+        for arc, data in extras:
+            zf.writestr(arc, data)
 
     print("写入 %s（%d 字节，%d 个文件）"
-          % (target, target.stat().st_size, len(themes) + 4))
+          % (target, target.stat().st_size, len(themes) + 4 + len(extras)))
     return 0
 
 
