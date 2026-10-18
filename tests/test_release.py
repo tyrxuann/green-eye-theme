@@ -15,7 +15,9 @@ import versioning  # noqa: E402
 class ReleaseTests(unittest.TestCase):
     def test_dry_run_does_not_change_version(self):
         before = versioning.current_version()
-        self.assertEqual(release.run("1.2.0", dry_run=True), 0)
+        major, minor, patch = (int(x) for x in before.split("."))
+        target = "%d.%d.%d" % (major, minor, patch + 1)
+        self.assertEqual(release.run(target, dry_run=True), 0)
         self.assertEqual(versioning.current_version(), before)
 
     def test_invalid_version(self):
