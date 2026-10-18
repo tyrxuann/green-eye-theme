@@ -87,6 +87,7 @@ def build(no_preview=False, skip_tests=False):
     run(HERE / "gen_readme_table.py", PLATFORM_DOC)
     run(HERE / "gen_deviations.py", PLATFORM_DOC)
     run(HERE / "gen_mineral_doc.py", PLATFORM_DOC)
+    run(HERE / "gen_status_metrics.py", PLATFORM_DOC)
 
     print("== shared palette ==")
     run(ROOT / "shared" / "export_palette.py")

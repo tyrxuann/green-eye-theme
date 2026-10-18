@@ -264,23 +264,13 @@ def _report(pal, label, quiet=False):
     return failed
 
 
-def main():
-    _assert_no_duplicate_dict_keys()
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--quiet", action="store_true")
-    a = ap.parse_args()
+def _numbers(off_fail, cur_fail):
+    """把 _report 的结果折算成 README/CI 用的口径数字。"""
     from official_palette import OFFICIAL
-    # 用官方 Islands Dark 当标尺：阈值必须让官方通过，否则阈值本身不合理
-    off_fail = _report(OFFICIAL, "标尺：官方 Islands Dark", quiet=a.quiet)
-    cur_fail = []
-    for key, pal in sorted(PALETTES.items()):
-        cur_fail += _report(pal, "本主题：%s「%s」" % (pal["name"], pal["label"]), quiet=a.quiet)
-    off_pairs = {(r[1], r[2]) for r in off_fail}
-    cur_pairs = {(r[1], r[2]) for r in cur_fail}
-    extra = cur_pairs - off_pairs
-    # 口径必须分清四类，否则"0 对"会被读成"比官方好"
+
     off_set = {(r[1], r[2]) for r in off_fail}
     cur_set = {(r[1], r[2]) for r in cur_fail}
+    extra = cur_set - off_set
     acc = _accepted_pairs()
 
     def _would_fail(pal, pair):
@@ -297,19 +287,55 @@ def main():
     n_all = sum((len([k for k in g["keys"] if k in DARK]) *
                  (len([k for k in g["keys"] if k in DARK]) - 1)) // 2
                 for g in GROUPS.values())
+    return {
+        "total_pairs": n_all,
+        "current_fail": len(cur_fail),
+        "official_overlap": len(cur_set & off_set),
+        "accepted": n_acc,
+        "official_fail": len(off_fail),
+        "official_cov": n_off_cov,
+        "ours_cov": n_ours_cov,
+        "extra": len(extra),
+        "extra_pairs": extra,
+        "cur_fail": cur_fail,
+    }
+
+
+def summary():
+    """机器可读的撞色汇总；README 生成器与 CI 共用。"""
+    from official_palette import OFFICIAL
+    off_fail = _report(OFFICIAL, "标尺", quiet=True)
+    cur_fail = []
+    for _, pal in sorted(PALETTES.items()):
+        cur_fail += _report(pal, pal["label"], quiet=True)
+    return _numbers(off_fail, cur_fail)
+
+
+def main():
+    _assert_no_duplicate_dict_keys()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--quiet", action="store_true")
+    a = ap.parse_args()
+    from official_palette import OFFICIAL
+    # 用官方 Islands Dark 当标尺：阈值必须让官方通过，否则阈值本身不合理
+    off_fail = _report(OFFICIAL, "标尺：官方 Islands Dark", quiet=a.quiet)
+    cur_fail = []
+    for key, pal in sorted(PALETTES.items()):
+        cur_fail += _report(pal, "本主题：%s「%s」" % (pal["name"], pal["label"]), quiet=a.quiet)
+    stats = _numbers(off_fail, cur_fail)
     print("\n【口径】四个数并列，避免「比官方多出 0 对」被误读成「比官方好」：")
-    print("   检查对总数                    %d 对" % n_all)
-    print("   本主题未达阈值                %d 对" % len(cur_fail))
+    print("   检查对总数                    %d 对" % stats["total_pairs"])
+    print("   本主题未达阈值                %d 对" % stats["current_fail"])
     print("     ├ 官方同一对也未达阈值      %d 对（= 官方基线噪声）"
-          % len(cur_set & off_set))
-    print("     └ 已经显式接受并写明理由    %d 对" % n_acc)
+          % stats["official_overlap"])
+    print("     └ 已经显式接受并写明理由    %d 对" % stats["accepted"])
     print("   官方标尺未达阈值              %d 对（标尺覆盖 %d/%d 个状态块键）"
-          % (len(off_fail), n_off_cov, n_ours_cov))
-    print("   → 本主题比官方多出（未豁免）  %d 对" % len(extra))
-    if extra:
+          % (stats["official_fail"], stats["official_cov"], stats["ours_cov"]))
+    print("   → 本主题比官方多出（未豁免）  %d 对" % stats["extra"])
+    if stats["extra"]:
         print("\n本主题独有、官方不存在的撞色（这些才是要修的）：")
-        for r in sorted(cur_fail, key=lambda x: x[4]):
-            if (r[1], r[2]) in extra:
+        for r in sorted(stats["cur_fail"], key=lambda x: x[4]):
+            if (r[1], r[2]) in stats["extra_pairs"]:
                 print("   %-20s %-20s %8.3f:1 %7.1f" % (r[1], r[2], r[3], r[4]))
         return 1
     print("✅ 没有比官方更差的状态色撞色")
