@@ -68,7 +68,7 @@ uv run green_eye.py package --all  # IntelliJ + VS Code 合并包
 # 或：python3 green_eye.py build --no-preview && python3 green_eye.py package
 ```
 
-得到 `release/green-eye-<version>.zip`（`--all` 时是 `-all.zip`），
+得到 `release/green-eye-<version>.zip`；`--all` 会同时产出单平台包与 `-all.zip`，
 里面是 jar + 两个 `.icls` + `INSTALL.txt`；合并包还包含 VS Code `.vsix`。
 把这个 zip 拷到目标电脑，解压后：
 

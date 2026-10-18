@@ -139,6 +139,9 @@ def main(argv=None):
         if args.all:
             if vscode_build.build() != 0:
                 return 1
+            rc = package_release.package(outdir=args.outdir)
+            if rc:
+                return rc
             return package_release.package_all(outdir=args.outdir)
         return package_release.package(outdir=args.outdir)
     if args.command == "vscode":
