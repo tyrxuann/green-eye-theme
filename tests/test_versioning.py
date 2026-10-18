@@ -38,7 +38,11 @@ class VersioningTests(unittest.TestCase):
         self.assertEqual(before, after)
 
     def test_bump_updates_both_files(self):
+        cache = self.root / "intellij" / "src" / "__pycache__"
+        cache.mkdir()
+        (cache / "project_config.cpython-313.pyc").write_bytes(b"stale")
         self.assertEqual(versioning.bump("1.2.0", root=self.root), 0)
+        self.assertFalse((cache / "project_config.cpython-313.pyc").exists())
         config = (self.root / "intellij" / "src" / "project_config.py").read_text(
             encoding="utf-8")
         self.assertIn('VERSION = "1.2.0"', config)

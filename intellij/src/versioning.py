@@ -61,6 +61,10 @@ def bump(new_version, root=None, dry_run=False):
     for path, text in changes:
         with open(path, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(text)
+        if path.name == "project_config.py":
+            cache = path.parent / "__pycache__"
+            for pyc in cache.glob("project_config.*.pyc"):
+                pyc.unlink()
     print("版本号：%s → %s；下次 build 会生成新文件名。" % (old, new_version))
     return 0
 
