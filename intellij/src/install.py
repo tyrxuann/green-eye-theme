@@ -19,6 +19,7 @@
 import argparse
 import filecmp
 import os
+import re
 import shutil
 import sys
 import zipfile
@@ -82,6 +83,14 @@ def jetbrains_root():
     return (Path(xdg) if xdg else Path.home() / ".config") / "JetBrains"
 
 
+def _config_version(path):
+    """IntelliJIdea2026.10 要排在 IntelliJIdea2026.2 之后，不能按字符串排序。"""
+    match = re.match(r"IntelliJIdea(\d{4})\.(\d+)", path.name)
+    if not match:
+        return (0, 0, path.name)
+    return (int(match.group(1)), int(match.group(2)), path.name)
+
+
 def discover_targets(root, config_dir, all_configs):
     if config_dir:
         path = Path(config_dir).expanduser()
@@ -90,7 +99,8 @@ def discover_targets(root, config_dir, all_configs):
         return [path]
     if not root.is_dir():
         raise InstallError("找不到 JetBrains 配置根目录: %s" % root)
-    dirs = sorted(p for p in root.glob("IntelliJIdea*") if p.is_dir())
+    dirs = sorted((p for p in root.glob("IntelliJIdea*") if p.is_dir()),
+                  key=_config_version)
     if all_configs:
         return dirs
     return dirs[-1:] if dirs else []
@@ -121,7 +131,8 @@ def is_our_icls(path):
 def disabled_has_plugin(path):
     if not path.is_file():
         return False
-    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    # Windows 上 IDEA 可能写成带 BOM 的 UTF-8，用 utf-8-sig 才不会漏掉第一行。
+    lines = path.read_text(encoding="utf-8-sig", errors="replace").splitlines()
     return PLUGIN_ID in lines
 
 
@@ -137,13 +148,23 @@ def copy_atomic(source, target):
 
 
 def edit_disabled(path):
-    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    raw = path.read_bytes()
+    with_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    lines = text.splitlines(keepends=True)
     kept = [line for line in lines if line.rstrip("\r\n") != PLUGIN_ID]
     if len(kept) == len(lines):
         return
+    data = "".join(kept).encode("utf-8")
+    if with_bom:
+        data = b"\xef\xbb\xbf" + data
     temp = path.with_name(path.name + ".tmp.%d" % os.getpid())
-    temp.write_text("".join(kept), encoding="utf-8")
-    os.replace(str(temp), str(path))
+    try:
+        temp.write_bytes(data)
+        os.replace(str(temp), str(path))
+    finally:
+        if temp.exists():
+            temp.unlink()
 
 
 def build_plan(configs, action, mode, artifact):
@@ -194,15 +215,34 @@ def execute(plan):
         for item in plan.actions:
             if item.kind != wanted:
                 continue
-            if item.kind == "CP":
-                copy_atomic(item.source, item.path)
-            elif item.kind == "EDIT":
-                edit_disabled(item.path)
-            else:
-                if item.path.is_dir():
-                    shutil.rmtree(str(item.path))
-                elif item.path.exists():
-                    item.path.unlink()
+            try:
+                if item.kind == "CP":
+                    copy_atomic(item.source, item.path)
+                elif item.kind == "EDIT":
+                    edit_disabled(item.path)
+                else:
+                    if item.path.is_dir():
+                        shutil.rmtree(str(item.path))
+                    elif item.path.exists():
+                        item.path.unlink()
+            except OSError as exc:
+                raise InstallError(
+                    "写入失败: %s\n  %s\n请完全退出 IntelliJ IDEA 后重试。"
+                    % (item.path, exc)) from exc
+
+
+def verify(plan):
+    """写入后回读校验，避免 IDEA 正在运行导致文件被占用却报成功。"""
+    for item in plan.actions:
+        if item.kind == "CP":
+            if not item.path.is_file() or not filecmp.cmp(
+                    str(item.source), str(item.path), shallow=False):
+                raise InstallError("写入后校验失败: %s" % item.path)
+        elif item.kind == "DEL":
+            if item.path.exists():
+                raise InstallError("删除后仍然存在: %s" % item.path)
+        elif item.kind == "EDIT" and disabled_has_plugin(item.path):
+            raise InstallError("禁用记录未移除: %s" % item.path)
 
 
 def run(uninstall=False, icls_only=False, config_dir=None, all_configs=False,
@@ -251,6 +291,7 @@ def run(uninstall=False, icls_only=False, config_dir=None, all_configs=False,
             return 0
 
     execute(plan)
+    verify(plan)
     print("完成。请完全退出并重启 IntelliJ IDEA。")
     return 0
 

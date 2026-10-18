@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "green_eye.py"
 DIST = ROOT / "intellij" / "dist"
 THEMES = ROOT / "intellij" / "themes"
+sys.path.insert(0, str(ROOT / "intellij" / "src"))
 
 
 def find_artifact():
@@ -93,6 +94,32 @@ class InstallerTests(unittest.TestCase):
         self.assertFalse((self.config / "colors" / icls.name).exists())
         self.assertEqual(disabled.read_text(encoding="utf-8"),
                          "some.other.plugin\n")
+
+    def test_bom_disabled_plugins_is_preserved(self):
+        disabled = self.config / "disabled_plugins.txt"
+        disabled.write_bytes(
+            b"\xef\xbb\xbfcom.greeneye.intellij.theme\nsome.other.plugin\n")
+        self.assert_ok(self.run_cli("--yes"))
+        data = disabled.read_bytes()
+        self.assertTrue(data.startswith(b"\xef\xbb\xbf"))
+        text = data.decode("utf-8-sig")
+        self.assertNotIn("com.greeneye.intellij.theme", text)
+        self.assertIn("some.other.plugin", text)
+
+    def test_locked_target_has_friendly_error(self):
+        target = self.config / "plugins" / self.artifact.name
+        target.mkdir()
+        result = self.run_cli("--yes")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("请完全退出", result.stderr)
+
+    def test_latest_config_is_numeric(self):
+        import install
+        root = Path(self.temp.name) / "JetBrains"
+        (root / "IntelliJIdea2026.2").mkdir(parents=True)
+        (root / "IntelliJIdea2026.10").mkdir()
+        dirs = install.discover_targets(root, None, False)
+        self.assertEqual([p.name for p in dirs], ["IntelliJIdea2026.10"])
 
     def test_dry_run_does_not_touch_files(self):
         before = self.snapshot()
