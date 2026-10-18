@@ -28,6 +28,7 @@
 - `green_eye.py cvd-variants`：A+「CVD Improved」改善版（松林 18→13、矿彩 20→14 对塌陷），含 .icls、VSIX 与变体包；不是 CVD 安全版。
 - `green_eye.py doctor`：预检 palette / jar / .icls / VSIX / 字体 / IntelliJ 安装状态。
 - `green_eye.py bump X.Y.Z`：统一更新 project_config.py 与 VS Code package.json。
+- `green_eye.py release X.Y.Z`：发布前全流程（bump/build/vscode/cvd/package/test），不自动 tag。
 - `green_eye.py manual`：逐项运行真机走查清单并生成报告。
 - `doctor` 增加 LICENSE、最近一次 manual 报告检查，并支持 `--json`。
 - `green_eye.py report`：汇总 doctor、验收、CVD、真机走查与产物到 `build/ref/report.md`。

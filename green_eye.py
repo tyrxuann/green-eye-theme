@@ -28,6 +28,7 @@ Green Eye 跨平台入口。
     bump      统一更新版本号（project_config + VS Code package.json）
     manual    逐项运行真机走查清单并生成报告
     report    生成发布前汇总 build/ref/report.md
+    release   发布前全流程（不自动 tag）
     cvd       生成色觉缺陷（CVD）报告
     cvd-variants 生成 A+ CVD Improved 改善版
     clean     清理 __pycache__ / *.pyc / 临时文件
@@ -55,6 +56,7 @@ import versioning  # noqa: E402
 import manual_verify  # noqa: E402
 import gen_summary_report  # noqa: E402
 import cvd_variants  # noqa: E402
+import release as release_flow  # noqa: E402
 import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -95,6 +97,11 @@ def make_parser():
     p_manual.add_argument("--report", help="报告输出路径")
     p_report = sub.add_parser("report", help="生成发布前汇总")
     p_report.add_argument("--out", help="输出路径")
+    p_release = sub.add_parser("release", help="发布前全流程（不自动 tag）")
+    p_release.add_argument("version")
+    p_release.add_argument("--dry-run", action="store_true")
+    p_release.add_argument("--skip-tests", action="store_true")
+    p_release.add_argument("--allow-dirty", action="store_true")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
     p_install.add_argument("--uninstall", action="store_true",
@@ -142,6 +149,10 @@ def main(argv=None):
         return build_pipeline.clean()
     if args.command == "doctor":
         return doctor.main(["--json"] if args.json else [])
+    if args.command == "release":
+        return release_flow.run(args.version, dry_run=args.dry_run,
+                                skip_tests=args.skip_tests,
+                                allow_dirty=args.allow_dirty)
     if args.command == "report":
         return gen_summary_report.main(["--out", args.out] if args.out else [])
     if args.command == "manual":

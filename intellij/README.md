@@ -294,6 +294,7 @@ idea-green-theme/
 │   ├── gen_cvd_report.py             生成色觉缺陷报告 build/ref/cvd-report.md
 │   ├── gen_cvd_preview.py            生成 normal/CVD 对比色板
 │   ├── cvd_variants.py               生成 A+ CVD Improved 改善版
+│   ├── release.py                    发布前全流程（不自动 tag）
 │   ├── gen_verification_report.py   从产物自动生成 build/ref/verification.md
 │   ├── analyze_official.py          分析官方内置方案（提炼规律）
 │   ├── official_palette.py          还原官方配色 + 备选方案 V3/V4

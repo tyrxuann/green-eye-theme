@@ -25,7 +25,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         for command in ("build", "check", "palette", "test", "preview",
                         "install", "package", "vscode", "cvd", "cvd-variants", "doctor",
-                        "bump", "manual", "report", "clean", "version"):
+                        "bump", "manual", "report", "release", "clean", "version"):
             self.assertIn(command, result.stdout)
 
     def test_version(self):
