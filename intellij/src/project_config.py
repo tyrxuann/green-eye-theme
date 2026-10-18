@@ -9,7 +9,7 @@ artifact instead of duplicating them.
 
 PLUGIN_ID = "com.greeneye.intellij.theme"
 PLUGIN_NAME = "Green Eye 护眼绿色主题"
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 JAR_PREFIX = "GreenEye-Theme-"
 
 # key, theme JSON stem, editor scheme stem, source .icls filename

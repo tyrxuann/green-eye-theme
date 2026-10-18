@@ -405,9 +405,10 @@ CHROME = [
     ("ERROR_HINT", "error"),
     ("INFORMATION_HINT", "info"),
     ("QUESTION_HINT", "info"),
-    ("ADDED_LINES_COLOR", "bg_diff_add"),
-    ("MODIFIED_LINES_COLOR", "bg_diff_mod"),
-    ("DELETED_LINES_COLOR", "bg_diff_del"),
+    # 变更竖条要和"修改行底色"拉开对比；原先用 bg_diff_* 几乎同色
+    ("ADDED_LINES_COLOR", "string"),
+    ("MODIFIED_LINES_COLOR", "con_blue"),
+    ("DELETED_LINES_COLOR", "error"),
     ("IGNORED_ADDED_LINES_BORDER_COLOR", "fg_dim"),
     ("IGNORED_MODIFIED_LINES_BORDER_COLOR", "fg_dim"),
     ("IGNORED_DELETED_LINES_BORDER_COLOR", "fg_dim"),
@@ -484,6 +485,9 @@ NO_FOREGROUND = {
     "WARNING_ATTRIBUTES", "WEAK_WARNING_ATTRIBUTES", "ERRORS_ATTRIBUTES",
     "INFO_ATTRIBUTES", "TYPO", "MARKED_FOR_REMOVAL_ATTRIBUTES",
     "GENERIC_SERVER_ERROR_OR_WARNING", "TEXT_STYLE_WARNING",
+    # 官方 DIFF_* 只给 BACKGROUND；给 FOREGROUND 会让 diff 用浅色前景
+    # 覆盖整行背景（2026.2 实测），白字直接看不见
+    "DIFF_INSERTED", "DIFF_DELETED", "DIFF_MODIFIED", "DIFF_CONFLICT",
 }
 
 # 官方不给这些键 EFFECT_COLOR（缺省即用前景色画线），照做以免自行发明效果色
@@ -549,13 +553,14 @@ FONT_INTENT = {
 NO_EFFECT_COLOR = {
     # 官方不给这些键 EFFECT_COLOR（缺省即用前景色画线），照做以免自行发明效果色
     "ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", "CUSTOM_KEYWORD4_ATTRIBUTES",
-    "DEFAULT_DOC_COMMENT_TAG", "IDENTIFIER_UNDER_CARET_ATTRIBUTES",
+    "IDENTIFIER_UNDER_CARET_ATTRIBUTES",
     "PROPERTIES.KEY", "WRITE_IDENTIFIER_UNDER_CARET_ATTRIBUTES",
 }
 
 # 少数键的效果色要单独指定（官方给的是中性灰下划线，而不是前景色）
 EFFECT_COLOR_KEYS = {   # 值改成"调色板键名"，随主题走
 
+    "DEFAULT_DOC_COMMENT_TAG": "doc_tag",
     "DEFAULT_REASSIGNED_LOCAL_VARIABLE": "grey_underline",
     "DEFAULT_REASSIGNED_PARAMETER": "grey_underline",
     "REASSIGNED_LOCAL_VARIABLE_ATTRIBUTES": "grey_underline",

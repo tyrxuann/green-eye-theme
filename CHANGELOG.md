@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## [1.2.1] - 2026-10-19
+
+### Fixed
+
+- Javadoc `@param` / `@return` 下划线丢失：为 `DEFAULT_DOC_COMMENT_TAG` 显式设置 `EFFECT_COLOR`。
+- diff 修改行被 `FOREGROUND` 铺成浅蓝、白字不可读：`DIFF_*` 只保留背景，不再写前景。
+- diff/变更竖条对比过低：修改行背景提到 2.0×，新增/删除行与竖条同步提亮。
 
 ### Changed
 

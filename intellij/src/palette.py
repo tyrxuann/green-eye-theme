@@ -60,9 +60,9 @@ DARK = {
     "bg_inlay_hint_highlighted": "#37503F",  # 高亮参数提示：官方 1.82×，单独一档
     "bg_inlay_hint_current": "#356875",  # 当前参数提示：官方换色相不换明度（蓝 #35538f），本主题用青 H192
     "bg_search_current": "#3C6B4A",    # 当前匹配：靠背景区分（官方也不用描边）
-    "bg_diff_add": "#2E4A2A",
-    "bg_diff_del": "#673838",
-    "bg_diff_mod": "#2E4059",
+    "bg_diff_add": "#4C5E26",
+    "bg_diff_del": "#7A4444",
+    "bg_diff_mod": "#405C77",
     "accent": "#396F54",          # 品牌按钮/焦点环：与正文配合，不抢语法色
     "accent_hover": "#468563",
     "ui_base": "#171D1A",         # IDEA 工作台底：比编辑器更中性，避免整屏发绿
@@ -311,9 +311,9 @@ MINERAL_BG = {
     "bg_matched_tag":        (100, 4, 1.68),
     "bg_inlay_hint_highlighted": (152, 18, 1.58),
     "bg_inlay_hint_current": (196, 38, 2.24),
-    "bg_diff_add":           (122, 32, 1.41),
-    "bg_diff_del":           (358, 30, 1.46),
-    "bg_diff_mod":           (224, 32, 1.32),
+    "bg_diff_add":           (90, 36, 1.98),
+    "bg_diff_del":           (358, 30, 1.81),
+    "bg_diff_mod":           (210, 30, 2.00),
     "bg_error_hint":         (358, 32, 1.23),
     "border":                (150, 20, 1.77),
     "separator":             (152, 16, 1.21),
@@ -394,6 +394,7 @@ def build_mineral():
 
 
 MINERAL = build_mineral()
+MINERAL["bg_diff_mod"] = "#405C77"  # 与松林同值：
 MINERAL["accent"] = "#477970"       # 矿彩 UI 用克制的青矿色，避免整站仍是一片森林绿
 MINERAL["accent_hover"] = "#588F84"
 MINERAL["ui_base"] = "#181E1C"       # 工作台基底：近中性的墨灰绿

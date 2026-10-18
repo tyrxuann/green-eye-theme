@@ -18,6 +18,8 @@
 `ManualCheck.java` 故意有一行编译错误，不能直接运行。请打开
 `src/main/java/DebugCheck.java`，在 `total += i;` 打断点，点 Debug（`Shift+F9`），
 截暂停时的全窗口：断点行、当前执行行、变量/调用栈。
+如果 `combine(1, 2)` 前没有 `left:` / `right:` 参数名提示，
+在 `Settings → Editor → Inlay Hints → Java → Parameter names` 打开。
 
 ## 3. Git diff
 
