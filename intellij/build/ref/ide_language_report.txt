@@ -1,0 +1,480 @@
+=== 来源一：语言插件的 colorSchemes 片段 ===
+colorSchemes/Angular2Darcula.xml                           属性   1  颜色  0
+colorSchemes/Angular2Dark.xml                              属性   1  颜色  0
+colorSchemes/Angular2HighContrast.xml                      属性   1  颜色  0
+colorSchemes/Angular2IntelliJLight.xml                     属性   1  颜色  0
+colorSchemes/Angular2Light.xml                             属性   1  颜色  0
+colorSchemes/CollaborationToolsDark.xml                    属性   0  颜色  1
+colorSchemes/CollaborationToolsDefault.xml                 属性   0  颜色  1
+colorSchemes/Darcula.xml                                   属性   8  颜色  0
+colorSchemes/DatabaseDarcula.xml                           属性   1  颜色  0
+colorSchemes/DatabaseDefault.xml                           属性   1  颜色  0
+colorSchemes/Default.xml                                   属性   9  颜色  0
+colorSchemes/DiagramDarcula.xml                            属性   0  颜色 25
+colorSchemes/DiagramDefault.xml                            属性   0  颜色 25
+colorSchemes/DockerComposeDarcula.xml                      属性   4  颜色  0
+colorSchemes/DockerComposeDefault.xml                      属性   4  颜色  0
+colorSchemes/GrazieDarcula.xml                             属性   4  颜色  0
+colorSchemes/GrazieDefault.xml                             属性   4  颜色  0
+colorSchemes/GroovyDarcula.xml                             属性   5  颜色  0
+colorSchemes/GroovyDefault.xml                             属性   6  颜色  0
+colorSchemes/HighContrast.xml                              属性   9  颜色  0
+colorSchemes/HttpRequestDarcula.xml                        属性   2  颜色  0
+colorSchemes/HttpRequestDefault.xml                        属性   3  颜色  0
+colorSchemes/IntelliJComposeColorSchemeDarcula.xml         属性   3  颜色  0
+colorSchemes/IntelliJComposeColorSchemeDefault.xml         属性   3  颜色  0
+colorSchemes/KubernetesDarcula.xml                         属性   4  颜色  0
+colorSchemes/KubernetesDefault.xml                         属性   4  颜色  0
+colorSchemes/MarkdownDarcula.xml                           属性   2  颜色  0
+colorSchemes/MarkdownDefault.xml                           属性   5  颜色  0
+colorSchemes/MermaidDarcula.xml                            属性   8  颜色  0
+colorSchemes/MermaidDefault.xml                            属性   9  颜色  0
+colorSchemes/NextEditDarcula.xml                           属性   0  颜色  8
+colorSchemes/NextEditDark.xml                              属性   0  颜色  8
+colorSchemes/NextEditDefault.xml                           属性   0  颜色  8
+colorSchemes/NextEditHighContrast.xml                      属性   0  颜色  8
+colorSchemes/NextEditIslandsDark.xml                       属性   0  颜色  8
+colorSchemes/NextEditIslandsDefault.xml                    属性   0  颜色  8
+colorSchemes/SqlDarcula.xml                                属性   2  颜色  0
+colorSchemes/SqlDefault.xml                                属性   1  颜色  0
+colorSchemes/XmlDarcula.xml                                属性   2  颜色  0
+colorSchemes/XmlHighContrast.xml                           属性   2  颜色  0
+colorSchemes/XmlIntelliJLight.xml                          属性   2  颜色  0
+colorSchemes/YAMLDarcula.xml                               属性   1  颜色  0
+colorSchemes/YAMLDefault.xml                               属性   1  颜色  0
+colorSchemes/sassDefault.xml                               属性   1  颜色  0
+
+=== 来源二：官方 <bundledColorScheme> 指向的方案 ===
+themes/Light.xml                                     属性  78  颜色  7  (父=Default)
+themes/expUI/expUI_darculaContrastScheme.xml         属性   9  颜色 32  (父=Darcula)
+themes/expUI/expUI_darkScheme.xml                    属性 150  颜色 62  (父=Darcula)
+themes/expUI/expUI_lightScheme.xml                   属性  91  颜色 54  (父=Default)
+themes/islands/IslandSchemeDark.xml                  属性 150  颜色 62  (父=Darcula)
+themes/islands/highContrastScheme.xml                属性 150  颜色 88  (父=Darcula)
+
+=== 来源一 属性键 -> 出处 ===
+  COMPOSE_INVISIBLE_PORT_BUTTON                            DockerComposeDarcula, DockerComposeDefault
+  COMPOSE_SERVICE_STATUS_ERROR                             DockerComposeDarcula, DockerComposeDefault
+  COMPOSE_SERVICE_STATUS_NEUTRAL                           DockerComposeDarcula, DockerComposeDefault
+  COMPOSE_SERVICE_STATUS_SUCCESS                           DockerComposeDarcula, DockerComposeDefault
+  CONSOLE_RANGE_TO_EXECUTE                                 DatabaseDarcula, DatabaseDefault
+  Closure braces                                           GroovyDarcula, GroovyDefault
+  ComposeStateReadScopeHighlightingTextAttributes          IntelliJComposeColorSchemeDarcula, IntelliJComposeColorSchemeDefault
+  ComposeStateReadTextAttributes                           IntelliJComposeColorSchemeDarcula, IntelliJComposeColorSchemeDefault
+  GRAMMAR_ERROR                                            GrazieDarcula, GrazieDefault
+  GROOVY_KEYWORD                                           GroovyDefault
+  Groovy method declaration                                GroovyDarcula
+  HTML_CUSTOM_TAG_NAME                                     XmlDarcula, XmlHighContrast, XmlIntelliJLight
+  HTTP_REQUEST_MULTIPART_BOUNDARY                          HttpRequestDefault
+  HTTP_REQUEST_PARAMETER_NAME                              HttpRequestDarcula, HttpRequestDefault
+  HTTP_REQUEST_PARAMETER_VALUE                             HttpRequestDarcula, HttpRequestDefault
+  INVISIBLE_INLAY_BUTTON                                   KubernetesDarcula, KubernetesDefault
+  Instance property reference ID                           GroovyDefault
+  IntelliJComposableCallTextAttributes                     IntelliJComposeColorSchemeDarcula, IntelliJComposeColorSchemeDefault
+  JS.GLOBAL_FUNCTION                                       Darcula, Default, HighContrast
+  JS.GLOBAL_VARIABLE                                       Darcula, Default, HighContrast
+  JS.INSTANCE_MEMBER_FUNCTION                              Darcula, Default, HighContrast
+  JS.LOCAL_VARIABLE                                        Darcula, Default, HighContrast
+  JS.PARAMETER                                             Default, HighContrast
+  JS.REGEXP                                                Darcula, Default, HighContrast
+  JavaScript:INJECTED_LANGUAGE_FRAGMENT                    Darcula, Default, HighContrast
+  KUBERNETES_POD_STATUS_ERROR                              KubernetesDarcula, KubernetesDefault
+  KUBERNETES_POD_STATUS_OTHER                              KubernetesDarcula, KubernetesDefault
+  KUBERNETES_POD_STATUS_SUCCESS                            KubernetesDarcula, KubernetesDefault
+  List/map to object conversion                            GroovyDarcula, GroovyDefault
+  MARKDOWN_BOLD                                            MarkdownDefault
+  MARKDOWN_HEADER                                          MarkdownDarcula, MarkdownDefault
+  MARKDOWN_HEADER_BOLD                                     MarkdownDarcula, MarkdownDefault
+  MARKDOWN_ITALIC                                          MarkdownDefault
+  MARKDOWN_REFERENCE_LINK                                  MarkdownDefault
+  MERMAID_CONSTANT                                         MermaidDefault
+  MERMAID_DIAGRAM_NAME                                     MermaidDarcula, MermaidDefault
+  MERMAID_EDGE                                             MermaidDarcula, MermaidDefault
+  MERMAID_FRONTMATTER_DELIMITER                            MermaidDarcula, MermaidDefault
+  MERMAID_GENERIC                                          MermaidDarcula, MermaidDefault
+  MERMAID_IDENTIFIER                                       MermaidDarcula, MermaidDefault
+  MERMAID_KEYWORD                                          MermaidDarcula, MermaidDefault
+  MERMAID_NOTE                                             MermaidDarcula, MermaidDefault
+  MERMAID_TITLE                                            MermaidDarcula, MermaidDefault
+  NG.SIGNAL                                                Angular2Darcula, Angular2Dark, Angular2HighContrast, Angular2IntelliJLight, Angular2Light
+  SASS_MIXIN                                               sassDefault
+  SQL_OUTER_QUERY_COLUMN                                   SqlDarcula, SqlDefault
+  SQL_SYNTHETIC_ENTITY                                     SqlDarcula
+  Static property reference ID                             GroovyDarcula, GroovyDefault
+  TEXT_STYLE_ERROR                                         GrazieDarcula, GrazieDefault
+  TEXT_STYLE_SUGGESTION                                    GrazieDarcula, GrazieDefault
+  TEXT_STYLE_WARNING                                       GrazieDarcula, GrazieDefault
+  TS.TYPE_GUARD                                            Darcula, Default, HighContrast
+  TS.TYPE_PARAMETER                                        Darcula, Default, HighContrast
+  Unresolved reference access                              GroovyDarcula, GroovyDefault
+  XML_CUSTOM_TAG_NAME                                      XmlDarcula, XmlHighContrast, XmlIntelliJLight
+  YAML_ANCHOR                                              YAMLDarcula, YAMLDefault
+
+=== 来源一 颜色键 -> 出处 ===
+  DIAGRAM_ANNOTATION_EDGE                                  DiagramDarcula, DiagramDefault
+  DIAGRAM_BAD_EDGE                                         DiagramDarcula, DiagramDefault
+  DIAGRAM_BEND                                             DiagramDarcula, DiagramDefault
+  DIAGRAM_BEND_SELECTION                                   DiagramDarcula, DiagramDefault
+  DIAGRAM_COARSE_GRID                                      DiagramDarcula, DiagramDefault
+  DIAGRAM_DEFAULT_EDGE                                     DiagramDarcula, DiagramDefault
+  DIAGRAM_EDGE_SELECTION                                   DiagramDarcula, DiagramDefault
+  DIAGRAM_FINE_GRID                                        DiagramDarcula, DiagramDefault
+  DIAGRAM_GENERALIZATION_EDGE                              DiagramDarcula, DiagramDefault
+  DIAGRAM_HIGHLIGHTED_NODE_BORDER                          DiagramDarcula, DiagramDefault
+  DIAGRAM_HOT_SPOTS                                        DiagramDarcula, DiagramDefault
+  DIAGRAM_INNER_EDGE                                       DiagramDarcula, DiagramDefault
+  DIAGRAM_NODE_BACKGROUND                                  DiagramDarcula, DiagramDefault
+  DIAGRAM_NODE_BORDER                                      DiagramDarcula, DiagramDefault
+  DIAGRAM_NODE_HEADER                                      DiagramDarcula, DiagramDefault
+  DIAGRAM_NODE_SLOPPY_BACKGROUND                           DiagramDarcula, DiagramDefault
+  DIAGRAM_NOTE_BACKGROUND                                  DiagramDarcula, DiagramDefault
+  DIAGRAM_NOTE_BORDER                                      DiagramDarcula, DiagramDefault
+  DIAGRAM_NOTE_SLOPPY_BACKGROUND                           DiagramDarcula, DiagramDefault
+  DIAGRAM_PORT                                             DiagramDarcula, DiagramDefault
+  DIAGRAM_REALIZATION_EDGE                                 DiagramDarcula, DiagramDefault
+  DIAGRAM_SELECTED_NODE_BORDER                             DiagramDarcula, DiagramDefault
+  DIAGRAM_SELECTION_BOX_BACKGROUND                         DiagramDarcula, DiagramDefault
+  DIAGRAM_SELECTION_BOX_BORDER                             DiagramDarcula, DiagramDefault
+  DIAGRAM_SNAPPING_LINES                                   DiagramDarcula, DiagramDefault
+  NEXT_EDIT.DIFF_ADD_BACKGROUND                            NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.DIFF_AFTER_BACKGROUND                          NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.DIFF_PANEL_BORDER                              NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.EDIT_RANGE.GUTTER_BACKGROUND                   NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.EDIT_RANGE.LINE_BACKGROUND                     NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.INSIGHT_BACKGROUND                             NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.REMOVAL_BACKGROUND                             NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  NEXT_EDIT.REVIEW_HINT.BACKGROUND                         NextEditDarcula, NextEditDark, NextEditDefault, NextEditHighContrast, NextEditIslandsDark, NextEditIslandsDefault
+  REVIEW_CHANGED_LINES_COLOR                               CollaborationToolsDark, CollaborationToolsDefault
+
+=== 来源二 属性键 -> 出处 ===
+  ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES                     Dark, High contrast, Islands Dark
+  ANNOTATION_NAME_ATTRIBUTES                               Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  BAD_CHARACTER                                            Dark, High contrast, Islands Dark
+  BOOKMARKS_ATTRIBUTES                                     Dark, High contrast, Islands Dark
+  BREADCRUMBS_CURRENT                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  BREADCRUMBS_DEFAULT                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  BREADCRUMBS_HOVERED                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  BREADCRUMBS_INACTIVE                                     Darcula Contrast, Dark, Islands Dark, Light
+  BREAKPOINT_ATTRIBUTES                                    Dark, High contrast, Islands Dark
+  CODE_LENS_BORDER_COLOR                                   Darcula Contrast, Dark, Islands Dark, Light
+  CONSOLE_BLUE_BRIGHT_OUTPUT                               High contrast
+  CONSOLE_BLUE_OUTPUT                                      High contrast
+  CONSOLE_CYAN_BRIGHT_OUTPUT                               High contrast
+  CONSOLE_CYAN_OUTPUT                                      High contrast
+  CONSOLE_ERROR_OUTPUT                                     Dark, High contrast, Islands Dark
+  CONSOLE_GREEN_BRIGHT_OUTPUT                              High contrast
+  CONSOLE_GREEN_OUTPUT                                     High contrast
+  CONSOLE_MAGENTA_BRIGHT_OUTPUT                            High contrast
+  CONSOLE_MAGENTA_OUTPUT                                   High contrast
+  CONSOLE_NORMAL_OUTPUT                                    Dark, High contrast, Islands Dark
+  CONSOLE_RANGE_TO_EXECUTE                                 Dark, High contrast, Islands Dark
+  CONSOLE_RED_BRIGHT_OUTPUT                                High contrast
+  CONSOLE_RED_OUTPUT                                       High contrast
+  CONSOLE_SYSTEM_OUTPUT                                    Dark, High contrast, Islands Dark
+  CONSOLE_USER_INPUT                                       Dark, High contrast, Islands Dark
+  CONSOLE_YELLOW_BRIGHT_OUTPUT                             High contrast
+  CONSOLE_YELLOW_OUTPUT                                    High contrast
+  CSS.COLOR                                                Dark, High contrast, Islands Dark
+  CSS.IMPORTANT                                            Dark, Islands Dark
+  CSS.URL                                                  Dark, High contrast, Islands Dark
+  CTRL_CLICKABLE                                           Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_KEYWORD1_ATTRIBUTES                               Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_KEYWORD2_ATTRIBUTES                               Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_KEYWORD3_ATTRIBUTES                               Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_KEYWORD4_ATTRIBUTES                               Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_NUMBER_ATTRIBUTES                                 IntelliJ Light, Light
+  CUSTOM_STRING_ATTRIBUTES                                 Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CUSTOM_VALID_STRING_ESCAPE_ATTRIBUTES                    Dark, High contrast, Islands Dark
+  DEBUGGER_INLINED_VALUES                                  High contrast
+  DEBUGGER_INLINED_VALUES_EXECUTION_LINE                   Dark, High contrast, Islands Dark
+  DEBUGGER_INLINED_VALUES_MODIFIED                         Dark, High contrast, Islands Dark
+  DEFAULT_ATTRIBUTE                                        IntelliJ Light, Light
+  DEFAULT_BLOCK_COMMENT                                    Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_BRACES                                           Dark, Islands Dark
+  DEFAULT_BRACKETS                                         Dark, Islands Dark
+  DEFAULT_CLASS_REFERENCE                                  Dark, High contrast, Islands Dark
+  DEFAULT_COMMA                                            Dark, High contrast, Islands Dark
+  DEFAULT_CONSTANT                                         Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_DOC_COMMENT                                      Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_DOC_COMMENT_TAG                                  Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_DOC_COMMENT_TAG_VALUE                            Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_DOC_MARKUP                                       Dark, High contrast, Islands Dark
+  DEFAULT_DOT                                              Dark, Islands Dark
+  DEFAULT_ENTITY                                           IntelliJ Light, Light
+  DEFAULT_FUNCTION_CALL                                    Dark, IntelliJ Light, Islands Dark, Light
+  DEFAULT_FUNCTION_DECLARATION                             Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_HIGHLIGHTED_REFERENCE                            Dark, Islands Dark
+  DEFAULT_IDENTIFIER                                       Dark, High contrast, Islands Dark
+  DEFAULT_INSTANCE_FIELD                                   Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_INSTANCE_METHOD                                  Dark, Islands Dark
+  DEFAULT_INVALID_STRING_ESCAPE                            Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_KEYWORD                                          Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_LABEL                                            IntelliJ Light, Light
+  DEFAULT_LINE_COMMENT                                     Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_METADATA                                         Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_NUMBER                                           Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_OPERATION_SIGN                                   Dark, Islands Dark
+  DEFAULT_PARENTHS                                         Dark, Islands Dark
+  DEFAULT_REASSIGNED_LOCAL_VARIABLE                        Dark, High contrast, Islands Dark
+  DEFAULT_REASSIGNED_PARAMETER                             Dark, High contrast, Islands Dark
+  DEFAULT_SEMICOLON                                        Dark, High contrast, Islands Dark
+  DEFAULT_STATIC_FIELD                                     Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_STATIC_METHOD                                    Dark, IntelliJ Light, Islands Dark, Light
+  DEFAULT_STRING                                           Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DEFAULT_TAG                                              Dark, IntelliJ Light, Islands Dark, Light
+  DEFAULT_TEMPLATE_LANGUAGE_COLOR                          Dark, High contrast, Islands Dark
+  DEFAULT_VALID_STRING_ESCAPE                              Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  DELETED_TEXT_ATTRIBUTES                                  High contrast
+  DEPRECATED_ATTRIBUTES                                    Dark, Islands Dark
+  DIFF_CONFLICT                                            High contrast
+  DIFF_DELETED                                             High contrast
+  DIFF_INSERTED                                            High contrast
+  DIFF_MODIFIED                                            High contrast, IntelliJ Light, Light
+  DOC_CODE_BLOCK                                           Dark, High contrast, Islands Dark, Light
+  DOC_CODE_INLINE                                          Dark, High contrast, Islands Dark, Light
+  DOC_TIPS_SHORTCUT                                        Dark, High contrast, Islands Dark, Light
+  ERRORS_ATTRIBUTES                                        Dark, High contrast, Islands Dark
+  EVALUATED_EXPRESSION_ATTRIBUTES                          High contrast
+  EVALUATED_EXPRESSION_EXECUTION_LINE_ATTRIBUTES           High contrast
+  EXECUTIONPOINT_ATTRIBUTES                                Dark, High contrast, Islands Dark
+  FOLDED_TEXT_ATTRIBUTES                                   Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  FOLLOWED_HYPERLINK_ATTRIBUTES                            Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  GHERKIN_PYSTRING                                         IntelliJ Light, Light
+  GHERKIN_REGEXP_PARAMETER                                 Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  GO_BUILTIN_CONSTANT                                      IntelliJ Light, Light
+  GO_BUILTIN_FUNCTION_CALL                                 IntelliJ Light, Light
+  GO_BUILTIN_TYPE_REFERENCE                                IntelliJ Light, Light
+  GO_BUILTIN_VARIABLE                                      IntelliJ Light, Light
+  GO_COMMENT_REFERENCE                                     High contrast, IntelliJ Light, Light
+  GO_EXPORTED_FUNCTION                                     IntelliJ Light, Light
+  GO_EXPORTED_FUNCTION_CALL                                High contrast, IntelliJ Light, Light
+  GO_LOCAL_CONSTANT                                        IntelliJ Light, Light
+  GO_LOCAL_FUNCTION                                        IntelliJ Light, Light
+  GO_LOCAL_FUNCTION_CALL                                   High contrast, IntelliJ Light, Light
+  GO_METHOD_RECEIVER                                       High contrast, IntelliJ Light, Light
+  GO_PACKAGE                                               High contrast, IntelliJ Light, Light
+  GO_PACKAGE_EXPORTED_CONSTANT                             IntelliJ Light, Light
+  GO_PACKAGE_LOCAL_CONSTANT                                IntelliJ Light, Light
+  GO_SHADOWING_VARIABLE                                    High contrast, IntelliJ Light, Light
+  GO_TYPE_REFERENCE                                        High contrast, IntelliJ Light, Light
+  GRID_NULL_VALUE                                          High contrast
+  GROOVY_KEYWORD                                           IntelliJ Light, Light
+  HAML_RUBY_CODE                                           High contrast
+  HTML_ATTRIBUTE_NAME                                      High contrast
+  HTML_ATTRIBUTE_VALUE                                     Dark, High contrast, Islands Dark
+  HTML_CUSTOM_TAG_NAME                                     Dark, Islands Dark
+  HTML_ENTITY_REFERENCE                                    Dark, High contrast, Islands Dark
+  HTML_TAG                                                 Dark, High contrast, Islands Dark
+  HTML_TAG_NAME                                            Dark, High contrast, Islands Dark
+  HYPERLINK_ATTRIBUTES                                     Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  IDENTIFIER_UNDER_CARET_ATTRIBUTES                        Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES            Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  INACTIVE_HYPERLINK_ATTRIBUTES                            Dark, Islands Dark
+  INFO_ATTRIBUTES                                          Dark, High contrast, Islands Dark
+  INJECTED_LANGUAGE_FRAGMENT                               Dark, High contrast, Islands Dark
+  INLAY_BUTTON_DEFAULT                                     Light
+  INLAY_BUTTON_FOCUSED                                     Light
+  INLAY_BUTTON_HOVERED                                     Light
+  INLAY_DEFAULT                                            Dark, High contrast, Islands Dark
+  INLAY_TEXT_WITHOUT_BACKGROUND                            Dark, High contrast, Islands Dark
+  INLINE_PARAMETER_HINT                                    Dark, High contrast, Islands Dark
+  INLINE_PARAMETER_HINT_CURRENT                            Dark, High contrast, Islands Dark
+  INLINE_PARAMETER_HINT_HIGHLIGHTED                        Dark, High contrast, Islands Dark
+  INSTANCE_FIELD_ATTRIBUTES                                IntelliJ Light, Light
+  JAVA_KEYWORD                                             High contrast
+  JS.GLOBAL_FUNCTION                                       Dark, Islands Dark
+  JS.GLOBAL_VARIABLE                                       Dark, IntelliJ Light, Islands Dark, Light
+  JS.INSTANCE_MEMBER_FUNCTION                              Dark, Islands Dark
+  JS.JSX_CLIENT_COMPONENT                                  Dark, High contrast, Islands Dark, Light
+  JS.LOCAL_VARIABLE                                        IntelliJ Light, Light
+  JS.REGEXP                                                Dark, IntelliJ Light, Islands Dark, Light
+  JSP_DIRECTIVE_NAME                                       Dark, High contrast, Islands Dark
+  KOTLIN_BACKING_FIELD_VARIABLE                            High contrast
+  KOTLIN_DYNAMIC_FUNCTION_CALL                             High contrast
+  KOTLIN_DYNAMIC_PROPERTY_CALL                             High contrast
+  KOTLIN_LABEL                                             Dark, High contrast, Islands Dark
+  KOTLIN_MUTABLE_VARIABLE                                  Dark, Islands Dark
+  KOTLIN_NAMED_ARGUMENT                                    Dark, High contrast, Islands Dark
+  KOTLIN_SMART_CAST_RECEIVER                               Dark, High contrast, Islands Dark
+  KOTLIN_SMART_CAST_VALUE                                  Dark, High contrast, Islands Dark
+  KOTLIN_SMART_CONSTANT                                    Dark, High contrast, Islands Dark
+  KOTLIN_TYPE_PARAMETER                                    Dark, High contrast, Islands Dark
+  LESS_VARIABLE                                            High contrast
+  LINE_FULL_COVERAGE                                       Dark, High contrast, Islands Dark
+  LINE_NONE_COVERAGE                                       Dark, High contrast, Islands Dark
+  LINE_PARTIAL_COVERAGE                                    Dark, High contrast, Islands Dark
+  LIVE_TEMPLATE_ATTRIBUTES                                 Dark, High contrast, Islands Dark
+  LIVE_TEMPLATE_INACTIVE_SEGMENT                           Dark, High contrast, Islands Dark
+  LOG_DEBUG_OUTPUT                                         High contrast
+  LOG_ERROR_OUTPUT                                         Dark, High contrast, Islands Dark
+  LOG_EXPIRED_ENTRY                                        High contrast
+  LOG_INFO_OUTPUT                                          Dark, High contrast, Islands Dark
+  LOG_VERBOSE_OUTPUT                                       Dark, High contrast, Islands Dark
+  LOG_WARNING_OUTPUT                                       Dark, Islands Dark
+  List/map to object conversion                            IntelliJ Light, Light
+  MARKDOWN_AUTO_LINK                                       Dark, Islands Dark
+  MARKDOWN_IMAGE                                           Dark, Islands Dark
+  MARKDOWN_LINK_TEXT                                       Dark, Islands Dark
+  MARKED_FOR_REMOVAL_ATTRIBUTES                            Dark, High contrast, Islands Dark
+  MATCHED_BRACE_ATTRIBUTES                                 Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  MATCHED_TAG_NAME                                         Dark, IntelliJ Light, Islands Dark, Light
+  NOT_TOP_FRAME_ATTRIBUTES                                 Dark, High contrast, Islands Dark
+  NOT_USED_ELEMENT_ATTRIBUTES                              Dark, High contrast, Islands Dark
+  PROPERTIES.INVALID_STRING_ESCAPE                         Dark, High contrast, Islands Dark
+  PROPERTIES.KEY                                           Dark, IntelliJ Light, Islands Dark, Light
+  QUTE_BACKGROUND                                          Dark, Islands Dark
+  REGEXP.BRACES                                            Dark, Islands Dark
+  REGEXP.BRACKETS                                          Dark, Islands Dark
+  REGEXP.CHAR_CLASS                                        Dark, Islands Dark
+  REGEXP.ESC_CHARACTER                                     Dark, Islands Dark
+  REGEXP.META                                              Dark, Islands Dark
+  REGEXP.PARENTHS                                          Dark, Islands Dark
+  REGEXP.QUOTE_CHARACTER                                   Dark, Islands Dark
+  REGEXP.REDUNDANT_ESCAPE                                  Dark, Islands Dark
+  RUNTIME_ERROR                                            Dark, Islands Dark
+  SASS_MIXIN                                               High contrast, IntelliJ Light, Light
+  SASS_VARIABLE                                            High contrast
+  SEARCH_RESULT_ATTRIBUTES                                 Dark, High contrast, Islands Dark
+  SPY-JS.EXCEPTION                                         High contrast
+  SPY-JS.EXECUTION_TIME                                    High contrast
+  SPY-JS.FUNCTION_SCOPE                                    High contrast
+  SPY-JS.PATH_LEVEL_ONE                                    High contrast
+  SPY-JS.PATH_LEVEL_TWO                                    High contrast
+  SPY-JS.PROGRAM_SCOPE                                     High contrast
+  STATIC_FIELD_ATTRIBUTES                                  IntelliJ Light, Light
+  STATIC_FINAL_FIELD_ATTRIBUTES                            IntelliJ Light, Light
+  STATIC_METHOD_ATTRIBUTES                                 IntelliJ Light, Light
+  Static method access                                     Dark, Islands Dark
+  Static property reference ID                             Dark, Islands Dark
+  TEMPLATE_VARIABLE_ATTRIBUTES                             Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  TEXT                                                     Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  TEXT_SEARCH_RESULT_ATTRIBUTES                            Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  TEXT_STYLE_ERROR                                         Dark, Islands Dark
+  TEXT_STYLE_WARNING                                       Dark, Islands Dark
+  TODO_DEFAULT_ATTRIBUTES                                  Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  TYPE_PARAMETER_NAME_ATTRIBUTES                           Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  TYPO                                                     Dark, Islands Dark
+  UNMATCHED_BRACE_ATTRIBUTES                               Dark, High contrast, Islands Dark
+  Unresolved reference access                              Dark, Islands Dark
+  VELOCITY_SCRIPTING_BACKGROUND                            High contrast
+  WARNING_ATTRIBUTES                                       Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  WRITE_IDENTIFIER_UNDER_CARET_ATTRIBUTES                  Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  WRITE_SEARCH_RESULT_ATTRIBUTES                           Dark, High contrast, Islands Dark
+  WRONG_REFERENCES_ATTRIBUTES                              Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  XML_ATTRIBUTE_NAME                                       Dark, High contrast, Islands Dark
+  XML_CUSTOM_TAG_NAME                                      Dark, Islands Dark, Light
+  XML_ENTITY_REFERENCE                                     Dark, High contrast, Islands Dark
+  XML_PROLOGUE                                             Dark, Islands Dark
+  XML_TAG                                                  Dark, Islands Dark
+  XML_TAG_NAME                                             Dark, Islands Dark
+  XPATH.FUNCTION                                           IntelliJ Light, Light
+  XPATH.KEYWORD                                            IntelliJ Light, Light
+  XPATH.XPATH_NAME                                         IntelliJ Light, Light
+  YAML_ANCHOR                                              High contrast, IntelliJ Light, Light
+
+=== 来源二 颜色键 -> 出处 ===
+  ADDED_LINES_COLOR                                        Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  ANNOTATIONS_COLOR                                        Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  ANNOTATIONS_LAST_COMMIT_COLOR                            Darcula Contrast, Dark, Islands Dark, Light
+  ActionButton.iconTextForeground                          High contrast
+  BLOCK_TERMINAL_HOVERED_BLOCK_BACKGROUND_END              High contrast
+  BLOCK_TERMINAL_HOVERED_BLOCK_BACKGROUND_START            High contrast
+  BLOCK_TERMINAL_INACTIVE_SELECTED_BLOCK_BACKGROUND        High contrast
+  BLOCK_TERMINAL_SELECTED_BLOCK_BACKGROUND                 High contrast
+  Bookmark.Mnemonic.iconBackground                         High contrast
+  Bookmark.Mnemonic.iconBorderColor                        High contrast
+  Bookmark.Mnemonic.iconForeground                         High contrast
+  Bookmark.iconBackground                                  High contrast
+  CARET_COLOR                                              Dark, High contrast, Islands Dark
+  CARET_ROW_COLOR                                          Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  CONSOLE_BACKGROUND_KEY                                   Darcula Contrast, Dark, High contrast, Islands Dark
+  DELETED_LINES_COLOR                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  DIFF_SEPARATORS_BACKGROUND                               Darcula Contrast, Dark, Islands Dark, Light
+  DOCUMENTATION_COLOR                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  DOC_COMMENT_GUIDE                                        Dark, Islands Dark
+  DOC_COMMENT_LINK                                         Dark, Islands Dark
+  EDITOR_GUTTER_BACKGROUND                                 Islands Dark
+  ERROR_HINT                                               Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  FILESTATUS_ADDED                                         Dark, High contrast, Islands Dark, Light
+  FILESTATUS_COPIED                                        Dark, High contrast, Islands Dark, Light
+  FILESTATUS_DELETED                                       Dark, High contrast, Islands Dark, Light
+  FILESTATUS_HIJACKED                                      Dark
+  FILESTATUS_IDEA_FILESTATUS_DELETED_FROM_FILE_SYSTEM      Dark, High contrast, Islands Dark, Light
+  FILESTATUS_IDEA_FILESTATUS_IGNORED                       Dark, High contrast, Islands Dark, Light
+  FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_BOTH_CONFLICTS    Dark, High contrast, Islands Dark, Light
+  FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_CONFLICTS         Dark, High contrast, Islands Dark, Light
+  FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_PROPERTY_CONFLICTS Dark, High contrast, Islands Dark, Light
+  FILESTATUS_MERGED                                        Dark, High contrast, Islands Dark, Light
+  FILESTATUS_MODIFIED                                      Dark, High contrast, Islands Dark, Light
+  FILESTATUS_NOT_CHANGED_IMMEDIATE                         Dark, High contrast, Islands Dark, Light
+  FILESTATUS_NOT_CHANGED_RECURSIVE                         Dark, High contrast, Islands Dark, Light
+  FILESTATUS_OBSOLETE                                      Dark
+  FILESTATUS_RENAMED                                       Dark, High contrast, Islands Dark, Light
+  FILESTATUS_SWITCHED                                      Dark
+  FILESTATUS_UNKNOWN                                       Dark, Islands Dark, Light
+  FILESTATUS_addedOutside                                  Dark, High contrast, Islands Dark, Light
+  FILESTATUS_changelistConflict                            Dark, High contrast, Islands Dark, Light
+  FILESTATUS_modifiedOutside                               Dark, High contrast, Islands Dark, Light
+  FOLDED_TEXT_BORDER_COLOR                                 Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  GUTTER_BACKGROUND                                        High contrast, IntelliJ Light, Light
+  HINT_BORDER                                              Islands Dark
+  IGNORED_ADDED_LINES_BORDER_COLOR                         Darcula Contrast, Dark, Islands Dark, Light
+  IGNORED_DELETED_LINES_BORDER_COLOR                       Darcula Contrast, Dark, Islands Dark, Light
+  IGNORED_MODIFIED_LINES_BORDER_COLOR                      Darcula Contrast, Dark, Islands Dark, Light
+  INDENT_GUIDE                                             Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  INFORMATION_HINT                                         Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  INLINE_REFACTORING_SETTINGS_DEFAULT                      Dark, Islands Dark
+  INLINE_REFACTORING_SETTINGS_FOCUSED                      Dark, High contrast, Islands Dark
+  INLINE_REFACTORING_SETTINGS_HOVERED                      Dark, High contrast, Islands Dark
+  LINE_NUMBERS_COLOR                                       Darcula Contrast, Dark, High contrast, IntelliJ Light, Islands Dark, Light
+  LINE_NUMBER_ON_CARET_ROW_COLOR                           Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  LOOKUP_COLOR                                             Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  MATCHED_BRACES_INDENT_GUIDE_COLOR                        Islands Dark, Light
+  METHOD_SEPARATORS_COLOR                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  MODIFIED_LINES_COLOR                                     Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  NOTIFICATION_BACKGROUND                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  PROMOTION_PANE                                           Darcula Contrast, Dark, Islands Dark, Light
+  QUESTION_HINT                                            Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  RECENT_LOCATIONS_SELECTION                               Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  RECURSIVE_CALL_ATTRIBUTES                                High contrast
+  RIGHT_MARGIN_COLOR                                       Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  SELECTED_INDENT_GUIDE                                    Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  SELECTED_TEARLINE_COLOR                                  High contrast
+  SELECTION_BACKGROUND                                     High contrast, IntelliJ Light, Light
+  SELECTION_FOREGROUND                                     IntelliJ Light, Light
+  SOFT_WRAP_SIGN_COLOR                                     High contrast
+  STRING_CONTENT_INDENT_GUIDE                              High contrast
+  ScrollBar.Mac.Transparent.hoverThumbBorderColor          High contrast
+  ScrollBar.Mac.Transparent.hoverThumbColor                High contrast
+  ScrollBar.Mac.Transparent.hoverTrackColor                High contrast
+  ScrollBar.Mac.Transparent.thumbBorderColor               High contrast
+  ScrollBar.Mac.Transparent.thumbColor                     High contrast
+  ScrollBar.Mac.Transparent.trackColor                     High contrast
+  ScrollBar.Mac.hoverThumbBorderColor                      High contrast
+  ScrollBar.Mac.hoverThumbColor                            Dark, High contrast, Islands Dark
+  ScrollBar.Mac.hoverTrackColor                            High contrast
+  ScrollBar.Mac.thumbBorderColor                           High contrast
+  ScrollBar.Mac.thumbColor                                 Dark, High contrast, Islands Dark
+  ScrollBar.Mac.trackColor                                 High contrast
+  ScrollBar.Transparent.hoverThumbBorderColor              High contrast
+  ScrollBar.Transparent.hoverThumbColor                    High contrast
+  ScrollBar.Transparent.hoverTrackColor                    High contrast
+  ScrollBar.Transparent.thumbBorderColor                   High contrast
+  ScrollBar.Transparent.thumbColor                         High contrast
+  ScrollBar.Transparent.trackColor                         High contrast
+  ScrollBar.background                                     High contrast
+  ScrollBar.hoverThumbBorderColor                          High contrast
+  ScrollBar.hoverThumbColor                                High contrast
+  ScrollBar.hoverTrackColor                                High contrast
+  ScrollBar.thumbBorderColor                               High contrast
+  ScrollBar.thumbColor                                     High contrast
+  ScrollBar.trackColor                                     High contrast
+  TEARLINE_COLOR                                           High contrast, IntelliJ Light, Light
+  VCS_ANNOTATIONS_COLOR_1                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  VCS_ANNOTATIONS_COLOR_2                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  VCS_ANNOTATIONS_COLOR_3                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  VCS_ANNOTATIONS_COLOR_4                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  VCS_ANNOTATIONS_COLOR_5                                  Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  VISUAL_INDENT_GUIDE                                      Darcula Contrast, Dark, High contrast, Islands Dark, Light
+  WHITESPACES                                              Dark, High contrast, Islands Dark
+  WHITESPACES_MODIFIED_LINES_COLOR                         Darcula Contrast, Dark, High contrast, Islands Dark, Light
