@@ -93,8 +93,10 @@ def make_parser():
     p_bump.add_argument("--dry-run", action="store_true")
     p_manual = sub.add_parser("manual", help="逐项运行真机走查清单")
     p_manual.add_argument("--list", action="store_true")
-    p_manual.add_argument("--answers", help="逗号分隔的 y/n/s 序列")
+    p_manual.add_argument("--answers", help="逗号分隔的 y/n/u/s 序列")
     p_manual.add_argument("--report", help="报告输出路径")
+    p_manual.add_argument("--quick", action="store_true",
+                          help="只跑 8 项高信号检查")
     p_report = sub.add_parser("report", help="生成发布前汇总")
     p_report.add_argument("--out", help="输出路径")
     p_release = sub.add_parser("release", help="发布前全流程（不自动 tag）")
@@ -158,7 +160,7 @@ def main(argv=None):
     if args.command == "manual":
         answers = args.answers.split(",") if args.answers else None
         return manual_verify.run(list_only=args.list, answers=answers,
-                                  report=args.report)
+                                  report=args.report, quick=args.quick)
     if args.command == "bump":
         try:
             return versioning.bump(args.version, dry_run=args.dry_run)

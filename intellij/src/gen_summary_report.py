@@ -39,9 +39,14 @@ def _manual():
     if not path.is_file():
         return "未生成（运行 green_eye.py manual）"
     text = path.read_text(encoding="utf-8", errors="replace")
-    match = re.search(r"通过 \*\*(\d+)\*\* · 失败 \*\*(\d+)\*\* · 跳过 \*\*(\d+)\*\*",
-                      text)
-    return "通过 %s / 失败 %s / 跳过 %s" % match.groups() if match else "无法解析"
+    match = re.search(
+        r"通过 \*\*(\d+)\*\* · 失败 \*\*(\d+)\*\*"
+        r"(?: · 不确定 \*\*(\d+)\*\*)? · 跳过 \*\*(\d+)\*\*", text)
+    if not match:
+        return "无法解析"
+    passed, failed, unknown, skipped = match.groups()
+    return "通过 %s / 失败 %s / 不确定 %s / 跳过 %s" % (
+        passed, failed, unknown or 0, skipped)
 
 
 def _cvd_variant():

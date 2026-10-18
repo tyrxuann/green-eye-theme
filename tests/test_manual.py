@@ -19,6 +19,23 @@ class ManualVerifyTests(unittest.TestCase):
         self.assertTrue(any("Green Eye Dark" in text for _, text in items))
         self.assertTrue(any(section.startswith("1.") for section, _ in items))
 
+    def test_quick_subset(self):
+        items = manual_verify.parse()
+        quick = manual_verify.quick_items(items)
+        self.assertEqual(len(quick), 8)
+        self.assertTrue(any("波浪线" in text for _, text in quick))
+
+    def test_unknown_status(self):
+        items = manual_verify.parse()
+        with tempfile.TemporaryDirectory(prefix="green eye manual ") as tmp:
+            path = Path(tmp) / "report.md"
+            answers = ["u"] + ["y"] * (len(items) - 1)
+            self.assertEqual(manual_verify.run(answers=answers,
+                                               report=str(path)), 0)
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("不确定 **1**", text)
+            self.assertIn("## 不确定项", text)
+
     def test_all_pass_report(self):
         items = manual_verify.parse()
         with tempfile.TemporaryDirectory(prefix="green eye manual ") as tmp:

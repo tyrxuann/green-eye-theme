@@ -57,6 +57,12 @@ class DoctorTests(unittest.TestCase):
             status, _, detail = doctor.check_manual_report(path)
             self.assertEqual(status, doctor.WARN)
             self.assertIn("失败 1", detail)
+            path.write_text(
+                "通过 **3** · 失败 **0** · 不确定 **1** · 跳过 **0** · 共 4 项\n",
+                encoding="utf-8")
+            status, _, detail = doctor.check_manual_report(path)
+            self.assertEqual(status, doctor.WARN)
+            self.assertIn("不确定 1", detail)
 
     def test_old_installed_jar_is_reported(self):
         with tempfile.TemporaryDirectory() as tmp:

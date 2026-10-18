@@ -19,15 +19,19 @@ python3 green_eye.py doctor
 也可以直接用 runner 逐项记录：
 
 ```bash
-python3 green_eye.py manual           # 交互式 y/n/s
+python3 green_eye.py manual --quick   # 8 项高信号，先跑这个
+python3 green_eye.py manual           # 完整 39 项
 python3 green_eye.py manual --list    # 只看清单
 ```
 
+逐项回答 `y` 通过 / `n` 失败 / `u` 不确定 / `s` 跳过 / `q` 退出。
+**看不出来就按 `u`**，不需要对细微差异勉强下结论；`u` 会单独列在报告里。
+
 结果写入 `intellij/build/ref/manual-verification-report.md`。
 
-有失败项时 `manual` 退出码为 1；全通过或全部跳过为 0。
+有失败项时 `manual` 退出码为 1；全通过、含不确定或全部跳过为 0。
 
-之后 `doctor` 会读取这份报告，显示最近一次的通过/失败/跳过数量。
+之后 `doctor` 会读取这份报告，显示通过/失败/不确定/跳过数量。
 
 ## 0.1 先确认装上了
 

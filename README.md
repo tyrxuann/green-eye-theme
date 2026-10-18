@@ -113,7 +113,8 @@ python3 green_eye.py vscode               # 生成 VS Code 主题 + .vsix
 python3 green_eye.py cvd --preview        # CVD 报告 + 对比色板（需 Pillow）
 python3 green_eye.py cvd-variants         # A+ CVD Improved 改善版 + 变体包
 python3 green_eye.py doctor               # 预检产物/字体/安装状态
-python3 green_eye.py manual               # 真机走查 runner（交互式）
+python3 green_eye.py manual --quick       # 8 项高信号真机检查
+python3 green_eye.py manual               # 完整 39 项（可选）
 python3 green_eye.py report               # 发布前汇总 build/ref/report.md
 python3 green_eye.py release 1.2.0 --dry-run  # 发布演练（不修改）
 python3 green_eye.py release 1.2.0       # 发布前全流程（不自动 tag）

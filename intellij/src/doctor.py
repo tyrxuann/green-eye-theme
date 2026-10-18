@@ -73,13 +73,16 @@ def check_manual_report(path=None):
     if not path.is_file():
         return WARN, "真机走查", "未生成（运行 green_eye.py manual）"
     text = path.read_text(encoding="utf-8", errors="replace")
-    match = re.search(r"通过 \*\*(\d+)\*\* · 失败 \*\*(\d+)\*\* · 跳过 \*\*(\d+)\*\*",
-                      text)
+    match = re.search(
+        r"通过 \*\*(\d+)\*\* · 失败 \*\*(\d+)\*\*"
+        r"(?: · 不确定 \*\*(\d+)\*\*)? · 跳过 \*\*(\d+)\*\*", text)
     if not match:
         return WARN, "真机走查", "报告格式无法识别"
-    passed, failed, skipped = (int(x) for x in match.groups())
-    detail = "通过 %d / 失败 %d / 跳过 %d" % (passed, failed, skipped)
-    return (WARN if failed else OK), "真机走查", detail
+    passed, failed, unknown, skipped = match.groups()
+    unknown = int(unknown or 0)
+    detail = "通过 %d / 失败 %d / 不确定 %d / 跳过 %d" % (
+        int(passed), int(failed), unknown, int(skipped))
+    return (WARN if int(failed) or unknown else OK), "真机走查", detail
 
 
 def check_cvd_variants(path=None):
