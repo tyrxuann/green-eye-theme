@@ -364,8 +364,8 @@ def plugin_xml(entries):
   <description><![CDATA[
     绿色护眼主题，同一块苔绿底（#1F3027）上有两套设计语言：<br/>
     · <b>松林</b>：色相/饱和度照 JetBrains 官方 Islands Dark，只按对比度重解明度；<br/>
-    · <b>矿彩</b>：以底色为中心的原创设计 —— 暖极（琥珀→赭石→玫瑰）与
-      冷极（松石→湖蓝→靛）两支极色，正文层保持暖中性墨。<br/>
+    · <b>矿彩</b>：以底色为中心的原创设计 —— 暖极（金黄→赭石→玫瑰）与
+      冷极（冰青→紫晶→玉青）两支极色，正文层保持暖中性墨。<br/>
     编辑器配色方案已通过 &lt;bundledColorScheme&gt; 注册，装完即可在
     Theme 与 Color Scheme 两个下拉框里选到。
   ]]></description>
@@ -416,7 +416,7 @@ def main():
 
     # 两款主题共用同一块苔绿底（#1F3027），但语义配色是两套设计语言：
     #   dark    「松林」 = 照官方色相/饱和度、只按对比度重解明度（"改皮不改骨"）
-    #   mineral 「矿彩」 = 以底色为中心重新设计：暖极(琥珀/赭石/玫瑰) + 冷极(松石/湖蓝/靛)
+    #   mineral 「矿彩」 = 以底色为中心重新设计：暖极(金黄/赭石/玫瑰) + 冷极(冰青/紫晶/玉青)
     specs = [(key, os.path.join(REF, "ManyIslandsDark.theme.json"),
               theme_stem, scheme_stem, icls)
              for key, theme_stem, scheme_stem, icls in THEME_SPECS]

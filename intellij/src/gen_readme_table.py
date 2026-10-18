@@ -2,11 +2,17 @@
 # -*- coding: utf-8 -*-
 """
 从 palette.py 自动生成 README 里的配色表（避免文档与实现漂移）。
+
+注意：同一行在不同主题里的"说明"并不相同（松林沿用官方色相，矿彩是原创分配），
+所以 notes 按主题分开；以前只用一份松林 notes 套两款，矿彩表里的 H/S 说明全是错的。
 用法: python3 gen_readme_table.py [README 路径]
 """
-import os, re, sys
+import os
+import re
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from palette import PALETTES, contrast, hex_to_rgb
+from palette import PALETTES, contrast  # noqa: E402
 
 B = "<!-- PALETTE-TABLE:BEGIN -->"
 E = "<!-- PALETTE-TABLE:END -->"
@@ -41,37 +47,62 @@ ROWS = [
     ("diff 新增 / 删除 / 修改", None, ""),
 ]
 
-def build_table(p, marker_begin, marker_end):
+# 矿彩是原创分配，H/S 说明不能复述松林的官方色相。
+MINERAL_NOTES = {
+    "comment": "冷石色，与正文暖墨分层",
+    "keyword": "金黄 H42，与错误(H358)分开",
+    "string": "冰青 H196，与底色 H148 拉开 48°",
+    "number": "紫晶 H272，与函数(玉青 H168)分开",
+    "function": "玉青 H168，S50 降低刺激",
+    "constant": "赭石 H20，暖极深处",
+    "annotation": "玫瑰 H338，暖极另一端",
+    "todo": "芥黄 H62，与字符串(冰青)拉开",
+    "error": "红 H358，与关键字(H42)分开",
+    "hyperlink": "灰青 H168，比函数更灰、更暗",
+}
+SELECTION_LABELS = {"dark": ("青", "绿"), "mineral": ("绿", "琥珀")}
+
+
+def build_table(p, marker_begin, marker_end, theme_key):
+    notes = MINERAL_NOTES if theme_key == "mineral" else {}
     rows = []
     for name, key, note in ROWS:
         if key is None:
             if name.startswith("背景"):
-                v, o = "%s / %s / %s" % (p["bg_editor"], p["bg_panel"], p["bg_raised"]), \
-                       "#191A1C / #26282C / #33353B"
+                v = "%s / %s / %s" % (p["bg_editor"], p["bg_panel"], p["bg_raised"])
+                o = "#191A1C / #26282C / #33353B"
                 d = "浮层对编辑器 %.2f:1" % contrast(p["bg_raised"], p["bg_editor"])
             elif name.startswith("边框"):
-                v, o = "%s / %s" % (p["border"], p["separator"]), "—"
+                v = "%s / %s" % (p["border"], p["separator"])
+                o = "—"
                 d = "对编辑器 %.2f / %.2f:1" % (contrast(p["border"], p["bg_editor"]),
                                                 contrast(p["separator"], p["bg_editor"]))
             elif name.startswith("当前行"):
-                v, o = "%s（与底色同相）" % p["bg_caret_row"], "—"
+                v = "%s（与底色同相）" % p["bg_caret_row"]
+                o = "—"
                 d = "%.2f:1" % contrast(p["bg_caret_row"], p["bg_editor"])
             elif name.startswith("选中"):
-                v, o = "%s 青 / %s 绿 + 描边 %s" % (p["bg_selection"], p["bg_search"],
-                                                    p["search_border"]), "—"
+                sel, sea = SELECTION_LABELS.get(theme_key, ("选中", "查找"))
+                v = "%s %s / %s %s + 描边 %s" % (p["bg_selection"], sel,
+                                                 p["bg_search"], sea,
+                                                 p["search_border"])
+                o = "—"
                 d = "%.2f / %.2f:1" % (contrast(p["bg_selection"], p["bg_editor"]),
                                        contrast(p["bg_search"], p["bg_editor"]))
             else:
-                v, o = "%s / %s / %s" % (p["bg_diff_add"], p["bg_diff_del"], p["bg_diff_mod"]), "—"
+                v = "%s / %s / %s" % (p["bg_diff_add"], p["bg_diff_del"],
+                                      p["bg_diff_mod"])
+                o = "—"
                 d = "%.2f / %.2f / %.2f:1" % tuple(
                     contrast(p[k], p["bg_editor"]) for k in
                     ("bg_diff_add", "bg_diff_del", "bg_diff_mod"))
             rows.append("| %s | %s | `%s` | %s |" % (name, o, v, d))
         else:
             c = "%.2f:1" % contrast(p[key], p["bg_editor"])
+            real_note = notes.get(key, note)
             rows.append("| %s | `%s` | `%s` | %s %s |"
                         % (name, OFFICIAL.get(key, "—"), p[key], c,
-                           ("· " + note) if note else ""))
+                           ("· " + real_note) if real_note else ""))
     return (marker_begin + "\n| 语义 | 官方 Islands Dark | %s「%s」 | 对比度 |\n"
             "|---|---|---|---|\n" % ("本主题", p["label"]) + "\n".join(rows) + "\n" + marker_end)
 
@@ -86,12 +117,13 @@ def main():
         if b not in s:
             print("README 缺少标记 %s（跳过 %s）" % (b, key))
             continue
-        block = build_table(pal, b, e)
+        block = build_table(pal, b, e, key)
         s = re.sub(re.escape(b) + r".*?" + re.escape(e), block, s, count=1, flags=re.S)
         n += 1
     open(path, "w", encoding="utf-8").write(s)
     print("README 配色表已重新生成（%d 款主题）" % n)
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
