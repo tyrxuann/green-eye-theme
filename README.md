@@ -4,12 +4,17 @@
 对比度是设计约束而不是事后检查；换平台时**底色与对比度标准不变**，
 变的是"色相如何分配给语义"以及各平台的实现方式。
 
+变更记录见 [CHANGELOG.md](CHANGELOG.md)；第三方材料与许可证说明见
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
 ## 目录结构
 
 ```
 green-eye-theme/
-├── green_eye.py          ★ 跨平台入口：build / check / test / install / package
+├── green_eye.py          ★ 跨平台入口：build / check / palette / test / install / package
 ├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
+├── CHANGELOG.md          变更记录
+├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
 ├── docs/                 人工核对与维护文档
 ├── shared/               平台无关层：色值契约 + 通用检查
 │   ├── palette.json       生成物：两款主题的全部色值 + 语义角色表 + 例外清单
@@ -25,8 +30,8 @@ green-eye-theme/
 │   ├── preview/            生成的预览图
 │   └── build/              官方参考资料（构建输入）与验收报告
 │
-├── release/              生成的发布包（jar + icls + INSTALL.txt）
-├── tests/                CLI 与安装器集成测试（跨平台）
+├── release/              生成的发布包（jar + icls + INSTALL + 第三方说明）
+├── tests/                CLI / 安装器 / 字体 / 色彩 / 发布包测试
 └── vscode/            ⬜ 待实现 —— VS Code 实现（见其 README）
 ```
 
@@ -87,8 +92,9 @@ uv run green_eye.py install      # 安装到本机 IDEA
 
 ```bash
 python3 green_eye.py build --no-preview   # 不渲染预览图，不需要 Pillow
+python3 green_eye.py palette              # 只导出/验收 shared/palette.json
 python3 green_eye.py check                # 平台无关色值验收（需先 build）
-python3 green_eye.py test                 # CLI + 安装器集成测试
+python3 green_eye.py test                 # CLI + 安装器 + 字体 + 色彩 + 发布包测试
 ```
 
 Windows 原生用 `py` 代替 `python3` 即可。`make` 仍保留为兼容入口，

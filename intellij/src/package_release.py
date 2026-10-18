@@ -9,7 +9,9 @@
     ├── Green-Eye-Dark.icls            可选：只导入配色方案
     ├── Green-Eye-Mineral.icls
     ├── INSTALL.txt                    三步安装说明
-    └── SHA256SUMS
+    ├── THIRD_PARTY_NOTICES.md         第三方材料说明（存在时）
+    ├── LICENSE                        项目许可证（存在时）
+    └── SHA256SUMS                     上述全部文件的校验和
 """
 import hashlib
 import sys
@@ -50,12 +52,8 @@ INSTALL_TEXT = """Green Eye 护眼主题 {version}
 """
 
 
-def sha256(path):
-    digest = hashlib.sha256()
-    with open(path, "rb") as fh:
-        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+def sha256_bytes(data):
+    return hashlib.sha256(data).hexdigest()
 
 
 def package(outdir=None):
@@ -73,21 +71,30 @@ def package(outdir=None):
     release.mkdir(parents=True, exist_ok=True)
     name = "green-eye-%s" % VERSION
     target = release / ("%s.zip" % name)
-    install_text = INSTALL_TEXT.format(version=VERSION)
 
-    members = [(jar, "%s/%s" % (name, jar.name))]
-    members += [(p, "%s/%s" % (name, p.name)) for p in icls]
-    sums = ["%s  %s" % (sha256(src), arc.split("/")[-1]) for src, arc in members]
+    texts = [("INSTALL.txt", INSTALL_TEXT.format(version=VERSION))]
+    for extra_name in ("THIRD_PARTY_NOTICES.md", "LICENSE"):
+        extra = ROOT / extra_name
+        if extra.is_file():
+            texts.append((extra_name, extra.read_text(encoding="utf-8")))
+
+    records = []
+    for src in [jar] + icls:
+        records.append(("%s/%s" % (name, src.name), src.read_bytes()))
+    for filename, text in texts:
+        records.append(("%s/%s" % (name, filename), text.encode("utf-8")))
+
+    sums = ["%s  %s" % (sha256_bytes(data), arc.rsplit("/", 1)[-1])
+            for arc, data in records]
     sums_text = "\n".join(sums) + "\n"
 
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as zf:
-        for src, arc in members:
-            zf.write(str(src), arc)
-        zf.writestr("%s/INSTALL.txt" % name, install_text)
+        for arc, data in records:
+            zf.writestr(arc, data)
         zf.writestr("%s/SHA256SUMS" % name, sums_text)
 
     print("写入 %s（%d 字节，%d 个文件）"
-          % (target, target.stat().st_size, len(members) + 2))
+          % (target, target.stat().st_size, len(records) + 1))
     return 0
 
 

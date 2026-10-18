@@ -257,7 +257,7 @@ idea-green-theme/
 │   ├── GreenEyeDark.theme.json      整站 UI 主题（330 color token + 68 个控件组覆盖）
 │   └── GreenEyeDarkScheme.xml       打包进插件用的方案副本
 ├── dist/
-│   └── GreenEye-Theme-1.1.0.jar     可安装插件
+│   └── GreenEye-Theme-<version>.jar     可安装插件
 │       ├── META-INF/plugin.xml                注册 bundledColorScheme + themeProvider
 │       ├── themes/GreenEyeDarkScheme.xml      编辑器配色方案
 │       └── themes/GreenEyeDark.theme.json     整站 UI 主题

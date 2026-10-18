@@ -122,6 +122,15 @@ def preview():
     return 0
 
 
+def palette():
+    """只导出并验收跨平台契约，不生成主题；给 VS Code 等新平台用。"""
+    print("== shared palette ==")
+    run(ROOT / "shared" / "export_palette.py")
+    run(ROOT / "shared" / "export_palette.py", "--check")
+    run(ROOT / "shared" / "tools" / "check_palette.py")
+    return 0
+
+
 def check():
     palette = ROOT / "shared" / "palette.json"
     if not palette.is_file():

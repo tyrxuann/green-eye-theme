@@ -18,6 +18,7 @@ Green Eye 跨平台入口。
 子命令：
     build     生成 .icls / .theme.json / jar，并跑完整验收
     check     平台无关的色值验收（需要先 build 生成 palette.json）
+    palette   只导出/验收 shared/palette.json，不生成主题
     test      运行 tests/ 下的单元与安装器集成测试
     preview   只重新渲染预览图（需要 Pillow）
     install   跨平台安装 / 卸载（plugin 或 icls-only 模式）
@@ -53,6 +54,7 @@ def make_parser():
                          help="跳过安装器集成测试")
 
     sub.add_parser("check", help="平台无关的色值验收")
+    sub.add_parser("palette", help="只导出并验收 shared/palette.json")
     sub.add_parser("test", help="运行 tests/ 下的测试")
     sub.add_parser("preview", help="只重新渲染预览图")
     sub.add_parser("clean", help="清理 __pycache__ / *.pyc / 临时文件")
@@ -86,6 +88,8 @@ def main(argv=None):
                                     skip_tests=args.skip_tests)
     if args.command == "check":
         return build_pipeline.check()
+    if args.command == "palette":
+        return build_pipeline.palette()
     if args.command == "test":
         return build_pipeline.test()
     if args.command == "preview":

@@ -8,6 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "green_eye.py"
+sys.path.insert(0, str(ROOT / "intellij" / "src"))
+
+from project_config import VERSION  # noqa: E402
 
 
 def run(*args):
@@ -20,14 +23,14 @@ class CliTests(unittest.TestCase):
     def test_help_lists_commands(self):
         result = run("--help")
         self.assertEqual(result.returncode, 0, result.stderr)
-        for command in ("build", "check", "test", "preview",
+        for command in ("build", "check", "palette", "test", "preview",
                         "install", "package", "clean", "version"):
             self.assertIn(command, result.stdout)
 
     def test_version(self):
         result = run("version")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.strip(), "1.1.0")
+        self.assertEqual(result.stdout.strip(), VERSION)
 
     def test_build_has_no_preview_flag(self):
         result = run("build", "--help")

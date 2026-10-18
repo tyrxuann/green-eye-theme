@@ -16,7 +16,8 @@ shared/palette.json            ← 跨平台契约
 ```
 
 `shared/palette.json` **是生成物**，由 `green_eye.py build` 自动重导，并带一致性断言
-（`export_palette.py --check`），不要手改。
+（`export_palette.py --check`），不要手改。只想拿契约、不生成主题时用
+`green_eye.py palette`。
 
 ## 契约 schema
 
