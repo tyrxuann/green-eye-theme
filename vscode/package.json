@@ -5,6 +5,10 @@
   "version": "1.1.0",
   "publisher": "green-eye",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tyrxuann/green-eye-theme.git"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },

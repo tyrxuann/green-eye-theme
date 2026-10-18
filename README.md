@@ -1,5 +1,7 @@
 # Green Eye · 护眼绿色主题家族
 
+[![CI](https://github.com/tyrxuann/green-eye-theme/actions/workflows/ci.yml/badge.svg)](https://github.com/tyrxuann/green-eye-theme/actions/workflows/ci.yml)
+
 **同一套设计系统，面向多个编辑器。** 底色锚定在同一块墨绿 `#1F3027`，
 对比度是设计约束而不是事后检查；换平台时**底色与对比度标准不变**，
 变的是"色相如何分配给语义"以及各平台的实现方式。

@@ -129,11 +129,11 @@ npx --yes @vscode/vsce ls                # 可选：用官方工具检查打包�
 也可以用官方工具实际打包校验：
 
 ```bash
-npx --yes @vscode/vsce package --out dist/vsce-check.vsix --allow-missing-repository
+npx --yes @vscode/vsce package --out dist/vsce-check.vsix
 ```
 
 它会产出 6 个文件（manifest、package.json、readme、两个主题、内容类型）。
-当前只会警告 `LICENSE` 缺失 —— 许可证选定后补上即可。
+`repository` 与 `LICENSE` 已配置，正常应无警告。
 
 `tests/test_vscode.py` 会检查：
 
