@@ -1,6 +1,6 @@
 # vscode —— VS Code 实现
 
-VS Code 侧已经实现：从 [`../shared/palette.json`](../shared/palette.json) 读取平台无关色值，
+VS Code 侧已经实现：从 `../shared/palette.json` 读取平台无关色值，
 生成两套 VS Code 主题，并打成可直接安装的 `.vsix`。
 
 ## 用法
@@ -107,6 +107,15 @@ npx --yes @vscode/vsce ls                # 可选：用官方工具检查打包�
 
 `npx @vscode/vsce ls` 只应列出 `README.md`、`package.json` 和两个主题 JSON；
 `src/`、`scripts/`、`__pycache__` 由 `.vscodeignore` 排除。
+
+也可以用官方工具实际打包校验：
+
+```bash
+npx --yes @vscode/vsce package --out dist/vsce-check.vsix --allow-missing-repository
+```
+
+它会产出 6 个文件（manifest、package.json、readme、两个主题、内容类型）。
+当前只会警告 `LICENSE` 缺失 —— 许可证选定后补上即可。
 
 `tests/test_vscode.py` 会检查：
 
