@@ -25,6 +25,7 @@ Green Eye 跨平台入口。
     package   打发布包：jar + 2 个 .icls + INSTALL.txt
     vscode    生成 VS Code 主题并打包 .vsix
     doctor    预检构建产物、字体与安装状态
+    bump      统一更新版本号（project_config + VS Code package.json）
     cvd       生成色觉缺陷（CVD）报告
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
@@ -43,6 +44,7 @@ import build_pipeline  # noqa: E402
 import install as installer  # noqa: E402
 import package_release  # noqa: E402
 import doctor  # noqa: E402
+import versioning  # noqa: E402
 import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -69,6 +71,9 @@ def make_parser():
     p_cvd.add_argument("--preview", action="store_true",
                        help="同时生成 normal/protanopia/deuteranopia 色板图")
     sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
+    p_bump = sub.add_parser("bump", help="统一更新版本号")
+    p_bump.add_argument("version", help="新版本号，例如 1.2.0")
+    p_bump.add_argument("--dry-run", action="store_true")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
     p_install.add_argument("--uninstall", action="store_true",
@@ -116,6 +121,12 @@ def main(argv=None):
         return build_pipeline.clean()
     if args.command == "doctor":
         return doctor.main()
+    if args.command == "bump":
+        try:
+            return versioning.bump(args.version, dry_run=args.dry_run)
+        except ValueError as exc:
+            print("错误: %s" % exc, file=sys.stderr)
+            return 1
     if args.command == "cvd":
         if not (ROOT / "shared" / "palette.json").is_file():
             rc = build_pipeline.palette()

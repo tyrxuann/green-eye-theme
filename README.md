@@ -18,7 +18,7 @@
 
 ```
 green-eye-theme/
-├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / doctor / test / install / package
+├── green_eye.py          ★ 跨平台入口：build / check / palette / vscode / cvd / doctor / bump / test / install / package
 ├── Makefile              兼容入口（薄封装，逻辑都在 green_eye.py）
 ├── CHANGELOG.md          变更记录
 ├── THIRD_PARTY_NOTICES.md 第三方材料与许可证说明
