@@ -271,6 +271,7 @@ idea-green-theme/
 │   ├── palette.py                   正式调色板（改这里就能改主题）
 │   ├── build_pipeline.py            构建编排（取代 build.sh 的逻辑）
 │   ├── install.py                   跨平台安装器（取代 install.sh 的逻辑）
+│   ├── doctor.py                    预检产物、字体与安装状态
 │   ├── package_release.py           发布包：jar + icls + INSTALL.txt
 │   ├── render_spec.py               无 Pillow 的 Java 样例 / 样式映射
 │   ├── gen_icls.py                  生成 .icls

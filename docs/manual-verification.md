@@ -5,7 +5,18 @@
 但下面这些屏**渲染管线结构上照不到** —— 之前两个真 bug（错误波浪线变成实线下划线、
 Javadoc `@param` 下划线消失）就是这么漏掉的。装好后请按这张表扫一遍。
 
-## 0. 先确认装上了
+## 0. 自动预检
+
+先跑一遍静态预检，排除"没装上 / 版本不对 / 字体缺失"这类问题：
+
+```bash
+python3 green_eye.py doctor
+```
+
+它不会启动 IDE，但会检查 palette、jar、`.icls`、VSIX、字体、IntelliJ 配置目录、
+插件版本与 `disabled_plugins.txt`。通过后再做下面的目视项。
+
+## 0.1 先确认装上了
 
 - [ ] `Settings → Appearance & Behavior → Appearance → Theme` 里有**两款**：
       **Green Eye Dark 松林** 与 **Green Eye Mineral 矿彩**

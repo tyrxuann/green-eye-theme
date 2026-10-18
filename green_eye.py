@@ -24,6 +24,7 @@ Green Eye 跨平台入口。
     install   跨平台安装 / 卸载（plugin 或 icls-only 模式）
     package   打发布包：jar + 2 个 .icls + INSTALL.txt
     vscode    生成 VS Code 主题并打包 .vsix
+    doctor    预检构建产物、字体与安装状态
     cvd       生成色觉缺陷（CVD）报告
     clean     清理 __pycache__ / *.pyc / 临时文件
     version   打印版本
@@ -41,6 +42,7 @@ sys.path.insert(0, str(VSCODE_SRC))
 import build_pipeline  # noqa: E402
 import install as installer  # noqa: E402
 import package_release  # noqa: E402
+import doctor  # noqa: E402
 import vscode_build  # noqa: E402
 from project_config import VERSION  # noqa: E402
 
@@ -64,6 +66,7 @@ def make_parser():
     sub.add_parser("preview", help="只重新渲染预览图")
     sub.add_parser("clean", help="清理 __pycache__ / *.pyc / 临时文件")
     sub.add_parser("cvd", help="生成色觉缺陷（CVD）报告")
+    sub.add_parser("doctor", help="预检构建产物、字体与安装状态")
 
     p_install = sub.add_parser("install", help="安装 / 卸载主题")
     p_install.add_argument("--uninstall", action="store_true",
@@ -107,6 +110,8 @@ def main(argv=None):
         return build_pipeline.preview()
     if args.command == "clean":
         return build_pipeline.clean()
+    if args.command == "doctor":
+        return doctor.main()
     if args.command == "cvd":
         if not (ROOT / "shared" / "palette.json").is_file():
             rc = build_pipeline.palette()
