@@ -8,9 +8,11 @@ HERE = Path(__file__).resolve().parent
 VSCODE = HERE.parent
 ROOT = VSCODE.parent
 sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(ROOT / "intellij" / "src"))
 
 import generate  # noqa: E402
 import package_vsix  # noqa: E402
+from project_config import VERSION  # noqa: E402
 
 
 def check_freshness(package=True, outdir=None):
@@ -21,7 +23,7 @@ def check_freshness(package=True, outdir=None):
     outputs = sorted((VSCODE / "themes").glob("*.json"))
     if package:
         vsix_dir = Path(outdir).expanduser() if outdir else VSCODE / "dist"
-        outputs += sorted(vsix_dir.glob("green-eye-theme-*.vsix"))
+        outputs += sorted(vsix_dir.glob("green-eye-theme-%s.vsix" % VERSION))
     if not outputs:
         print("缺少 VS Code 产物；先运行 green_eye.py vscode。", file=sys.stderr)
         return 1
