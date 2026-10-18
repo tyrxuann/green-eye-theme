@@ -115,6 +115,10 @@ FAMILY_EXEMPT = {
 } | _intent_keys()
 # 例外：参考方案自身不一致或语义特殊的键，不参与族强制
 FAMILY_EXEMPT = {
+    # XML/HTML 标签刻意不加粗：Windows 上 FiraCode 缺少匹配 bold 时会
+    # 合成/回退，导致 pom.xml 看起来像换了字体；颜色已足够区分标签
+    "XML_TAG", "XML_TAG_NAME", "XML_TAG_DATA", "XML_CUSTOM_TAG_NAME",
+    "HTML_TAG", "HTML_TAG_NAME", "HTML_CUSTOM_TAG_NAME",
     "DEFAULT_DOC_COMMENT_TAG", "DEFAULT_DOC_COMMENT_TAG_VALUE",   # 官方常规 / Darcula 粗斜体，参考本身打架
     "GO_COMMENT_REFERENCE",      # 注释内的引用，不属于注释排版族
     "PY.DOC_COMMENT_TAG",

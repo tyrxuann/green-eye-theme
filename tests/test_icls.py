@@ -90,6 +90,10 @@ class IclsTests(unittest.TestCase):
                 "XML_ATTRIBUTE_VALUE": theme["colors"]["string"],
                 "XML_NS_PREFIX": theme["colors"]["constant"],
             }
+            for key in ("XML_TAG_NAME", "XML_TAG_DATA"):
+                block = re.search(
+                    r'<option name="%s">.*?</option>' % key, text, re.S)
+                self.assertNotIn('name="FONT_TYPE"', block.group(0), key)
             for key, color in expected.items():
                 block = re.search(
                     r'<option name="%s">.*?</option>' % key, text, re.S)

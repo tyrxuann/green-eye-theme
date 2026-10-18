@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3] - 2026-10-19
+
+### Fixed
+
+- XML/HTML 标签不再强制 bold：Windows 上 FiraCode 缺少匹配 bold 字重时
+  会合成/回退，导致 `pom.xml` 看起来像换了字体。颜色已足够区分标签。
+
 ## [1.2.2] - 2026-10-19
 
 ### Fixed
